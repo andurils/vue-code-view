@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === "production" ? "/my-project/" : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "/vue-code-view/" : "/",
   // webpack配置 - 简单配置方式
   configureWebpack: {
     resolve: {
