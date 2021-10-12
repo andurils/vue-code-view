@@ -4,6 +4,8 @@ Inspired/
 node_modules/
 public/
 src/
+packages/
+
 
 
 # 忽略指定文件 
@@ -13,3 +15,5 @@ src/
 .eslintignore
 .prettierignore  
 babel.config.json  
+
+lib/demo.html
