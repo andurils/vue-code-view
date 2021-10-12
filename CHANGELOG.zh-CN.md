@@ -5,11 +5,14 @@
 - `//TODO`
   - 动态配置=>全局配置 （主题切换、语言选择等编辑器功能开关选型）
 - `//Done`
-- 编辑器优化，增加 `括号/标签` 匹配自动关闭。
+- 🌟编辑器优化
+  - 🆕 增加 `括号/标签` 匹配自动关闭。
 - 🌟演示示例优化
-  - 引入 `ant-design-vue` 组件代码。
-  - 增加路由跳转，添加菜单更新日志菜单（支持 `.md` 文件解析 ）。
-  - 示例字符串模板添加 `script` 内容，解决 [unterminated-template-literal-syntax-error-when-literal-contains-script-tag](https://stackoverflow.com/questions/36607932/unterminated-template-literal-syntax-error-when-literal-contains-script-tag)
+  - 🆕 引入 `ant-design-vue` 组件代码。
+  - 🆕 增加路由跳转，添加菜单更新日志菜单（支持 `.md` 文件解析 ）。
+  - 💄 路由使用`hash`模式，避免子路由刷新出现页面未找到错误。
+  - 💄 示例字符串模板添加 `script` 内容，解决 [unterminated-template-literal-syntax-error-when-literal-contains-script-tag](https://stackoverflow.com/questions/36607932/unterminated-template-literal-syntax-error-when-literal-contains-script-tag)
+- 🆕 配置多环境变量。
 
 ## 0.4.0
 

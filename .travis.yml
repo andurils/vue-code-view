@@ -5,12 +5,19 @@ install:
   - yarn 
 
 script: npm run build
-after_script:
-  - cd ./dist
-  - git init
+after_script: 
+  - mkdir temp_web 
+  - cd temp_web
+  - git clone --depth 1 -b gh-pages --single-branch https://${TravisCI_Token}@${GH_REF} && cd vue-code-view 
+  - echo 'copy && commit' 
+  - rm -rf js fonts
+  - cp -rf ../../dist/** .
   - git config user.name "${U_NAME}"
   - git config user.email "${U_EMAIL}"
   - git add -A .
   - git commit -m ":construction_worker:- Build & Deploy by Travis CI"
-  - git push --force --quiet "https://${TravisCI_Token}@${GH_REF}" master:${P_BRANCH} 
+  - git push origin gh-pages  
+  - echo "DONE, Bye~"
+  - exit 0
+ 
  
