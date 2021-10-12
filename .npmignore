@@ -1,0 +1,15 @@
+# 忽略目录
+dist/
+Inspired/
+node_modules/
+public/
+src/
+
+
+# 忽略指定文件 
+.browserslistrc
+.eslintrc.js
+.prettierrc.js 
+.eslintignore
+.prettierignore  
+babel.config.json  

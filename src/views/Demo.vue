@@ -1,0 +1,84 @@
+<script>
+// https://stackoverflow.com/questions/36607932/unterminated-template-literal-syntax-error-when-literal-contains-script-tag
+/* eslint-disable no-useless-escape */
+const code_example = `<template>
+  <div id="app">
+    <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
+    <h1>Welcome to Vue.js {{version}} !</h1>
+    <div :style="{ background: 'rgb(190, 200, 200)', padding: '26px 16px 16px' }">
+      <a-button type="primary" ghost>
+        Primary
+      </a-button>
+      <a-button ghost>
+        Default
+      </a-button>
+      <a-button type="dashed" ghost>
+        Dashed
+      </a-button>
+      <a-button type="danger" ghost>
+        Danger
+      </a-button>
+      <a-button type="link" ghost>
+        Link
+      </a-button>
+    </div>
+  </div>
+</template>
+<script>
+export default { 
+    data() {
+      return {
+        version: '2.x'
+      };
+    }, 
+  };
+<\/script>
+
+<style>
+#page-container {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+.logo {
+  width:66px;
+}
+</style> `;
+
+export default {
+  name: "demo",
+  data() {
+    return {
+      className: ["page-container"], // page className
+      code: code_example,
+    };
+  },
+  mounted() {},
+  methods: {},
+
+  render() {
+    const { className, style, code } = this;
+
+    return (
+      <div class={className} style={style}>
+        <code-viewer source={code} show-code={true}></code-viewer>
+      </div>
+    );
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.page-container {
+  // 最小尺寸
+  min-width: 1024px;
+  min-height: 768px;
+
+  // width: 100%;
+  // height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+</style>

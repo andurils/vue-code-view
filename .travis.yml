@@ -1,11 +1,16 @@
 sudo: false
 language: node_js
-node_js: 10
-addons:
-  chrome: stable
-before_install:
-- export TRAVIS_COMMIT_MSG="[deploy] $(git log --format='%h - %B' --no-merges -n 1)"
-- export TRAVIS_COMMIT_USER="$(git log --no-merges -n 1 --format=%an)"
-- export TRAVIS_COMMIT_EMAIL="$(git log --no-merges -n 1 --format=%ae)"
-after_success:
-- sh build/deploy.sh
+node_js: 14
+install:
+  - yarn 
+
+script: npm run build
+after_script:
+  - cd ./dist
+  - git init
+  - git config user.name "${U_NAME}"
+  - git config user.email "${U_EMAIL}"
+  - git add -A .
+  - git commit -m ":construction_worker:- Build & Deploy by Travis CI"
+  - git push --force --quiet "https://${TravisCI_Token}@${GH_REF}" master:${P_BRANCH} 
+ 

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Demo from "../views/Demo.vue";
 
 Vue.use(VueRouter);
 
@@ -8,7 +8,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: Demo,
   },
   {
     path: "/about",
@@ -19,10 +19,16 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+  {
+    path: "/changelog",
+    name: "Changelog",
+    component: (r) =>
+      require.ensure([], () => r(require("../../CHANGELOG.zh-CN.md"))),
+  },
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  mode: "hash", // 'hash' | 'history'
   base: process.env.BASE_URL,
   routes,
 });

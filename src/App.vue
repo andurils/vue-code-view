@@ -1,195 +1,82 @@
-<script>
-import CodeEditor from "./components/CodeEditor.vue";
+<template>
+  <div id="app">
+    <div class="page-header">
+      <div class="page-title__main page-title--shadow">Vue Code View</div>
+      <div class="page-title__sub">Code editor for Vue</div>
+    </div>
+    <div id="nav">
+      <router-link to="/">Demo</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/changelog">Changelog</router-link>
+    </div>
+    <router-view :class="{ 'markdown-body': $route.path === '/changelog' }" />
+  </div>
+</template>
 
-var tabs = [
-  {
-    name: "Home",
-    component: {
-      template: "<div>Home component</div>",
-    },
-  },
-];
+<style lang="scss">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  // text-align: center;
+  color: #2c3e50;
+}
+//  区域 title
+.page-header {
+  text-align: center;
+  background: hsl(0, 50%, 45%);
+  color: white;
 
-export default {
-  name: "App",
-  components: {
-    CodeEditor,
-  },
-  // props: {
-  //   theme: { type: Object, default: light },
-  //   classPrefix: { type: String },
-  //   delay: { type: Number },
-  //   showCode: { type: Boolean },
-  //   source: { type: String },
-  //   children: { type: String },
-  //   dependencies: { type: Object },
-  //   babelTransformOptions: {
-  //     type: Object,
-  //     default: {
-  //       presets: ["stage-0", "react", "es2015"],
-  //     },
-  //   },
-  //   buttonClassName: { type: String },
-  //   showCodeIcon: { type: Object },
-  //   renderToolbar: { type: Function },
-  // },
-  data() {
-    return {
-      currentTab: tabs[0],
-      dyShow: true,
-      showCodeIcon: {},
-      buttonClassName: "",
-      beforeHTML: "beforeHTML",
-      afterHTML: "afterHTML",
-      // code: code,
-      hasError: false,
-      errorMessage: null,
-      showCode: true,
-      code: `<el-button icon="el-icon-search" circle></el-button>
-  <el-button type="primary" icon="el-icon-edit" circle></el-button>
-  <el-button type="success" icon="el-icon-check" circle></el-button>`,
-    };
-  },
-  methods: {
-    handleShowCode() {
-      this.showCode = !this.showCode;
-    },
-    handleCodeChange(val) {
-      this.dyShow = false;
-      console.log(val);
-      console.log("stripTemplate", this.stripTemplate(val));
-      console.log("stripScript", this.stripScript(val));
-      this.currentTab.template = this.stripTemplate(val);
+  .page-title__main {
+    // padding: 12px 0;
+    // font-style: normal;
+    font-size: clamp(2rem, calc(2rem + 1.2vw), 3rem);
+    font-weight: 700;
+    line-height: 1.7;
+  }
+  .page-title__sub {
+    font-family: "Goudy Old Style", Garamond;
+    // font-style: normal;
+    font-size: 32px;
+    line-height: 1.7;
+  }
+  .page-title--shadow {
+    // color: white;
+    // background: hsl(0, 50%, 45%);
+    text-shadow: 1px 1px black, 2px 2px black, 3px 3px black, 4px 4px black,
+      5px 5px black, 6px 6px black, 7px 7px black, 8px 8px black;
+  }
+}
+#nav {
+  padding: 30px;
 
-      this.currentTab = {
-        name: "Home",
-        component: {
-          template: `${this.stripTemplate(val)}`,
-        },
-      };
-      this.dyShow = true;
-    },
-    // 获取 <script> 标签中的文本内容
-    stripScript(content) {
-      const result = content.match(/<(script)>([\s\S]+)<\/\1>/);
-      return result && result[2] ? result[2].trim() : "";
-    },
+  a {
+    font-weight: bold;
+    color: #2c3e50;
 
-    // 获取 <style> 标签中的文本内容
-    stripStyle(content) {
-      const result = content.match(/<(style)\s*>([\s\S]+)<\/\1>/);
-      return result && result[2] ? result[2].trim() : "";
-    },
-
-    // 编写例子时不一定有 template。所以采取的方案是剔除其他的内容
-    stripTemplate(content) {
-      content = content.trim();
-      if (!content) {
-        return content;
-      }
-      return content.replace(/<(script|style)[\s\S]+<\/\1>/g, "").trim();
-    },
-  },
-  render() {
-    const {
-      className,
-      style,
-      // showCodeIcon,
-      // buttonClassName,
-      // renderToolbar,
-      theme,
-    } = this;
-
-    const showCodeIcon = [
-      "icon-xs ",
-      this.showCode ? "el-icon-s-unfold" : "el-icon-s-fold",
-    ];
-    const showCodeButton = (
-      <i class={showCodeIcon} on-click={this.handleShowCode}></i>
-    );
-
-    const dynamicComponent = this.currentTab.component;
-
-    return (
-      <div class={className} style={style}>
-        '------------------ Markdown ------------------'
-        <div class="code-view-wrapper">
-          //代码展示 renderExample
-          {this.dyShow && <dynamicComponent></dynamicComponent>}
-          <div class="code-view-toolbar">{showCodeButton}</div>
-          <CodeEditor
-            lineNumbers
-            key="jsx"
-            onChange={this.handleCodeChange}
-            class={`doc-code ${this.showCode ? "show" : ""}`}
-            theme={`base16-${theme}`}
-            value={this.code}
-          />
-        </div>
-        '------------------ Markdown ------------------'
-      </div>
-    );
-  },
-};
-</script>
-
-<style lang="scss" scoped>
-.CodeMirror {
-  padding: 10px;
-  margin: 10px 0;
-  height: auto !important;
-  pre {
-    padding: 0 20px;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
   }
 }
 
-.code-view-wrapper {
-  position: relative;
-  margin-bottom: 18px;
-  // border: 1px dashed #f1f1f1;
-  border: 1px dashed #000000;
-  padding: 18px 18px 28px 18px;
-  .code-view-toolbar {
-    right: 0;
-    bottom: 0;
-    // border-bottom: 1px dashed #f5f5f5;
-    border-bottom: 1px dashed #000000;
-    text-align: right;
-    .btn {
-      border-style: dashed;
-      .icon-code {
-        font-size: 20px;
-      }
-    }
-  }
-  .doc-code {
-    height: 0;
-    overflow: hidden;
-    &.show {
-      height: auto;
-    }
-  }
-  .code-view {
-    padding: 10px 0;
-    position: relative;
-    &:after {
-      position: absolute;
-      top: 18px;
-      left: 18px;
-      font-size: 12px;
-      font-weight: 300;
-      color: #959595;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-  }
-  .code-view-error {
-    color: red;
+@media only screen and (max-height: 600px) {
+  .page-header {
+    display: none !important;
   }
 }
 
-.icon-xs {
-  font-size: 24px;
-  line-height: 1.5;
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 45px;
+}
+
+@media (max-width: 767px) {
+  .markdown-body {
+    padding: 15px;
+  }
 }
 </style>

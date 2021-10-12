@@ -1,47 +1,56 @@
-# vue-code-view
+<h1 style="display:flex;justify-content:center;">
+Vue Code View
+<a href="https://app.travis-ci.com/github/andurils/vue-code-view" style="margin-left:12px;"><img src="https://app.travis-ci.com/andurils/vue-code-view.svg?branch=main" alt="Build Status"></a>
+</h1>
 
-// 示例参考
-https://github.com/simonguo/react-code-view
-react-to-vue
+一个可以实时编辑代码、预览效果的 `代码示例` 展示组件。
 
-// 代码编辑
-https://github.surmon.me/vue-codemirror/
+效果如下：
 
-cnpm install --save codemirror
-npm i --save lodash
+![preview](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/912bf867ef4c44d3a716e4bf723573ac~tplv-k3u1fbpfcp-watermark.image?)
 
-https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-dynamic-components-with-binding?file=/index.html:942-1011
+## Online Demo
 
-https://github.com/vuejs/jsx#installation
+在线预览: <https://andurils.github.io/vue-code-view/>
 
-# vue-cli
+## ✨ Features
 
-通过 vue ui 命令使用 GUI 运行更多的特性脚本
+- 🌈 代码可以在线编辑，实时预览效果。
+- 🎨 支持代码高亮。
+- 📦 自动保存代码，支持历史回溯。
+- 📦 支持 `<style>` 解析渲染。
+- ⚙️ 更多特性解锁中。
 
-## css 配置
+## 📦 安装
 
-https://cli.vuejs.org/zh/guide/css.html#css-%E7%9B%B8%E5%85%B3
+`//TODO`
 
-## Project setup
+## 📦 配置
 
-```
-yarn install
-```
+`//TODO`
 
-### Compiles and hot-reloads for development
+## 📦 示例
 
-```
-yarn serve
-```
+`//TODO`
 
-### Compiles and minifies for production
+## 📦 API
 
-```
-yarn build
-```
+`//TODO`
 
-### Lints and fixes files
+## Changelog
 
-```
-yarn lint
-```
+Detailed changes for each release are documented in the [release notes][changelog-cn].
+
+## Reference
+
+Inspired [List][refer]
+
+## License
+
+[MIT][license]
+
+Copyright (c) 2021-present Anduril
+
+[changelog-cn]: https://github.com/andurils/vue-code-view/blob/main/CHANGELOG.zh-CN.md
+[license]: https://github.com/andurils/vue-code-view/blob/main/LICENSE
+[refer]: https://github.com/andurils/vue-code-view/blob/main/reference.md
