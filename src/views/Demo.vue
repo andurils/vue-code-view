@@ -7,21 +7,17 @@ const code_example = `<template>
     <h1>Welcome to Vue.js {{version}} !</h1>
     <div :style="{ background: 'rgb(190, 200, 200)', padding: '26px 16px 16px' }">
       <a-button type="primary" ghost>
-        Primary
-      </a-button>
-      <a-button ghost>
-        Default
-      </a-button>
-      <a-button type="dashed" ghost>
-        Dashed
-      </a-button>
+        andtd Primary
+      </a-button> 
       <a-button type="danger" ghost>
-        Danger
+        andtd Danger
       </a-button>
       <a-button type="link" ghost>
-        Link
+        andtd Link
       </a-button>
     </div>
+    <div class="test" >scss test</div> 
+    <div class="ltest" >less test</div> 
   </div>
 </template>
 <script>
@@ -44,7 +40,17 @@ export default {
 .logo {
   width:66px;
 }
-</style> `;
+</style> 
+
+<style lang='scss' >
+$font-stack:    Helvetica, sans-serif;
+$primary-color: red;
+
+body .test{
+  font: 100% $font-stack;
+  color: $primary-color;
+}
+</style>`;
 
 export default {
   name: "demo",

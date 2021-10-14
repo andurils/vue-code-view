@@ -1,12 +1,10 @@
 <script>
 import CodeEditor from "./code-editor.vue";
 import VersionHistory from "./version-control.vue";
-import {
-  stripTemplate,
-  stripScript,
-  stripStyle,
-  hashCode,
-} from "../utils/stripUtil";
+import { parseComponent } from "../utils/sfcParser/parser";
+import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
+import { addStyles } from "../utils/addStyles";
+import { hashCode } from "../utils/util";
 import { throttle } from "throttle-debounce";
 import screenfull from "screenfull";
 
@@ -77,12 +75,12 @@ export default {
     };
   },
   mounted() {
-    this.handleCodeChange(this.source);
     // 使用节流函数（throttle）
     this.throttledLocalStorageHandler = throttle(
       this.delay,
       this.localStorageSet
     );
+    this.handleCodeChange(this.source);
     // 获取版本历史记录
     const localStorageText_versionHistoryList = this.$storage.get(
       this.versionHistoryKey,
@@ -103,13 +101,20 @@ export default {
       }
     }
   },
+  computed: {
+    // 计算属性的 getter
+    reversedMessage: function () {
+      // `this` 指向 vm 实例
+      return this.message.split("").reverse().join("");
+    },
+  },
   methods: {
     toggleFullScreen() {
-      console.log(
-        "%c [ FullScreen ]: ",
-        "color: #FFFFFF; background: #f5222d; font-size: 13px;",
-        "toggleFullScreen"
-      );
+      // console.log(
+      //   "%c [ FullScreen ]: ",
+      //   "color: #FFFFFF; background: #f5222d; font-size: 13px;",
+      //   "toggleFullScreen"
+      // );
       // if (screenfull.isEnabled && !screenfull.isFullscreen) {
       //   screenfull.request();
       // }
@@ -126,45 +131,53 @@ export default {
       this.showCode = !this.showCode;
     },
     handleCodeChange(val) {
+      console.log(parseComponent(val));
+
       this.code = val;
       this.dyShow = false;
-      const demoComponentExport = {};
-      let script = "";
-      let template = "";
-      // eslint-disable-next-line no-unused-vars
-      let style = "";
-
-      // eslint-disable-next-line no-unused-vars
       let componentId = hashCode(this.$dayjs().valueOf().toString());
-      // console.log("stripTemplate", stripTemplate(val));
-      // console.log("stripScript", stripScript(val));
 
-      template = stripTemplate(val);
-      script = stripScript(val);
-      style = stripStyle(val);
+      const demoComponentExport = {};
+      let scriptCode = ``;
+      let templateCode = ``;
+      let styleCode = ``;
 
-      console.log("componentId", componentId);
+      // SFC 解析输出 SFC Descriptor Object
+      const sfcDescriptor = parseComponent(this.code);
+      templateCode = sfcDescriptor.template.content.trim();
+      scriptCode = sfcDescriptor.script.content.trim();
+      styleCode = genStyleInjectionCode(sfcDescriptor.styles);
 
+      // 构建组件
       // script内容
-      script = script.trim();
-      if (script) {
-        script = script.replace(/export\s+default/, "demoComponentExport =");
+      scriptCode = scriptCode.trim();
+      if (scriptCode) {
+        scriptCode = scriptCode.replace(
+          /export\s+default/,
+          "demoComponentExport ="
+        );
       }
-      console.log("stripScript", script);
-      eval(script);
+      // console.log(sfcDescriptor);
+      eval(scriptCode);
       console.log(demoComponentExport);
       demoComponentExport.template = `  
             <section class="vue-page-container"  id="${componentId}" > 
-              ${template} 
+              ${templateCode} 
             </section> 
         `;
 
       // beforeMount  动态创建样式style
+      // https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js
       demoComponentExport.beforeMount = function () {
-        var buildInstyle = document.createElement("style");
-        buildInstyle.type = "text/css";
-        buildInstyle.innerHTML = `${style} `;
-        document.getElementsByTagName("HEAD").item(0).appendChild(buildInstyle);
+        var hasDocument = typeof document !== "undefined";
+        var head =
+          hasDocument &&
+          (document.head || document.getElementsByTagName("head")[0]);
+
+        var styleElement = document.createElement("style");
+        styleElement.type = "text/css";
+        styleElement.innerHTML = `${styleCode} `;
+        head.appendChild(styleElement);
       };
 
       this.currentTab = {

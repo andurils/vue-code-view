@@ -5,9 +5,16 @@
 - `//TODO`
   - 动态配置=>全局配置 （主题切换、语言选择等编辑器功能开关选型）
 - `//Done`
-- 🌟编辑器优化
+
+## 0.5.0
+
+`2021-10-14`
+
+- 🌟🎉 优化 SFC `compiler`, 参考 [sfc-parser](https://github.com/vuejs/vue/blob/dev/test/unit/modules/sfc/sfc-parser.spec.js) .
+- 🌟🎉 支持`scss` `sass` 样式编译。
+- 🌟 编辑器优化
   - 🆕 增加 `括号/标签` 匹配自动关闭。
-- 🌟演示示例优化
+- 🌟 演示示例优化
   - 🆕 引入 `ant-design-vue` 组件代码。
   - 🆕 增加路由跳转，添加菜单更新日志菜单（支持 `.md` 文件解析 ）。
   - 💄 路由使用`hash`模式，避免子路由刷新出现页面未找到错误。

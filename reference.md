@@ -44,13 +44,14 @@ https://stackoverflow.com/questions/47322875/vue-js-dynamic-style-with-variables
 https://codepen.io/mickeymullin/pen/bKVWzg
 https://www.cnblogs.com/stephenykk/p/5406614.html
 
+### vue cli
 
-### vue cli 
 https://blog.csdn.net/u010622874/article/details/103312051
-
-
-
-
 
 https://github.com/ant-design/ant-design/blob/master/README-zh_CN.md
 https://github.com/PanJiaChen/vue-element-admin/blob/master/README.zh-CN.md
+
+### sfc-parser
+https://github.com/vuejs/vue/blob/dev/test/unit/modules/sfc/sfc-parser.spec.js
+https://github.com/vuejs/vue-loader/blob/master/lib/codegen/styleInjection.js
+https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js
