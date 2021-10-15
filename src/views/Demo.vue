@@ -17,7 +17,7 @@ const code_example = `<template>
       </a-button>
     </div>
     <div class="test" >scss test</div> 
-    <div class="ltest" >less test</div> 
+    <div class="test1" >less test</div> 
   </div>
 </template>
 <script>
@@ -49,6 +49,17 @@ $primary-color: red;
 body .test{
   font: 100% $font-stack;
   color: $primary-color;
+}
+</style>
+<style lang='less' >
+// Variables
+@link-color:        #428bca; // sea blue
+@link-color-hover:  darken(@link-color, 10%);
+
+
+body .test1 {
+  color: yellow;
+  background: @link-color-hover;
 }
 </style>`;
 

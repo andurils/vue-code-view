@@ -3,7 +3,7 @@ import CodeEditor from "./code-editor.vue";
 import VersionHistory from "./version-control.vue";
 import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
-import { addStyles } from "../utils/addStyles";
+import { addStylesClient } from "../utils/style-loader/addStylesClient";
 import { hashCode } from "../utils/util";
 import { throttle } from "throttle-debounce";
 import screenfull from "screenfull";
@@ -61,7 +61,7 @@ export default {
       hasError: false,
       errorMessage: null,
 
-      // showCode: true,
+      showCodeEditor: this.showCode,
       showCodeIcon: {},
       // code: aaa,
       delay: 10000, // ms  用于节流函数参数
@@ -72,9 +72,11 @@ export default {
       maxVersionHistory: 0, // 记录历史版本最大次数  0 不限制
       lastSaveTime: null,
       versionHistoryList: [], // 版本历史记录
+      CID: "123456789",
     };
   },
   mounted() {
+    // this.CID = hashCode(this.$dayjs().valueOf().toString());
     // 使用节流函数（throttle）
     this.throttledLocalStorageHandler = throttle(
       this.delay,
@@ -128,7 +130,7 @@ export default {
       }
     },
     handleShowCode() {
-      this.showCode = !this.showCode;
+      this.showCodeEditor = !this.showCodeEditor;
     },
     handleCodeChange(val) {
       console.log(parseComponent(val));
@@ -140,14 +142,15 @@ export default {
       const demoComponentExport = {};
       let scriptCode = ``;
       let templateCode = ``;
-      let styleCode = ``;
+      // let styleCode = ``;
 
       // SFC 解析输出 SFC Descriptor Object
       const sfcDescriptor = parseComponent(this.code);
       templateCode = sfcDescriptor.template.content.trim();
       scriptCode = sfcDescriptor.script.content.trim();
-      styleCode = genStyleInjectionCode(sfcDescriptor.styles);
+      const { styles, styleCode } = genStyleInjectionCode(sfcDescriptor.styles);
 
+      addStylesClient(this.CID, styles, false, { ssrId: true });
       // 构建组件
       // script内容
       scriptCode = scriptCode.trim();
@@ -260,7 +263,7 @@ export default {
     const showCodeIcon = [
       "icon",
       "iconfont",
-      this.showCode ? "icon-codelibrary" : "icon-code",
+      this.showCodeEditor ? "icon-codelibrary" : "icon-code",
     ];
 
     const fullScreenIcon = [
@@ -310,7 +313,7 @@ export default {
               {this.dyShow && <dynamicComponent></dynamicComponent>}
             </div>
 
-            {this.showCode && (
+            {this.showCodeEditor && (
               <div class="code-box-editor">
                 <CodeEditor
                   lineNumbers
