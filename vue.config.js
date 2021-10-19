@@ -5,7 +5,7 @@ const BundleAnalyzerPlugin =
 
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 
-// gzip压缩
+// gzip压缩  webpack 4.x 对应 6.x版本
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 // 代码压缩
@@ -75,7 +75,7 @@ module.exports = {
       //   })
       // );
     }
-    config.plugins = [...config.plugins, ...plugins];
+    // config.plugins = [...config.plugins, ...plugins];
   },
   chainWebpack: (config) => {
     // 添加别名

@@ -4,20 +4,8 @@
 const code_example = `<template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
-    <h1>Welcome to Vue.js {{version}} !</h1>
-    <div :style="{ background: 'rgb(190, 200, 200)', padding: '26px 16px 16px' }">
-      <a-button type="primary" ghost>
-        andtd Primary
-      </a-button>
-      <a-button type="danger" ghost>
-        andtd Danger
-      </a-button>
-      <a-button type="link" ghost>
-        andtd Link
-      </a-button>
-    </div>
-    <div class="test" >scss test</div>
-    <div class="test1" >less test</div>
+    <h1>Welcome to Vue.js {{version}} !</h1> 
+    <div class="test" >scss test</div> 
   </div>
 </template>
 <script>
@@ -63,6 +51,43 @@ body .test1 {
 }
 </style>`;
 
+const code_example_2 = `<template>
+  <div id="app"> 
+    <div :style="{ background: 'rgb(190, 200, 200)', padding: '26px 16px 16px' }">
+      <a-button type="primary" ghost>
+        andtd Primary
+      </a-button>
+      <a-button type="danger" ghost>
+        andtd Danger
+      </a-button>
+      <a-button type="link" ghost>
+        andtd Link
+      </a-button>
+    </div> 
+  </div>
+</template>
+<script>
+export default {
+    data() {
+      return {
+        version: '2.x'
+      };
+    },
+  };
+<\/script>
+
+<style>
+#page-container {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+.logo {
+  width:66px;
+}
+</style> `;
+
 export default {
   name: "demo",
   data() {
@@ -79,9 +104,10 @@ export default {
 
     return (
       <div class={className} style={style}>
+        <h2>demo 1</h2>
         <code-viewer source={code} show-code={false}></code-viewer>
-
-        <code-viewer source={code} show-code={false}></code-viewer>
+        <h2>demo 2</h2>
+        <code-viewer source={code_example_2} show-code={false}></code-viewer>
       </div>
     );
   },
