@@ -17,6 +17,7 @@ packages/
 babel.config.js
 vue.config.js 
 .travis.yml
+.env
 .env.* 
 
 
