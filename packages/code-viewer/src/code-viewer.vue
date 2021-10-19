@@ -1,8 +1,11 @@
 <script>
 import CodeEditor from "./code-editor.vue";
+import MeButton from "./button.vue";
+import { toggleClass } from "../utils/DOMhelper";
 import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
 import { hashCode } from "../utils/util";
+import "../fonts/iconfont.css"; // 字体图标
 
 // 动态组件 用于绑定组件选项对象
 var tabs = [
@@ -18,11 +21,7 @@ export default {
   name: "CodeViewer",
   components: {
     CodeEditor,
-  },
-  provide() {
-    return {
-      // vueCodeView: this,
-    };
+    MeButton,
   },
   props: {
     theme: { type: String, default: "dark" }, //light
@@ -31,7 +30,7 @@ export default {
   },
   data() {
     return {
-      className: ["page-container", "app"], // page className
+      className: ["vue-code-viewer", "vue-app"], // page className
       currentTab: tabs[0],
       dyShow: true,
 
@@ -56,12 +55,15 @@ export default {
     handleShowCode() {
       this.showCodeEditor = !this.showCodeEditor;
     },
+    handleChangeTransparent() {
+      toggleClass(this.$refs.codeViewer, "vue-code-transparent");
+    },
     handleCodeChange(val) {
       console.log(parseComponent(val));
 
       this.code = val;
       this.dyShow = false;
-      let componentId = hashCode(this.$dayjs().valueOf().toString());
+      // let componentId = hashCode(this.$dayjs().valueOf().toString());
 
       const demoComponentExport = {};
       let scriptCode = ``;
@@ -73,6 +75,7 @@ export default {
       templateCode = sfcDescriptor.template.content.trim();
       scriptCode = sfcDescriptor.script.content.trim();
       const { styleCode } = genStyleInjectionCode(sfcDescriptor.styles);
+
       // 构建组件
       // script内容
       scriptCode = scriptCode.trim();
@@ -85,8 +88,9 @@ export default {
       // console.log(sfcDescriptor);
       eval(scriptCode);
       console.log(demoComponentExport);
+      // id="${componentId}"
       demoComponentExport.template = `
-            <section class="vue-page-container"  id="${componentId}" >
+            <section class="vue-page-container"   >
               ${templateCode}
             </section>
         `;
@@ -122,20 +126,10 @@ export default {
       theme,
     } = this;
 
-    const showCodeIcon = [
-      "icon",
-      "iconfont",
-      this.showCodeEditor ? "icon-codelibrary" : "icon-code",
-    ];
-
-    const showCodeButton = (
-      <i class={showCodeIcon} on-click={this.handleShowCode}></i>
-    );
-
     const dynamicComponent = this.currentTab.component;
-    // 移除样式 class={`doc-code ${this.showCode ? "show" : ""}`}
+
     return (
-      <div class={className}>
+      <div class={className} ref="codeViewer">
         <div class="code-view-wrapper">
           {/* --------- renderExample this.renderExample()  --------- */}
           <div class="code-view">
@@ -143,7 +137,18 @@ export default {
           </div>
           {/* --------- toolbar   --------- */}
           <div class="code-view-toolbar">
-            {renderToolbar ? renderToolbar(showCodeButton) : showCodeButton}
+            <me-button
+              icon="code"
+              size="xs"
+              circle
+              onClick={this.handleShowCode}
+            ></me-button>
+            <me-button
+              icon="transparent"
+              size="xs"
+              circle
+              onClick={this.handleChangeTransparent}
+            ></me-button>
           </div>
           {/* --------- CodeEditor   --------- */}
           {this.showCodeEditor && (
@@ -163,14 +168,15 @@ export default {
 
 <style lang="scss">
 $code-view-wrapper-border-color: #f1f1f1;
-$code-view-wrapper-bg: #f4f5f7;
+$code-view-wrapper-bg: #ffffff;
 $primary-color: #3498ff;
 
 .code-view-wrapper {
   position: relative;
   margin: 18px 0;
   padding: 0;
-  border: 1px dashed #f1f1f1;
+  // border: 1px dashed #f1f1f1;
+  border: 1px solid #ebebeb;
 
   border-color: $code-view-wrapper-border-color;
   background-color: $code-view-wrapper-bg;
@@ -206,5 +212,18 @@ $primary-color: #3498ff;
   pre {
     padding: 0 20px;
   }
+}
+
+.vue-code-transparent .code-view {
+  background-image: linear-gradient(
+      45deg,
+      rgb(249, 249, 250) 25%,
+      transparent 25%
+    ),
+    linear-gradient(135deg, rgb(249, 249, 250) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgb(249, 249, 250) 75%),
+    linear-gradient(135deg, transparent 75%, rgb(249, 249, 250) 75%);
+  background-size: 20px 20px;
+  background-position: 0px 0px, 10px 0px, 10px -10px, 0px 10px;
 }
 </style>

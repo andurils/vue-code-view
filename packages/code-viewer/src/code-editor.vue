@@ -15,9 +15,9 @@ import "codemirror/theme/base16-dark.css";
 
 // 语言 mode
 import "codemirror/mode/vue/vue";
-import "codemirror/mode/javascript/javascript";
-import "codemirror/mode/jsx/jsx";
-import "codemirror/mode/css/css";
+// import "codemirror/mode/javascript/javascript";
+// import "codemirror/mode/jsx/jsx";
+// import "codemirror/mode/css/css";
 
 // 括号/标签 匹配自动关闭
 import "codemirror/addon/edit/matchbrackets";
@@ -28,13 +28,18 @@ import "codemirror/addon/edit/closetag";
 // 代码折叠
 import "codemirror/addon/fold/foldgutter.css";
 import "codemirror/addon/fold/brace-fold";
-import "codemirror/addon/fold/comment-fold";
 import "codemirror/addon/fold/foldcode";
 import "codemirror/addon/fold/foldgutter";
+import "codemirror/addon/fold/comment-fold";
+// 缩进文件
 import "codemirror/addon/fold/indent-fold";
-
 // 光标行背景高亮
 import "codemirror/addon/selection/active-line";
+
+// import "codemirror/addon/lint/lint";
+// import "codemirror/addon/lint/javascript-lint";
+// import "codemirror/addon/lint/json-lint";
+// import "codemirror/addon/lint/css-lint";
 
 // 滚动条样式
 // import "codemirror/addon/scroll/simplescrollbars.css";
@@ -47,7 +52,7 @@ export default {
     readOnly: { type: Boolean },
     theme: { type: String },
     matchBrackets: { type: Boolean },
-    lineNumbers: { type: Boolean },
+    lineNumbers: { type: Boolean, default: true },
     lineWrapping: { type: Boolean },
     tabSize: { type: Number },
   },
@@ -64,7 +69,7 @@ export default {
           // "CodeMirror-lint-markers",
         ],
         // lint: true,
-        lineNumbers: this.lineNumbers || true, //显示行号
+        lineNumbers: this.lineNumbers, //显示行号
         lineWrapping: this.lineWrapping || "wrap", // 长行时文字是换行  换行(wrap)/滚动(scroll)
         styleActiveLine: true, // 高亮选中行
         tabSize: this.tabSize || 2, // tab 字符的宽度

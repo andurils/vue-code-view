@@ -8,7 +8,7 @@ const code_example = `<template>
     <div :style="{ background: 'rgb(190, 200, 200)', padding: '26px 16px 16px' }">
       <a-button type="primary" ghost>
         andtd Primary
-      </a-button> 
+      </a-button>
       <a-button type="danger" ghost>
         andtd Danger
       </a-button>
@@ -16,17 +16,17 @@ const code_example = `<template>
         andtd Link
       </a-button>
     </div>
-    <div class="test" >scss test</div> 
-    <div class="test1" >less test</div> 
+    <div class="test" >scss test</div>
+    <div class="test1" >less test</div>
   </div>
 </template>
 <script>
-export default { 
+export default {
     data() {
       return {
         version: '2.x'
       };
-    }, 
+    },
   };
 <\/script>
 
@@ -40,7 +40,7 @@ export default {
 .logo {
   width:66px;
 }
-</style> 
+</style>
 
 <style lang='scss' >
 $font-stack:    Helvetica, sans-serif;
@@ -79,7 +79,9 @@ export default {
 
     return (
       <div class={className} style={style}>
-        <code-viewer source={code} show-code={true}></code-viewer>
+        <code-viewer source={code} show-code={false}></code-viewer>
+
+        <code-viewer source={code} show-code={false}></code-viewer>
       </div>
     );
   },
@@ -89,13 +91,14 @@ export default {
 <style lang="scss" scoped>
 .page-container {
   // 最小尺寸
-  min-width: 1024px;
-  min-height: 768px;
+  // min-width: 1024px;
+  // min-height: 768px;
 
   // width: 100%;
   // height: 100vh;
 
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
+  padding: 16px;
 }
 </style>
