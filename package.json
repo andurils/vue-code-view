@@ -13,7 +13,8 @@
     "clean": "rimraf node_modules"
   },
   "dependencies": {
-    "codemirror": "^5.62.2"
+    "codemirror": "^5.62.2",
+    "throttle-debounce": "^3.0.1"
   },
   "peerDependencies": {
     "vue": "^2.6.11"

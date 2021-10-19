@@ -69,3 +69,8 @@ export function hashCode(content) {
   }
   return hash;
 }
+
+// 生成一个随机的ID 基于random
+export const generateId = function () {
+  return Math.floor(Math.random() * 10000);
+};

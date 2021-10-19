@@ -4,8 +4,10 @@ import MeButton from "./button.vue";
 import { toggleClass } from "../utils/DOMhelper";
 import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
-import { hashCode } from "../utils/util";
-import "../fonts/iconfont.css"; // 字体图标
+import Tooltip from "./tooltip";
+// import { hashCode } from "../utils/util";
+// 字体图标
+import "../fonts/iconfont.css";
 
 // 动态组件 用于绑定组件选项对象
 var tabs = [
@@ -22,6 +24,7 @@ export default {
   components: {
     CodeEditor,
     MeButton,
+    Tooltip,
   },
   props: {
     theme: { type: String, default: "dark" }, //light
@@ -137,18 +140,32 @@ export default {
           </div>
           {/* --------- toolbar   --------- */}
           <div class="code-view-toolbar">
-            <me-button
-              icon="code"
-              size="xs"
-              circle
-              onClick={this.handleShowCode}
-            ></me-button>
-            <me-button
-              icon="transparent"
-              size="xs"
-              circle
-              onClick={this.handleChangeTransparent}
-            ></me-button>
+            <Tooltip
+              class="item"
+              effect="dark"
+              content="Show the source"
+              placement="top"
+            >
+              <me-button
+                icon="code"
+                size="xs"
+                circle
+                onClick={this.handleShowCode}
+              ></me-button>
+            </Tooltip>
+            <Tooltip
+              class="item"
+              effect="dark"
+              content="Transparent background"
+              placement="top"
+            >
+              <me-button
+                icon="transparent"
+                size="xs"
+                circle
+                onClick={this.handleChangeTransparent}
+              ></me-button>
+            </Tooltip>
           </div>
           {/* --------- CodeEditor   --------- */}
           {this.showCodeEditor && (
