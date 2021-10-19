@@ -1,4 +1,4 @@
-/* eslint-disable no-useless-escape */
+// src/compiler/parser/html-parser.js
 /**
  * Not type-checking this file because it's mostly vendor code.
  */
@@ -9,7 +9,6 @@
  * Original code by Erik Arvidsson (MPL-1.1 OR Apache-2.0 OR GPL-2.0-or-later)
  * http://erik.eae.net/simplehtmlparser/simplehtmlparser.js
  */
-// src/compiler/parser/html-parser.js
 import { makeMap, no, isNonPhrasingTag, unicodeRegExp } from "../util";
 
 // Regular Expressions for parsing tags and attributes

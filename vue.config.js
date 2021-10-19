@@ -5,58 +5,82 @@ const BundleAnalyzerPlugin =
 
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 
-// const CompressionWebpackPlugin = require("compression-webpack-plugin");
-// const zopfli = require("@gfx/zopfli");
-// const BrotliPlugin = require("brotli-webpack-plugin");
-
-// const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
+// gzip压缩
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
+// 代码压缩
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+// 引入压缩插件  cnpm i terser-webpack-plugin@4.2.3 --save-dev
+// const TerserPlugin = require("terser-webpack-plugin");
+// 打包进度
+// const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 
 module.exports = {
   runtimeCompiler: true, // 是否使用包含运行时编译器的 Vue 构建版本
   publicPath: process.env.VUE_APP_PUBLIC_PATH || "/",
+  productionSourceMap: false,
   // eslint-disable-next-line no-unused-vars
   configureWebpack: (config) => {
-    // const plugins = [];
+    const plugins = [];
+    // 生产环境相关配置
     if (IS_PROD) {
-      config.optimization = {
-        splitChunks: {
-          cacheGroups: {
-            common: {
-              name: "chunk-common",
-              chunks: "initial",
-              minChunks: 2,
-              maxInitialRequests: 5,
-              minSize: 0,
-              priority: 1,
-              reuseExistingChunk: true,
-              enforce: true,
+      plugins.push(
+        new CompressionWebpackPlugin({
+          filename: "[path][base].gz",
+          algorithm: "gzip",
+          minRatio: 0.99,
+          test: productionGzipExtensions,
+          deleteOriginalAssets: false,
+        })
+      );
+      plugins.push(
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            // 删除注释
+            output: {
+              comments: false,
             },
-            vendors: {
-              name: "chunk-vendors",
-              test: /[\\/]node_modules[\\/]/,
-              chunks: "initial",
-              priority: 2,
-              reuseExistingChunk: true,
-              enforce: true,
+            // 删除console debugger
+            compress: {
+              drop_debugger: true,
+              drop_console: true, // console
+              pure_funcs: ["console.log"], // 移除console
             },
-            codemirrorJs: {
-              name: "chunk-codemirror",
-              test: /[\\/]node_modules[\\/]codemirror[\\/]/,
-              chunks: "all",
-              priority: 3,
-              reuseExistingChunk: true,
-              enforce: true,
-            },
+            // 删除警告
+            warnings: false,
           },
-        },
-      };
+          sourceMap: false,
+          parallel: true, //使用多进程并行运行来提高构建速度。默认并发运行数：os.cpus().length - 1。
+        })
+      );
+
+      // plugins.push(new ProgressBarPlugin());
+
+      // plugins.push(
+      //   new TerserPlugin({
+      //     cache: true,
+      //     sourceMap: false,
+      //     // 多进程
+      //     parallel: true,
+      //     terserOptions: {
+      //       ecma: undefined,
+      //       warnings: false,
+      //       parse: {},
+      //       compress: {
+      //         drop_console: true,
+      //         drop_debugger: false,
+      //         pure_funcs: ["console.log"], // 移除console
+      //       },
+      //     },
+      //   })
+      // );
     }
-    // config.plugins = [...config.plugins, ...plugins];
+    config.plugins = [...config.plugins, ...plugins];
   },
   chainWebpack: (config) => {
     // 添加别名
     config.resolve.alias
-      .set("vue$", "vue/dist/vue.esm.js")
+      // .set("vue$", "vue/dist/vue.esm.js")
       .set("@", resolve("src"))
       .set("@assets", resolve("src/assets"))
       .set("@packages", resolve("packages"));
@@ -83,7 +107,7 @@ module.exports = {
       });
 
     if (IS_PROD) {
-      config.optimization.delete("splitChunks");
+      // config.optimization.delete("splitChunks");
 
       // 打包分析
       config.plugin("webpack-report").use(BundleAnalyzerPlugin, [

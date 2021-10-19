@@ -13,7 +13,13 @@ packages/
 .eslintrc.js
 .prettierrc.js 
 .eslintignore
-.prettierignore  
-babel.config.json  
+.prettierignore
+babel.config.js
+vue.config.js 
+.travis.yml
+.env.* 
 
-lib/demo.html
+
+lib/*.html
+lib/*.gz
+reference.md

@@ -1,7 +1,9 @@
 import { compile } from "tiny-sass-compiler";
+// import { compiler } from "../less-compiler";
 const nonWhitespaceRE = /\S+/;
 
 export function genStyleInjectionCode(styles) {
+  let styleArray = [];
   let styleCodes = [];
   // 不支持 css link src为空，且 <style>标签内容不为空
   const isNotEmptyStyle = (style) =>
@@ -11,21 +13,27 @@ export function genStyleInjectionCode(styles) {
     if (isNotEmptyStyle(style)) {
       if (style.lang === "scss" || style.lang === "sass") {
         // scss compiler
-        // console.log("scss", style);
         const result = compile(style.content.trim());
         styleCodes.push(result.code);
+
+        style.css = result.code;
+        styleArray.push(style);
       } else if (style.lang === "less") {
         // less compiler
-        console.log("less", style);
+        // compiler.fromSource(style.content.trim()).then((res) => {
+        //   styleCodes.push(res.css.trim());
+        // });
       } else {
-        // console.log("css", style);
         styleCodes.push(style.content.trim());
+
+        style.css = style.content.trim();
+        styleArray.push(style);
       }
     } else {
       console.log("not support style import!!");
     }
   });
 
-  // console.log(styleCodes);
-  return styleCodes.join("\n");
+  // console.log("genStyles", styleCodes, styleCodes.join("\n"));
+  return { styles: styleArray, styleCode: styleCodes.join("\n") };
 }
