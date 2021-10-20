@@ -1,7 +1,7 @@
 <script>
 // https://stackoverflow.com/questions/36607932/unterminated-template-literal-syntax-error-when-literal-contains-script-tag
 /* eslint-disable no-useless-escape */
-const code_example = `<template>
+const code_example_1 = `<template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
     <h1>Welcome to Vue.js {{version}} !</h1> 
@@ -38,18 +38,7 @@ body .test{
   font: 100% $font-stack;
   color: $primary-color;
 }
-</style>
-<style lang='less' >
-// Variables
-@link-color:        #428bca; // sea blue
-@link-color-hover:  darken(@link-color, 10%);
-
-
-body .test1 {
-  color: yellow;
-  background: @link-color-hover;
-}
-</style>`;
+</style> `;
 
 const code_example_2 = `<template>
   <div id="app"> 
@@ -65,49 +54,55 @@ const code_example_2 = `<template>
       </a-button>
     </div> 
   </div>
-</template>
-<script>
-export default {
-    data() {
-      return {
-        version: '2.x'
-      };
-    },
-  };
-<\/script>
+</template> `;
 
-<style>
-#page-container {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-.logo {
-  width:66px;
-}
-</style> `;
+const code_example_3 = `
+<template>
+  <div>hi</div>
+</template>
+<style src="./test.css"></style>
+<style lang="stylus" scoped>
+  h1
+    color red
+  h2
+    color green
+</style>
+<style module>
+  h1 { font-weight: bold }
+</style>
+<style bool-attr val-attr="test"></style>
+<script>
+  export default {}
+<\/script>
+<div>
+  custom block
+</div>
+<div>
+  <style>nested should be ignored</style>
+</div>
+`;
 
 export default {
   name: "demo",
   data() {
     return {
       className: ["page-container"], // page className
-      code: code_example,
     };
   },
   mounted() {},
   methods: {},
 
   render() {
-    const { className, style, code } = this;
+    const { className, style } = this;
 
     return (
       <div class={className} style={style}>
         <h2>demo 1</h2>
-        <code-viewer source={code} show-code={false}></code-viewer>
+        <code-viewer source={code_example_1} show-code={false}></code-viewer>
         <h2>demo 2</h2>
         <code-viewer source={code_example_2} show-code={false}></code-viewer>
+        <h2>demo 3</h2>
+        <code-viewer source={code_example_3} show-code={false}></code-viewer>
       </div>
     );
   },

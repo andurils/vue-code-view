@@ -6,13 +6,15 @@
   - 动态配置=>全局配置 （主题切换、语言选择等编辑器功能开关选型）
 - `//Done`
 - 🦄 refactor: 组件代码重构，去除无效代码，保留基础功能。
-  - 🎨⚡️改善代码结构格式，提升性能. 
+  - 🎨⚡️ 改善代码结构格式，提升性能.
   - 🔥⚰️ 移除无用组件、依赖、代码等。
   - 🆕 新增 `button` 组件。
   - 🆕 新增单独 `iconfont` 图标字体集。
   - 🆕 新增展示透明背景切换功能。
-- 🐳 chore: 添加打包配置JS压缩功能。
-- 🔧 build: 发布可用NPM包 `vue-code-view@0.3.7`。
+  - 🆕 新增 `tooltip` 组件，操作按钮增加提示。
+- 🐳 chore: 添加打包配置 JS 压缩功能。
+- 🔧 build: 发布可用 NPM 包 `vue-code-view@0.3.7`。
+- ✨ feat: 新增代码校验功能，提供异常处理及界面展示提醒。
 
 ## 0.5.0
 
@@ -95,13 +97,13 @@
 - 🧪 test: 修改[测试用例]
 - 🔧 build: 构建项目
 - 🐳 chore: 添加
-- 🐎 ci: CI配置
+- 🐎 ci: CI 配置
 - 🎈 perf: 优化[性能]
-- 🚀 deploy:部署  
+- 🚀 deploy:部署
 - ⚰️ remove dead code
 
 #### 参考
 
-- <https://gitmoji.dev/>  
+- <https://gitmoji.dev/>
 - <https://www.webfx.com/tools/emoji-cheat-sheet/>
 - <https://github.com/liuchengxu/git-commit-emoji-cn>
