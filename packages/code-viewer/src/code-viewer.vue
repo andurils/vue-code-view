@@ -6,19 +6,9 @@ import { toggleClass } from "../utils/DOMhelper";
 import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
 import Tooltip from "./tooltip";
-import { isEmpty, extend } from "../utils/util";
+import { isEmpty, extend, generateId } from "../utils/util";
 // 字体图标
 import "../fonts/iconfont.css";
-
-// 动态组件 用于绑定组件选项对象
-var dynamicComponents = [
-  {
-    name: "Init",
-    component: {
-      template: "<div>Hello Vue.js!</div>",
-    },
-  },
-];
 
 export default {
   name: "CodeViewer",
@@ -41,8 +31,13 @@ export default {
   data() {
     return {
       code: ``,
+      codeViewerId: `code-viewer-${generateId()}`,
       className: ["vue-code-viewer", "vue-app"], // page className
-      currentComponent: dynamicComponents[0],
+      dynamicComponent: {
+        component: {
+          template: "<div>Hello Vue.js!</div>",
+        },
+      },
       hasError: false,
       errorMessage: null,
       showCodeEditor: this.showCode,
@@ -62,6 +57,7 @@ export default {
       // 传入初始值赋值  prop.source=>code
       this.handleCodeChange(this.source);
     },
+
     genComponent() {
       const { template, script, styles, customBlocks, errors } =
         this.sfcDescriptor;
@@ -111,10 +107,10 @@ export default {
         };
       }
 
-      this.currentComponent = {
-        name: "cv",
+      extend(this.dynamicComponent, {
+        name: this.codeViewerId,
         component: demoComponent,
-      };
+      });
     },
     // 组件代码编辑器展示
     handleShowCode() {
@@ -130,16 +126,16 @@ export default {
     },
 
     renderPreview() {
-      const dynamicComponent = this.currentComponent.component;
       const { hasError, errorMessage } = this;
-      // <Preview hasError={hasError} errorMessage={errorMessage} onError={this.handleError}>
       // <div>{this.initialExample ? this.initialExample : <div>Loading...</div>}</div>
       if (hasError) {
         return <pre class="code-view-error">{errorMessage}</pre>;
       }
+
+      const renderComponent = this.dynamicComponent.component;
       return (
         <div class="code-view">
-          <dynamicComponent></dynamicComponent>
+          <renderComponent></renderComponent>
         </div>
       );
     },

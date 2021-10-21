@@ -9,7 +9,12 @@
       <router-link to="/about">About</router-link> |
       <router-link to="/changelog">Changelog</router-link>
     </div>
-    <router-view :class="{ 'markdown-body': $route.path === '/changelog' }" />
+    <router-view
+      :class="{
+        'markdown-body':
+          $route.path === '/changelog' || $route.path === '/about',
+      }"
+    />
   </div>
 </template>
 

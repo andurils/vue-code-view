@@ -52,6 +52,15 @@ https://github.com/ant-design/ant-design/blob/master/README-zh_CN.md
 https://github.com/PanJiaChen/vue-element-admin/blob/master/README.zh-CN.md
 
 ### sfc-parser
+
 https://github.com/vuejs/vue/blob/dev/test/unit/modules/sfc/sfc-parser.spec.js
 https://github.com/vuejs/vue-loader/blob/master/lib/codegen/styleInjection.js
 https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js
+
+### Markdown
+
+https://cnpmjs.org/package/markdown-it-container
+https://www.cnblogs.com/lindongdong/p/9287303.html
+
+### 动态组件
+https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-keep-alive-with-dynamic-components?file=/index.html
