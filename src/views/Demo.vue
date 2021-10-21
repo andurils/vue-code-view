@@ -4,8 +4,8 @@
 const code_example_1 = `<template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
-    <h1>Welcome to Vue.js {{version}} !</h1> 
-    <div class="test" >scss test</div> 
+    <h1>Welcome to Vue.js {{version}} !</h1>
+    <div class="test" >scss test</div>
   </div>
 </template>
 <script>
@@ -41,7 +41,7 @@ body .test{
 </style> `;
 
 const code_example_2 = `<template>
-  <div id="app"> 
+  <div id="app">
     <div :style="{ background: 'rgb(190, 200, 200)', padding: '26px 16px 16px' }">
       <a-button type="primary" ghost>
         andtd Primary
@@ -52,7 +52,7 @@ const code_example_2 = `<template>
       <a-button type="link" ghost>
         andtd Link
       </a-button>
-    </div> 
+    </div>
   </div>
 </template> `;
 
@@ -98,11 +98,35 @@ export default {
     return (
       <div class={className} style={style}>
         <h2>demo 1</h2>
-        <code-viewer source={code_example_1} show-code={false}></code-viewer>
+        <code-viewer
+          source={code_example_1}
+          showCode={false}
+          errorHandler={(errorMsg) => {
+            this.$notify.error({
+              title: "Info",
+              message: errorMsg,
+            });
+          }}
+          renderToolbar={(CodeButton) => {
+            return (
+              <div>
+                {CodeButton}
+                <a-tooltip>
+                  <template slot="title">jsx renderToolbar</template>
+                  <a-button type="primary" shape="circle" icon="search" />
+                </a-tooltip>
+                <a-button type="primary" icon="download" />
+                <a-button type="primary" shape="circle" icon="download" />
+                <a-button type="primary" shape="round" icon="download" />
+                <a-button type="primary" shape="round" icon="download" />
+              </div>
+            );
+          }}
+        ></code-viewer>
         <h2>demo 2</h2>
-        <code-viewer source={code_example_2} show-code={false}></code-viewer>
+        <code-viewer source={code_example_2} showCode={false}></code-viewer>
         <h2>demo 3</h2>
-        <code-viewer source={code_example_3} show-code={false}></code-viewer>
+        <code-viewer source={code_example_3} showCode></code-viewer>
       </div>
     );
   },

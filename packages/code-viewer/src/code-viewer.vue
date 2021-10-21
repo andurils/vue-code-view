@@ -1,6 +1,7 @@
 <script>
 import CodeEditor from "./code-editor.vue";
 import MeButton from "./button.vue";
+import { debounce } from "throttle-debounce";
 import { toggleClass } from "../utils/DOMhelper";
 import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
@@ -30,6 +31,12 @@ export default {
     theme: { type: String, default: "dark" }, //light
     showCode: { type: Boolean, default: false },
     source: { type: String },
+    renderToolbar: { type: Function },
+    errorHandler: { type: Function },
+    debounceDelay: {
+      type: Number,
+      default: 300,
+    },
   },
   data() {
     return {
@@ -48,6 +55,10 @@ export default {
   methods: {
     // 初始化
     _initialize() {
+      this.debounceErrorHandler = debounce(
+        this.debounceDelay,
+        this.errorHandler
+      );
       // 传入初始值赋值  prop.source=>code
       this.handleCodeChange(this.source);
     },
@@ -168,13 +179,32 @@ export default {
     // eslint-disable-next-line no-unused-vars
     code(newSource, oldSource) {
       this.codeLint();
+      // 错误事件处理
+      this.hasError &&
+        this.errorHandler &&
+        this.debounceErrorHandler(this.errorMessage);
+
       if (!this.hasError) this.genComponent();
     },
   },
 
   render() {
     const { className, renderToolbar, theme } = this;
-
+    const showCodeButton = (
+      <Tooltip
+        class="item"
+        effect="dark"
+        content="Show the source"
+        placement="top"
+      >
+        <me-button
+          icon="code"
+          size="xs"
+          circle
+          onClick={this.handleShowCode}
+        ></me-button>
+      </Tooltip>
+    );
     return (
       <div class={className} ref="codeViewer">
         <div class="code-view-wrapper">
@@ -182,6 +212,8 @@ export default {
           {this.renderPreview()}
           {/* --------- toolbar   --------- */}
           <div class="code-view-toolbar">
+            {renderToolbar ? renderToolbar(showCodeButton) : showCodeButton}
+            {/*
             <Tooltip
               class="item"
               effect="dark"
@@ -208,12 +240,13 @@ export default {
                 onClick={this.handleChangeTransparent}
               ></me-button>
             </Tooltip>
+            */}
           </div>
           {/* --------- CodeEditor   --------- */}
           {this.showCodeEditor && (
             <CodeEditor
               lineNumbers
-              onChange={this.handleCodeChange}
+              codeHandler={this.handleCodeChange}
               theme={`base16-${theme}`}
               value={this.source}
             />
