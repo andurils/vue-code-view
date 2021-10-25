@@ -7,6 +7,7 @@ import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
 import Tooltip from "./tooltip";
 import { isEmpty, extend, generateId } from "../utils/util";
+import { addStylesClient } from "../utils/style-loader/addStylesClient";
 // 字体图标
 import "../fonts/iconfont.css";
 
@@ -31,7 +32,6 @@ export default {
   data() {
     return {
       code: ``,
-      codeViewerId: `code-viewer-${generateId()}`,
       className: ["vue-code-viewer", "vue-app"], // page className
       dynamicComponent: {
         component: {
@@ -44,16 +44,19 @@ export default {
       showCodeIcon: {},
     };
   },
+  created() {
+    this.viewId = `vcv-${generateId()}`; // vue-code-view => vcv
+    this.debounceErrorHandler = debounce(this.debounceDelay, this.errorHandler);
+
+    // this.update = debounce(this.debounceDelay, addStylesClient(this.viewId, {}));
+    this.stylesUpdateHandler = addStylesClient(this.viewId, {});
+  },
   mounted() {
     this._initialize();
   },
   methods: {
     // 初始化
     _initialize() {
-      this.debounceErrorHandler = debounce(
-        this.debounceDelay,
-        this.errorHandler
-      );
       // 传入初始值赋值  prop.source=>code
       this.handleCodeChange(this.source);
     },
@@ -66,7 +69,7 @@ export default {
 
       const templateCode = template ? template.content.trim() : ``;
       let scriptCode = script ? script.content.trim() : ``;
-      const { styleCode } = genStyleInjectionCode(styles);
+      const { styleCode, styleArray } = genStyleInjectionCode(styles);
 
       // 构建组件
       const demoComponent = {};
@@ -91,21 +94,22 @@ export default {
         `;
 
       // 组件 style
-      if (!isEmpty(styleCode)) {
-        // beforeMount  动态创建样式 style
-        // https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js
-        demoComponent.beforeMount = function () {
-          var hasDocument = typeof document !== "undefined";
-          var head =
-            hasDocument &&
-            (document.head || document.getElementsByTagName("head")[0]);
+      // https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js
+      this.stylesUpdateHandler(styleArray);
 
-          var styleElement = document.createElement("style");
-          styleElement.type = "text/css";
-          styleElement.innerHTML = `${styleCode} `;
-          head.appendChild(styleElement);
-        };
-      }
+      // if (!isEmpty(styleCode)) {
+      //   // beforeMount  动态创建样式 style
+      //   demoComponent.beforeMount = function () {
+      //     var hasDocument = typeof document !== "undefined";
+      //     var head =
+      //       hasDocument &&
+      //       (document.head || document.getElementsByTagName("head")[0]);
+      //     var styleElement = document.createElement("style");
+      //     styleElement.type = "text/css";
+      //     styleElement.innerHTML = `${styleCode} `;
+      //     head.appendChild(styleElement);
+      //   };
+      // }
 
       extend(this.dynamicComponent, {
         name: this.codeViewerId,
@@ -160,6 +164,13 @@ export default {
       // 代码为空 跳出检查
       if (this.isTemplateEmpty) return;
     },
+    defaultButtonRender(showCodeButton, showTransparentButton) {
+      return (
+        <div>
+          {showCodeButton} {showTransparentButton}
+        </div>
+      );
+    },
   },
   computed: {
     // SFC Descriptor Object
@@ -201,6 +212,21 @@ export default {
         ></me-button>
       </Tooltip>
     );
+    const showTransparentButton = (
+      <Tooltip
+        class="item"
+        effect="dark"
+        content="Transparent background"
+        placement="top"
+      >
+        <me-button
+          icon="transparent"
+          size="xs"
+          circle
+          onClick={this.handleChangeTransparent}
+        ></me-button>
+      </Tooltip>
+    );
     return (
       <div class={className} ref="codeViewer">
         <div class="code-view-wrapper">
@@ -208,35 +234,9 @@ export default {
           {this.renderPreview()}
           {/* --------- toolbar   --------- */}
           <div class="code-view-toolbar">
-            {renderToolbar ? renderToolbar(showCodeButton) : showCodeButton}
-            {/*
-            <Tooltip
-              class="item"
-              effect="dark"
-              content="Show the source"
-              placement="top"
-            >
-              <me-button
-                icon="code"
-                size="xs"
-                circle
-                onClick={this.handleShowCode}
-              ></me-button>
-            </Tooltip>
-            <Tooltip
-              class="item"
-              effect="dark"
-              content="Transparent background"
-              placement="top"
-            >
-              <me-button
-                icon="transparent"
-                size="xs"
-                circle
-                onClick={this.handleChangeTransparent}
-              ></me-button>
-            </Tooltip>
-            */}
+            {renderToolbar
+              ? renderToolbar(showCodeButton, showTransparentButton)
+              : this.defaultButtonRender(showCodeButton, showTransparentButton)}
           </div>
           {/* --------- CodeEditor   --------- */}
           {this.showCodeEditor && (
@@ -309,6 +309,7 @@ $primary-color: #3498ff;
 
 // CodeMirror
 .CodeMirror {
+  text-align: left;
   padding: 10px;
   // margin: 10px 0;
   height: auto !important;

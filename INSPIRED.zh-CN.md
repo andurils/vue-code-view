@@ -63,4 +63,10 @@ https://cnpmjs.org/package/markdown-it-container
 https://www.cnblogs.com/lindongdong/p/9287303.html
 
 ### 动态组件
+
 https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-keep-alive-with-dynamic-components?file=/index.html
+
+## repo 样式参考
+
+https://github.com/ant-design/ant-design/blob/master/README-zh_CN.md
+https://github.com/PanJiaChen/vue-element-admin/blob/master/README.zh-CN.md

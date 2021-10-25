@@ -35,5 +35,5 @@ export function genStyleInjectionCode(styles) {
     }
   });
 
-  return { styles: styleArray, styleCode: styleCodes.join("\n") };
+  return { styleArray, styleCode: styleCodes.join("\n") };
 }

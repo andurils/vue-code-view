@@ -107,7 +107,7 @@ export default {
               message: errorMsg,
             });
           }}
-          renderToolbar={(CodeButton) => {
+          renderToolbar={(CodeButton, transparentButton) => {
             return (
               <div>
                 {CodeButton}
@@ -117,12 +117,12 @@ export default {
                 </a-tooltip>
                 <a-button type="primary" icon="download" />
                 <a-button type="primary" shape="circle" icon="download" />
-                <a-button type="primary" shape="round" icon="download" />
-                <a-button type="primary" shape="round" icon="download" />
+                {transparentButton}
               </div>
             );
           }}
         ></code-viewer>
+        {/**/}
         <h2>demo 2</h2>
         <code-viewer source={code_example_2} showCode={false}></code-viewer>
         <h2>demo 3</h2>

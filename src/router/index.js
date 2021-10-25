@@ -29,7 +29,7 @@ const routes = [
     path: "/about",
     name: "About",
     component: (r) =>
-      require.ensure([], () => r(require("../docs/example.md"))),
+      require.ensure([], () => r(require("../docs/zh-CN/example.md"))),
   },
 ];
 
