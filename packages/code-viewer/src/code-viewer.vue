@@ -1,160 +1,248 @@
 <script>
 import CodeEditor from "./code-editor.vue";
 import MeButton from "./button.vue";
+import { debounce } from "throttle-debounce";
 import { toggleClass } from "../utils/DOMhelper";
 import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
-import { hashCode } from "../utils/util";
-import "../fonts/iconfont.css"; // 字体图标
-
-// 动态组件 用于绑定组件选项对象
-var tabs = [
-  {
-    name: "Home",
-    component: {
-      template: "<div>Home component</div>",
-    },
-  },
-];
+import Tooltip from "./tooltip";
+import { isEmpty, extend, generateId } from "../utils/util";
+import { addStylesClient } from "../utils/style-loader/addStylesClient";
+// 字体图标
+import "../fonts/iconfont.css";
 
 export default {
   name: "CodeViewer",
   components: {
     CodeEditor,
     MeButton,
+    Tooltip,
   },
   props: {
     theme: { type: String, default: "dark" }, //light
     showCode: { type: Boolean, default: false },
     source: { type: String },
+    renderToolbar: { type: Function },
+    errorHandler: { type: Function },
+    debounceDelay: {
+      type: Number,
+      default: 300,
+    },
   },
   data() {
     return {
+      code: ``,
       className: ["vue-code-viewer", "vue-app"], // page className
-      currentTab: tabs[0],
-      dyShow: true,
-
-      buttonClassName: "",
-      beforeHTML: "beforeHTML",
-      afterHTML: "afterHTML",
-      // code: code,
+      dynamicComponent: {
+        component: {
+          template: "<div>Hello Vue.js!</div>",
+        },
+      },
       hasError: false,
       errorMessage: null,
-
       showCodeEditor: this.showCode,
       showCodeIcon: {},
-      delay: 10000, // ms  用于节流函数参数
-      CID: "123456789",
     };
   },
-  mounted() {
-    this.handleCodeChange(this.source);
+  created() {
+    this.viewId = `vcv-${generateId()}`; // vue-code-view => vcv
+    this.debounceErrorHandler = debounce(this.debounceDelay, this.errorHandler);
+
+    // this.update = debounce(this.debounceDelay, addStylesClient(this.viewId, {}));
+    this.stylesUpdateHandler = addStylesClient(this.viewId, {});
   },
-  computed: {},
+  mounted() {
+    this._initialize();
+  },
   methods: {
-    handleShowCode() {
-      this.showCodeEditor = !this.showCodeEditor;
+    // 初始化
+    _initialize() {
+      // 传入初始值赋值  prop.source=>code
+      this.handleCodeChange(this.source);
     },
-    handleChangeTransparent() {
-      toggleClass(this.$refs.codeViewer, "vue-code-transparent");
-    },
-    handleCodeChange(val) {
-      console.log(parseComponent(val));
 
-      this.code = val;
-      this.dyShow = false;
-      // let componentId = hashCode(this.$dayjs().valueOf().toString());
+    genComponent() {
+      const { template, script, styles, customBlocks, errors } =
+        this.sfcDescriptor;
 
-      const demoComponentExport = {};
-      let scriptCode = ``;
-      let templateCode = ``;
-      // let styleCode = ``;
+      // console.log(this.sfcDescriptor);
 
-      // SFC 解析输出 SFC Descriptor Object
-      const sfcDescriptor = parseComponent(this.code);
-      templateCode = sfcDescriptor.template.content.trim();
-      scriptCode = sfcDescriptor.script.content.trim();
-      const { styleCode } = genStyleInjectionCode(sfcDescriptor.styles);
+      const templateCode = template ? template.content.trim() : ``;
+      let scriptCode = script ? script.content.trim() : ``;
+      const { styleCode, styleArray } = genStyleInjectionCode(styles);
 
       // 构建组件
-      // script内容
-      scriptCode = scriptCode.trim();
-      if (scriptCode) {
+      const demoComponent = {};
+
+      // 组件 script
+      if (!isEmpty(scriptCode)) {
+        const componentScript = {};
         scriptCode = scriptCode.replace(
           /export\s+default/,
-          "demoComponentExport ="
+          "componentScript ="
         );
+        eval(scriptCode);
+        extend(demoComponent, componentScript);
       }
-      // console.log(sfcDescriptor);
-      eval(scriptCode);
-      console.log(demoComponentExport);
+
+      // 组件 template
       // id="${componentId}"
-      demoComponentExport.template = `
-            <section class="vue-page-container"   >
+      demoComponent.template = `
+            <section class="component-wrapper" >
               ${templateCode}
             </section>
         `;
 
-      // beforeMount  动态创建样式style
+      // 组件 style
       // https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js
-      demoComponentExport.beforeMount = function () {
-        var hasDocument = typeof document !== "undefined";
-        var head =
-          hasDocument &&
-          (document.head || document.getElementsByTagName("head")[0]);
+      this.stylesUpdateHandler(styleArray);
 
-        var styleElement = document.createElement("style");
-        styleElement.type = "text/css";
-        styleElement.innerHTML = `${styleCode} `;
-        head.appendChild(styleElement);
-      };
+      // if (!isEmpty(styleCode)) {
+      //   // beforeMount  动态创建样式 style
+      //   demoComponent.beforeMount = function () {
+      //     var hasDocument = typeof document !== "undefined";
+      //     var head =
+      //       hasDocument &&
+      //       (document.head || document.getElementsByTagName("head")[0]);
+      //     var styleElement = document.createElement("style");
+      //     styleElement.type = "text/css";
+      //     styleElement.innerHTML = `${styleCode} `;
+      //     head.appendChild(styleElement);
+      //   };
+      // }
 
-      this.currentTab = {
-        name: "Home",
-        component: demoComponentExport,
-      };
+      extend(this.dynamicComponent, {
+        name: this.codeViewerId,
+        component: demoComponent,
+      });
+    },
+    // 组件代码编辑器展示
+    handleShowCode() {
+      this.showCodeEditor = !this.showCodeEditor;
+    },
+    // 组件演示背景透明切换
+    handleChangeTransparent() {
+      toggleClass(this.$refs.codeViewer, "vue-code-transparent");
+    },
+    // 更新 code 内容
+    handleCodeChange(val) {
+      this.code = val;
+    },
 
-      this.dyShow = true;
+    renderPreview() {
+      const { hasError, errorMessage } = this;
+      // <div>{this.initialExample ? this.initialExample : <div>Loading...</div>}</div>
+      if (hasError) {
+        return <pre class="code-view-error">{errorMessage}</pre>;
+      }
+
+      const renderComponent = this.dynamicComponent.component;
+      return (
+        <div class="code-view">
+          <renderComponent></renderComponent>
+        </div>
+      );
+    },
+    // 代码检查
+    codeLint() {
+      // 校验代码是否为空
+      this.hasError = this.isCodeEmpty;
+      this.errorMessage = this.isCodeEmpty ? "代码不能为空！" : null;
+      // 代码为空 跳出检查
+      if (this.isCodeEmpty) return;
+
+      // 校验代码是否存在<template>
+      const { template } = this.sfcDescriptor;
+      const templateCode =
+        template && template.content ? template.content.trim() : ``;
+      const isTemplateEmpty = isEmpty(templateCode);
+
+      this.hasError = isTemplateEmpty;
+      this.errorMessage = isTemplateEmpty
+        ? "代码格式错误，不存在 <template> ！"
+        : null;
+      // 代码为空 跳出检查
+      if (this.isTemplateEmpty) return;
+    },
+    defaultButtonRender(showCodeButton, showTransparentButton) {
+      return (
+        <div>
+          {showCodeButton} {showTransparentButton}
+        </div>
+      );
+    },
+  },
+  computed: {
+    // SFC Descriptor Object
+    sfcDescriptor: function () {
+      return parseComponent(this.code);
+    },
+    // 代码是否为空
+    isCodeEmpty: function () {
+      return !(this.code && !isEmpty(this.code.trim()));
+    },
+  },
+  watch: {
+    // eslint-disable-next-line no-unused-vars
+    code(newSource, oldSource) {
+      this.codeLint();
+      // 错误事件处理
+      this.hasError &&
+        this.errorHandler &&
+        this.debounceErrorHandler(this.errorMessage);
+
+      if (!this.hasError) this.genComponent();
     },
   },
 
   render() {
-    const {
-      className,
-      // showCodeIcon,
-      renderToolbar,
-      theme,
-    } = this;
-
-    const dynamicComponent = this.currentTab.component;
-
+    const { className, renderToolbar, theme } = this;
+    const showCodeButton = (
+      <Tooltip
+        class="item"
+        effect="dark"
+        content="Show the source"
+        placement="top"
+      >
+        <me-button
+          icon="code"
+          size="xs"
+          circle
+          onClick={this.handleShowCode}
+        ></me-button>
+      </Tooltip>
+    );
+    const showTransparentButton = (
+      <Tooltip
+        class="item"
+        effect="dark"
+        content="Transparent background"
+        placement="top"
+      >
+        <me-button
+          icon="transparent"
+          size="xs"
+          circle
+          onClick={this.handleChangeTransparent}
+        ></me-button>
+      </Tooltip>
+    );
     return (
       <div class={className} ref="codeViewer">
         <div class="code-view-wrapper">
-          {/* --------- renderExample this.renderExample()  --------- */}
-          <div class="code-view">
-            {this.dyShow && <dynamicComponent></dynamicComponent>}
-          </div>
+          {/* --------- renderExample  --------- */}
+          {this.renderPreview()}
           {/* --------- toolbar   --------- */}
           <div class="code-view-toolbar">
-            <me-button
-              icon="code"
-              size="xs"
-              circle
-              onClick={this.handleShowCode}
-            ></me-button>
-            <me-button
-              icon="transparent"
-              size="xs"
-              circle
-              onClick={this.handleChangeTransparent}
-            ></me-button>
+            {renderToolbar
+              ? renderToolbar(showCodeButton, showTransparentButton)
+              : this.defaultButtonRender(showCodeButton, showTransparentButton)}
           </div>
           {/* --------- CodeEditor   --------- */}
           {this.showCodeEditor && (
             <CodeEditor
               lineNumbers
-              onChange={this.handleCodeChange}
+              codeHandler={this.handleCodeChange}
               theme={`base16-${theme}`}
               value={this.source}
             />
@@ -189,6 +277,21 @@ $primary-color: #3498ff;
 
   .code-view {
     padding: 18px;
+    // &:after {
+    //   position: absolute;
+    //   top: 18px;
+    //   left: 18px;
+    //   font-size: 12px;
+    //   font-weight: 300;
+    //   color: #959595;
+    //   text-transform: uppercase;
+    //   letter-spacing: 1px;
+    // }
+  }
+  .code-view-error {
+    padding: 18px;
+    color: red;
+    max-height: 200px;
   }
 
   .code-view-toolbar {
@@ -206,6 +309,7 @@ $primary-color: #3498ff;
 
 // CodeMirror
 .CodeMirror {
+  text-align: left;
   padding: 10px;
   // margin: 10px 0;
   height: auto !important;

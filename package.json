@@ -13,7 +13,8 @@
     "clean": "rimraf node_modules"
   },
   "dependencies": {
-    "codemirror": "^5.62.2"
+    "codemirror": "^5.62.2",
+    "throttle-debounce": "^3.0.1"
   },
   "peerDependencies": {
     "vue": "^2.6.11"
@@ -36,6 +37,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "github-markdown-dracula-css": "^4.0.3",
     "less": "^4.1.2",
+    "markdown-it-container": "^3.0.0",
     "node-sass": "^4.12.0",
     "prettier": "^2.2.1",
     "sass-loader": "^8.0.2",

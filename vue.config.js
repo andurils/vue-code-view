@@ -1,4 +1,5 @@
 const path = require("path");
+
 const resolve = (dir) => path.join(__dirname, dir);
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
@@ -21,6 +22,8 @@ module.exports = {
   productionSourceMap: false,
   // eslint-disable-next-line no-unused-vars
   configureWebpack: (config) => {
+    config.resolveLoader.modules = ["node_modules", "./build/"]; // 自定义loader
+
     const plugins = [];
     // 生产环境相关配置
     if (IS_PROD) {
@@ -75,7 +78,7 @@ module.exports = {
       //   })
       // );
     }
-    // config.plugins = [...config.plugins, ...plugins];
+    config.plugins = [...config.plugins, ...plugins];
   },
   chainWebpack: (config) => {
     // 添加别名
@@ -100,10 +103,22 @@ module.exports = {
       .use("vue-loader")
       .loader("vue-loader")
       .end()
+      // 自定义loader
+      // .use("md-loader")
+      // .loader("md-loader")
+      // .end();
       .use("vue-markdown-loader")
       .loader("vue-markdown-loader/lib/markdown-compiler")
       .options({
+        wrapper: "article",
         raw: true,
+        preventExtract: true,
+        use: [
+          [require("markdown-it-container"), "tip"],
+          [require("markdown-it-container"), "warning"],
+          [require("markdown-it-container"), "danger"],
+          [require("markdown-it-container"), "details"],
+        ],
       });
 
     if (IS_PROD) {

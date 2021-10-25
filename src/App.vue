@@ -2,14 +2,22 @@
   <div id="app">
     <div class="page-header">
       <div class="page-title__main page-title--shadow">Vue Code View</div>
-      <div class="page-title__sub">Code editor for Vue</div>
+      <div class="page-title__sub">
+        🌈 A code editor component based on Vue.js 2, compile source code (SFC)
+        and render it in real time. 🖖
+      </div>
     </div>
     <div id="nav">
       <router-link to="/">Demo</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/changelog">Changelog</router-link>
     </div>
-    <router-view :class="{ 'markdown-body': $route.path === '/changelog' }" />
+    <router-view
+      :class="{
+        'markdown-body':
+          true || $route.path === '/changelog' || $route.path === '/about',
+      }"
+    />
   </div>
 </template>
 
@@ -48,7 +56,9 @@
   }
 }
 #nav {
-  padding: 30px;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 24px auto;
 
   a {
     font-weight: bold;

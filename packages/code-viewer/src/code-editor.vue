@@ -52,9 +52,10 @@ export default {
     readOnly: { type: Boolean },
     theme: { type: String },
     matchBrackets: { type: Boolean },
-    lineNumbers: { type: Boolean, default: true },
+    lineNumbers: { type: Boolean },
     lineWrapping: { type: Boolean },
     tabSize: { type: Number },
+    codeHandler: { type: Function },
   },
   data() {
     return {
@@ -110,8 +111,13 @@ export default {
       );
 
       this.codeEditor.setValue(this.value);
+
+      // this.codeEditor.on("change", (item) => {
+      //   this.$emit("change", item.getValue());
+      // });
+      // 使用 prop function 替换 onChange 事件
       this.codeEditor.on("change", (item) => {
-        this.$emit("change", item.getValue());
+        this.codeHandler(item.getValue());
       });
     },
   },

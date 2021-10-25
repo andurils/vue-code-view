@@ -36,18 +36,18 @@ var head =
 var isProduction = false;
 var noop = function () {};
 var options = null;
-var ssrIdKey = "data-vue-ssr-id";
+var ssrIdKey = "data-vcv-id";
 
 export function addStylesClient(parentId, list, _isProduction, _options) {
   isProduction = _isProduction;
 
-  options = _options || {};
+  options = _options || { ssrId: true };
 
   var styles = listToStyles(parentId, list);
-  console.log("addStylesClient", styles);
   addStylesToDom(styles);
 
   return function update(newList) {
+    // console.log(newList, styles);
     var mayRemove = [];
     for (var i = 0; i < styles.length; i++) {
       var item = styles[i];
@@ -67,6 +67,7 @@ export function addStylesClient(parentId, list, _isProduction, _options) {
       var domStyle = mayRemove[i];
       if (domStyle.refs === 0) {
         for (var j = 0; j < domStyle.parts.length; j++) {
+          // 调用 remove
           domStyle.parts[j]();
         }
         delete stylesInDom[domStyle.id];
@@ -83,12 +84,15 @@ function addStylesToDom(styles /* Array<StyleObject> */) {
     var domStyle = stylesInDom[item.id];
     if (domStyle) {
       domStyle.refs++;
+      // 内容发生变更 覆盖原有节点
       for (var j = 0; j < domStyle.parts.length; j++) {
         domStyle.parts[j](item.parts[j]);
       }
+      // 新增 Style 节点
       for (; j < item.parts.length; j++) {
         domStyle.parts.push(addStyle(item.parts[j]));
       }
+      // style 节点长度保持最新 丢弃多余内容
       if (domStyle.parts.length > item.parts.length) {
         domStyle.parts.length = item.parts.length;
       }
@@ -130,6 +134,7 @@ function addStyle(obj /* StyleObjectPart */) {
       styleElement.parentNode.removeChild(styleElement);
     }
   }
+
   // OldIE 暂不支持
   // use multi-style-tag mode in all other cases
   styleElement = createStyleElement();
@@ -142,15 +147,14 @@ function addStyle(obj /* StyleObjectPart */) {
 
   return function updateStyle(newObj /* StyleObjectPart */) {
     if (newObj) {
-      if (
-        newObj.css === obj.css
-        // newObj.media === obj.media &&
-        // newObj.sourceMap === obj.sourceMap
-      ) {
+      // CSS是否发生变化
+      if (newObj.css === obj.css) {
         return;
       }
+      // 变化更新内容
       update((obj = newObj));
     } else {
+      // 移除该节点
       remove();
     }
   };
@@ -158,35 +162,22 @@ function addStyle(obj /* StyleObjectPart */) {
 
 function applyToTag(styleElement, obj) {
   var css = obj.css;
-  // var media = obj.media;
-  var sourceMap = obj.sourceMap;
-
-  // if (media) {
-  //   styleElement.setAttribute("media", media);
-  // }
-
   if (options.ssrId) {
     styleElement.setAttribute(ssrIdKey, obj.id);
   }
-
-  if (sourceMap) {
-    // https://developer.chrome.com/devtools/docs/javascript-debugging
-    // this makes source maps inside style tags work properly in Chrome
-    css += "\n/*# sourceURL=" + sourceMap.sources[0] + " */";
-    // http://stackoverflow.com/a/26603875
-    css +=
-      "\n/*# sourceMappingURL=data:application/json;base64," +
-      btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) +
-      " */";
-  }
+  // var media = obj.media;
+  // var sourceMap = obj.sourceMap;
+  // if (media) {}
+  // if (sourceMap) {}
 
   // if (styleElement.styleSheet) {
   if (styleElement.type === "text/css") {
-    styleElement.styleSheet.cssText = css;
+    // styleElement.styleSheet.cssText = css;
+    styleElement.innerHTML = css;
   } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild);
-    }
-    styleElement.appendChild(document.createTextNode(css));
+    // while (styleElement.firstChild) {
+    //   styleElement.removeChild(styleElement.firstChild);
+    // }
+    // styleElement.appendChild(document.createTextNode(css));
   }
 }
