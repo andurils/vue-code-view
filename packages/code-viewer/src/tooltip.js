@@ -57,7 +57,7 @@ export default {
 
   data() {
     return {
-      tooltipId: `el-tooltip-${generateId()}`,
+      tooltipId: `me-tooltip-${generateId()}`,
       timeoutPending: null,
       focusing: false,
     };
@@ -93,7 +93,7 @@ export default {
             aria-hidden={this.disabled || !this.showPopper ? "true" : "false"}
             v-show={!this.disabled && this.showPopper}
             class={[
-              "el-tooltip__popper",
+              "me-tooltip__popper",
               "is-" + this.effect,
               this.popperClass,
             ]}
@@ -177,9 +177,9 @@ export default {
 
     addTooltipClass(prev) {
       if (!prev) {
-        return "el-tooltip";
+        return "me-tooltip";
       } else {
-        return "el-tooltip " + prev.replace("el-tooltip", "");
+        return "me-tooltip " + prev.replace("me-tooltip", "");
       }
     },
 

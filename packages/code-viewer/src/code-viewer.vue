@@ -69,7 +69,7 @@ export default {
 
       const templateCode = template ? template.content.trim() : ``;
       let scriptCode = script ? script.content.trim() : ``;
-      const { styleCode, styleArray } = genStyleInjectionCode(styles);
+      const styleCodes = genStyleInjectionCode(styles, this.viewId);
 
       // 构建组件
       const demoComponent = {};
@@ -87,32 +87,17 @@ export default {
 
       // 组件 template
       // id="${componentId}"
-      demoComponent.template = `
-            <section class="component-wrapper" >
-              ${templateCode}
-            </section>
-        `;
+      demoComponent.template = `<section id="${this.viewId}" class="result-box" >
+        ${templateCode}
+      </section>`;
 
       // 组件 style
       // https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js
-      this.stylesUpdateHandler(styleArray);
+      this.stylesUpdateHandler(styleCodes);
 
-      // if (!isEmpty(styleCode)) {
-      //   // beforeMount  动态创建样式 style
-      //   demoComponent.beforeMount = function () {
-      //     var hasDocument = typeof document !== "undefined";
-      //     var head =
-      //       hasDocument &&
-      //       (document.head || document.getElementsByTagName("head")[0]);
-      //     var styleElement = document.createElement("style");
-      //     styleElement.type = "text/css";
-      //     styleElement.innerHTML = `${styleCode} `;
-      //     head.appendChild(styleElement);
-      //   };
-      // }
-
+      // 组件内容更新
       extend(this.dynamicComponent, {
-        name: this.codeViewerId,
+        name: this.viewId,
         component: demoComponent,
       });
     },
@@ -138,7 +123,7 @@ export default {
 
       const renderComponent = this.dynamicComponent.component;
       return (
-        <div class="code-view">
+        <div class="code-view zoom-1">
           <renderComponent></renderComponent>
         </div>
       );
@@ -330,4 +315,54 @@ $primary-color: #3498ff;
   background-size: 20px 20px;
   background-position: 0px 0px, 10px 0px, 10px -10px, 0px 10px;
 }
+
+// codepen
+// https://v3.cn.vuejs.org/guide/introduction.html#%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BA%94%E7%94%A8%E6%9E%84%E5%BB%BA
+// #result-box iframe {
+//     width: 100%;
+//     height: 100%;
+//     border: none;
+//     background: var(--cp-color-1);
+//     overflow: auto;
+//     -webkit-overflow-scrolling: touch;
+//     -webkit-transform-origin: 0 0;
+//     transform-origin: 0 0
+// }
+
+// #result-box iframe::-webkit-scrollbar {
+//     width: .5em;
+//     height: .5em
+// }
+
+// #result-box iframe::-webkit-scrollbar-thumb {
+//     background: rgba(0,0,0,.5)
+// }
+
+// #result-box iframe::-webkit-scrollbar-track {
+//     background: 0 0
+// }
+
+// #result-box.zoom-1 iframe {
+//     width: 100%!important;
+//     height: 100%!important
+// }
+
+// #result-box.zoom-05 iframe {
+//     width: 200%!important;
+//     height: 200%!important;
+//     -webkit-transform: scale(.5);
+//     transform: scale(.5)
+// }
+
+// #result-box.zoom-025 iframe {
+//     width: 400%!important;
+//     height: 400%!important;
+//     -webkit-transform: scale(.25);
+//     transform: scale(.25)
+// }
+</style>
+
+<style lang="scss">
+// @import "../styles/tooltip.scss";
+//
 </style>

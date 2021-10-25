@@ -13,15 +13,16 @@
 
 `2021-10-21`
 
+- 💥✨ feat: 新增组件示例 `styles` 动态去添加、更新和移除事件，参考 [vue-style-loader/addStylesClient](https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js) 。
 - 💥✨ feat: 新增代码校验功能，提供异常处理,提供界面展示提醒、事件 API `errorHandler`。
 - 💥✨ feat: 新增组件工具栏自定义事件 API `renderToolbar`。
-- 💥✨ perf: 优化组件示例 `styles` 添加、更新和移除事件，参考 [vue-style-loader/addStylesClient](https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js) 。
+- ✨ feat: 新增组件示例基于 ID 实现样式隔离。
 - ✨ feat: 新增代码展示透明背景切换功能。
 - ✨ feat: 新增自定义组件`button` 、`tooltip`，参考`element 2`。
 - ✨ feat: 新增 `iconfont` 字体集。
 - 🦄 refactor: 组件代码重构 🎨⚡️，去除无效代码 ⚰️，保留基础功能。
 - 🐳 chore: 添加打包配置 JS 压缩功能。
-- 🔧 build: 发布可用 npm 包 [npm/vue-code-view@0.3.7](https://www.npmjs.com/package/vue-code-view)。
+- 🔧 build: 发布可用 npm 包 [npm/vue-code-view@0.3.8](https://www.npmjs.com/package/vue-code-view)。
 - 📃 docs: 新增组件示例说明文档。
 
 ## 0.4.0
