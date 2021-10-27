@@ -1,8 +1,3 @@
-const {
-  stripScript,
-  stripTemplate,
-  genInlineComponentText,
-} = require("./util");
 const md = require("./config");
 
 module.exports = function (source) {
@@ -26,16 +21,12 @@ module.exports = function (source) {
       commentStart + startTagLen,
       commentEnd
     ); // 获取注释内容
-
-    const html = stripTemplate(commentContent); // 获取template的html信息
-    const script = stripScript(commentContent); // 获取script信息
-    let demoComponentContent = genInlineComponentText(html, script); // 转成一个内联组件
     const demoComponentName = `element-demo${id}`; // 内联组件名称
-
-    output.push(`<template slot="source"><${demoComponentName} /></template>`); // 使用slot插槽 运行组件
+    output.push(`<code-viewer :source="${demoComponentName}"></code-viewer>`); // 使用slot插槽 运行组件
+    // output.push(`<template slot="source"><${demoComponentName} /></template>`); // 使用slot插槽 运行组件
     componenetsString += `${JSON.stringify(
       demoComponentName
-    )}: ${demoComponentContent},`; // 页面组件注册   组件名称:组件内容
+    )}: ${commentContent},`; // 页面组件注册   组件名称:组件内容
 
     // 重新计算下一次的位置
     id++;
@@ -52,7 +43,12 @@ module.exports = function (source) {
         name: 'component-doc',
         components: {
           ${componenetsString}
-        }
+        },
+        data() {
+          return {
+            ${componenetsString}
+          };
+        },
       }
     </script>`;
   } else if (content.indexOf("<script>") === 0) {
@@ -62,6 +58,9 @@ module.exports = function (source) {
   }
 
   output.push(content.slice(start));
+
+  console.log(pageScript);
+
   return `
     <template>
       <section class="content me-doc">

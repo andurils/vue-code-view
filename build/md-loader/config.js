@@ -2,7 +2,7 @@ const Config = require("markdown-it-chain");
 const anchorPlugin = require("markdown-it-anchor");
 const slugify = require("transliteration").slugify;
 const containers = require("./containers");
-const overWriteFenceRule = require("./fence");
+// const overWriteFenceRule = require("./fence");
 
 // 实例化配置对象
 const config = new Config();
@@ -34,6 +34,6 @@ config.options // markdown-it 选项配置
 // 使用上述配置创建一个 markdown-it 的实例
 const md = config.toMd();
 // 针对代码块（fence）覆盖默认渲染规则。当代码块在 demo 容器内要做一下特殊处理。
-overWriteFenceRule(md);
+// overWriteFenceRule(md);
 
 module.exports = md;
