@@ -9,7 +9,7 @@ English | [简体中文](./README.zh-CN.md)
 
 效果如下：
 
-![preview][preview-ol]
+![preview][preview-ol] [![Edit vue-code-view-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-code-view-example-3270e?fontsize=14&hidenavigation=1&theme=dark)
 
 ## Online Demo
 

@@ -11,7 +11,7 @@
 
 ## 0.4.1
 
-`2021-10-21`
+`2021-10-27`
 
 - 💥✨ feat: 新增组件示例 `styles` 动态去添加、更新和移除事件，参考 [vue-style-loader/addStylesClient](https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js) 。
 - 💥✨ feat: 新增代码校验功能，提供异常处理,提供界面展示提醒、事件 API `errorHandler`。

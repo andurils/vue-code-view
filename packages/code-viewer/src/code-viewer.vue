@@ -1,15 +1,16 @@
 <script>
 import CodeEditor from "./code-editor.vue";
+import Tooltip from "./tooltip";
 import MeButton from "./button.vue";
 import { debounce } from "throttle-debounce";
 import { toggleClass } from "../utils/DOMhelper";
 import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
-import Tooltip from "./tooltip";
 import { isEmpty, extend, generateId } from "../utils/util";
 import { addStylesClient } from "../utils/style-loader/addStylesClient";
 // 字体图标
 import "../fonts/iconfont.css";
+import "../styles/tooltip.css";
 
 export default {
   name: "CodeViewer",

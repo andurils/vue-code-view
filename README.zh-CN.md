@@ -9,7 +9,7 @@ Vue Code View
 
 效果如下：
 
-![preview][preview-ol]
+![preview][preview-ol] [![Edit vue-code-view-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-code-view-example-3270e?fontsize=14&hidenavigation=1&theme=dark)
 
 ## Online Demo
 
@@ -45,12 +45,12 @@ Detailed changes for each release are documented in the [release notes](./CHANGE
 
 ## Inspired
 
-[Links List](./inspired.zh-cn.md)
+[Links List](./INSPIRED.zh-CN.md)
 
 ## License
 
-[MIT](./license)
+[MIT](./LICENSE)
 
-Copyright (c) 2021-present Anduril
+Copyright (c) 2021-present Andurils
 
 [preview-ol]: https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/912bf867ef4c44d3a716e4bf723573ac~tplv-k3u1fbpfcp-watermark.image?

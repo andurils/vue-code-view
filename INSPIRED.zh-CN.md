@@ -9,10 +9,6 @@
 
 通过 · 命令使用 GUI 运行更多的特性脚本
 
-### css 配置
-
-<https://cli.vuejs.org/zh/guide/css.html#css-%E7%9B%B8%E5%85%B3>
-
 ### 动态组件
 
 https://cn.vuejs.org/v2/guide/components.html#动态组件
@@ -70,3 +66,13 @@ https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-
 
 https://github.com/ant-design/ant-design/blob/master/README-zh_CN.md
 https://github.com/PanJiaChen/vue-element-admin/blob/master/README.zh-CN.md
+
+### css 配置&预处理
+
+https://cli.vuejs.org/zh/guide/css.html#预处理器
+
+### sass
+
+https://www.sassmeister.com/
+https://github.com/wizardpisces/tiny-sass-compiler
+https://wizardpisces.github.io/sass
