@@ -3,9 +3,9 @@ import App from "@/App.vue";
 import router from "@/router";
 import store from "@/store";
 
-import CodeViewer from "@packages/code-viewer";
+import CodeViewer from "@src";
 // import CodeViewer from "vue-code-view";
-
+import demoBlock from "./components/demo-block";
 import Antd from "ant-design-vue";
 import ElementUI from "element-ui";
 
@@ -19,6 +19,7 @@ Vue.use(ElementUI);
 // 引入组件 antd vue 1.x
 Vue.use(Antd);
 Vue.use(CodeViewer);
+Vue.component("demo-block", demoBlock);
 
 new Vue({
   router,
