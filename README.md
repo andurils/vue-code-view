@@ -5,11 +5,17 @@ Vue Code View
 
 English | [简体中文](./README.zh-CN.md)
 
-一个可以实时编辑代码、预览效果的 `代码示例` 展示组件。
+ 一个基于 `vue 2.x`的轻量代码交互组件，在网页中实时编辑运行代码、预览效果的轻量展示组件。
+
+当我们阅读包含大量代码的文档时，当需要查看、调试代码运行效果，必须要打开IDE或者跳转至 `codepen` `codesandbox`等在线编辑器。虽然很多 `Markdown` 文档通过 `loader` 实现了示例代码的 `render` 展示，当需要调试代码时，还是需要重复上述步骤，体验不是太友好。那么能不能有这么一个组件能支持在页面中编辑代码，实时运行预览效果？
+
+> 起初没有找到，当看到了 [react-code-view](https://github.com/simonguo/react-code-view) 受到了启发，所以有了此组件，再次特别感谢！
+
+使用此组件,  `vue` 页面还是 `Markdown` 文档中的多示例代码，都可以实时编辑运行代码、预览效果。
 
 效果如下：
 
-![preview][preview-ol] [![Edit vue-code-view-example](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/vue-code-view-example-3270e?fontsize=14&hidenavigation=1&theme=dark)
+![preview][preview-ol]  
 
 ## Online Demo
 
@@ -17,40 +23,40 @@ English | [简体中文](./README.zh-CN.md)
 
 ## ✨ Features
 
-- 🌈 代码可以在线编辑，实时预览效果。
+- 💻 代码可以在线编辑，实时预览效果。
 - 🎨 支持代码高亮。
-- 📦 自动保存代码，支持历史回溯。
-- 📦 支持 `<style>` 解析渲染。
-- ⚙️ 更多特性解锁中。
+- 🌈 支持 `<style>` 解析渲染。
+- 📑 支持 `Markdown` 在线渲染。
 
-## 组件使用说明
-
-### 📦 安装 Installation
+## 🔧 安装
 
 ```bash
 npm i vue-code-view
+# or
+yarn add vue-code-view
 ```
 
-### 📦 配置
+## 🔨  配置
 
-使用包含运行时编译器的 Vue 构建版本。
-
-`vue cli`中 `vue.config.js`文件配置
+使用`vue cli`需要在`vue.config.js`文件进行配置，支持使用包含运行时编译器的 Vue 构建版本。
 
 ```javascript
 module.exports = {
   runtimeCompiler: true,
-};
+  // or
+  chainWebpack: (config) => { 
+    config.resolve.alias
+      .set("vue$", "vue/dist/vue.esm.js");
+  },
+}; 
 ```
 
-### 🔨 示例
-
-main.js
+入口文件 `main.js` 中引入组件及样式。
 
 ```javascript
 import Vue from "vue";
 import App from "./App.vue";
-import CodeView from "vue-code-view/lib/vue-code-viewer.common";
+import CodeView from "vue-code-view";
 
 import "vue-code-view/lib/vue-code-viewer.css";
 Vue.use(CodeView);
@@ -62,14 +68,17 @@ new Vue({
 }).$mount("#app");
 ```
 
-demo.vue
+## 💻 示例
 
-```javascript
-<script>
-const code_example = `<template>
+### 🎬 基础示例
+
+`Markdown` 中的代码可以运行，支持在线编辑并预览效果。支持代码高亮。 组件默认提供了代码切换按钮和背景透明切换按钮。
+
+```html
+<template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
-    <h1>Welcome to Vue.js {{version}} !</h1>
+    <h1>Welcome to Vue.js {{version}} !</h1> 
   </div>
 </template>
 <script>
@@ -80,29 +89,54 @@ export default {
       };
     },
   };
-<\/script>
+</script>
 
-<style>
-#page-container {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style> 
 .logo {
-  width:66px;
+  width:30px;
 }
-</style>
 
-<style lang='scss' >
-$font-stack:    Helvetica, sans-serif;
-$primary-color: red;
+h1{
+  color:red;
+}
+</style> 
+```
 
-body .test{
-  font: 100% $font-stack;
+### 🎬 `<style>` 支持
+
+组件支持样式 `<style>` 实时解析，预处理目前尽支持 `SASS` 。每个组件的样式彼此隔离。
+
+```html
+<template>
+  <div id="app"> 
+    <h1>Welcome to Vue.js !</h1> 
+    <div class="second">scss support!</div>
+  </div>
+</template> 
+<style>  
+h1{
+  color:blue;
+}
+</style> 
+<style lang='scss' > 
+$primary-color: #409EFF; 
+
+.second{ 
   color: $primary-color;
 }
-</style> `;
+</style>
+```
+  
+### 🎬 `JSX`使用方式
+
+```html
+<script>
+const code_example = `<template>
+  <div id="app">
+    <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
+    <h1>Welcome to Vue.js  !</h1>
+  </div>
+</template> `;
 
 export default {
   name: "demo",
@@ -119,7 +153,7 @@ export default {
 </script>
 ```
 
-### renderToolbar 自定义工具栏
+### 🎬  renderToolbar 自定义工具栏
 
 ```jsx
 render() {
@@ -145,7 +179,7 @@ render() {
 },
 ```
 
-### errorHandler 自定义错误处理函数
+### 🎬  errorHandler 自定义错误处理函数
 
 ```jsx
 render() {
@@ -166,7 +200,9 @@ render() {
 }
 ```
 
-### Attributes
+## API
+
+### 📃 Attributes
 
 | 参数          | 说明                         | 类型              | 默认值 | 版本 |
 | ------------- | ---------------------------- | ----------------- | ------ | ---- |
@@ -176,6 +212,18 @@ render() {
 | renderToolbar | 自定义工具栏展示             | function          | -      |      |
 | errorHandler  | 错误处理函数                 | function          | -      |      |
 | debounceDelay | 错误处理防抖延迟(ms)         | number            | 300    |      |
+
+### 📃 Slot
+
+| name | 说明 |
+| ---- | ---- |
+| 暂无 | 暂无 |
+
+### 📃 Events
+
+| 事件名称 | 说明 | 回调参数 |
+| -------- | ---- | -------- |
+| 暂无     | 暂无 | —        |
 
 ## Changelog
 

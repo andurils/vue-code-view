@@ -11,8 +11,6 @@ const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 // 代码压缩
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-// 引入压缩插件  cnpm i terser-webpack-plugin@4.2.3 --save-dev
-// const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   // runtimeCompiler: true, // 是否使用包含运行时编译器的 Vue 构建版本
@@ -29,7 +27,7 @@ module.exports = {
     const plugins = [];
 
     // 生产环境相关配置
-    if (IS_PROD) {
+    if (IS_PROD && process.env.VUE_APP_ENV === "pub") {
       plugins.push(
         new CompressionWebpackPlugin({
           filename: "[path][base].gz",
@@ -59,25 +57,6 @@ module.exports = {
           parallel: true, //使用多进程并行运行来提高构建速度。默认并发运行数：os.cpus().length - 1。
         })
       );
-
-      // plugins.push(
-      //   new TerserPlugin({
-      //     cache: true,
-      //     sourceMap: false,
-      //     // 多进程
-      //     parallel: true,
-      //     terserOptions: {
-      //       ecma: undefined,
-      //       warnings: false,
-      //       parse: {},
-      //       compress: {
-      //         drop_console: true,
-      //         drop_debugger: false,
-      //         pure_funcs: ["console.log"], // 移除console
-      //       },
-      //     },
-      //   })
-      // );
     }
     config.plugins = [...config.plugins, ...plugins];
   },
@@ -109,7 +88,7 @@ module.exports = {
       .loader("md-loader")
       .end();
 
-    if (IS_PROD) {
+    if (IS_PROD && process.env.VUE_APP_ENV === "pub") {
       // config.optimization.delete("splitChunks");
 
       // 打包分析

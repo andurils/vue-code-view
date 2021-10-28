@@ -15,7 +15,7 @@
     <router-view
       :class="[
         {
-          'markdown-body': $route.path === '/changelog' || $route.path === '/',
+          'markdown-body': $route.path === '/changelog',
         },
         {
           'page-container ': $route.path === '/md',

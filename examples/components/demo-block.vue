@@ -17,6 +17,7 @@
   border: solid 1px #ebebeb;
   border-radius: 3px;
   transition: 0.2s;
+  margin: 24px 0;
 
   .source {
     padding: 0 24px;
