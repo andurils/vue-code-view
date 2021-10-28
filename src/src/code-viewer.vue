@@ -58,6 +58,10 @@ export default {
   methods: {
     // 初始化
     _initialize() {
+      // md-loader 用于静态示例展示处理  模板字符串 嵌套 模板字符串 情况特殊处理，
+      if (!isEmpty(this.source)) {
+        this.source = this.source.replace(/<--backticks-->/g, "\u0060");
+      }
       // 传入初始值赋值  prop.source=>code
       this.handleCodeChange(this.source);
     },
@@ -123,6 +127,7 @@ export default {
       }
 
       const renderComponent = this.dynamicComponent.component;
+
       return (
         <div class="code-view zoom-1">
           <renderComponent></renderComponent>

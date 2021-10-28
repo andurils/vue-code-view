@@ -10,7 +10,7 @@
     <div id="nav">
       <router-link to="/">Demo</router-link> |
       <router-link to="/about">About</router-link> |
-      <!-- <router-link to="/changelog">Changelog</router-link> -->
+      <router-link to="/changelog">Changelog</router-link>
     </div>
     <router-view
       :class="{

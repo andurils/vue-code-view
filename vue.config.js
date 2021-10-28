@@ -1,5 +1,4 @@
 const path = require("path");
-const markdownRender = require("markdown-it")();
 
 const resolve = (dir) => path.join(__dirname, dir);
 const BundleAnalyzerPlugin =
@@ -109,19 +108,6 @@ module.exports = {
       .use("md-loader")
       .loader("md-loader")
       .end();
-    // .use("vue-markdown-loader")
-    // .loader("vue-markdown-loader/lib/markdown-compiler")
-    // .options({
-    //   wrapper: "article",
-    //   raw: true,
-    //   preventExtract: true,
-    //   use: [
-    //     [require("markdown-it-container"), "tip"],
-    //     [require("markdown-it-container"), "warning"],
-    //     [require("markdown-it-container"), "danger"],
-    //     [require("markdown-it-container"), "details"],
-    //   ],
-    // });
 
     if (IS_PROD) {
       // config.optimization.delete("splitChunks");
