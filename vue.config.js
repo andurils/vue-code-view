@@ -18,7 +18,7 @@ module.exports = {
   // runtimeCompiler: true, // 是否使用包含运行时编译器的 Vue 构建版本
   publicPath: process.env.VUE_APP_PUBLIC_PATH || "/",
   productionSourceMap: false,
-  // outputDir: process.env.VUE_APP_ENV === "deploy" ? "deploy" : "dist", //配置这个地方
+  outputDir: process.env.VUE_APP_ENV === "deploy" ? "deploy" : "dist", //配置这个地方
   configureWebpack: (config) => {
     config.entry.app =
       process.env.VUE_APP_ENV === "play"

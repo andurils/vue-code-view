@@ -8,15 +8,19 @@
       </div>
     </div>
     <div id="nav">
-      <router-link to="/">Demo</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/changelog">Changelog</router-link>
+      <router-link to="/">演示示例</router-link> |
+      <router-link to="/md">说明文档</router-link> |
+      <router-link to="/changelog">更新日志</router-link>
     </div>
     <router-view
-      :class="{
-        'markdown-body':
-          true || $route.path === '/changelog' || $route.path === '/about',
-      }"
+      :class="[
+        {
+          'markdown-body': $route.path === '/changelog' || $route.path === '/',
+        },
+        {
+          'page-container ': $route.path === '/md',
+        },
+      ]"
     />
   </div>
 </template>

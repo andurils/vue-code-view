@@ -58,8 +58,6 @@ module.exports = function (source) {
 
   output.push(content.slice(start));
 
-  console.log(pageScript);
-
   return `
     <template>
       <section class="content me-doc">

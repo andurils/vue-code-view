@@ -1,4 +1,93 @@
-## 组件说明文档
+# 组件说明文档
+
+## 🔧 安装
+
+```bash
+npm i vue-code-view
+# or
+yarn add vue-code-view
+```
+
+## 🔨  配置
+
+使用包含运行时编译器的 Vue 构建版本。
+
+`vue cli`中 `vue.config.js`文件配置
+
+```javascript
+module.exports = {
+  runtimeCompiler: true,
+  // or
+  chainWebpack: (config) => { 
+    config.resolve.alias
+      .set("vue$", "vue/dist/vue.esm.js");
+  },
+}; 
+```
+
+main.js
+
+```javascript
+import Vue from "vue";
+import App from "./App.vue";
+import CodeView from "vue-code-view";
+
+import "vue-code-view/lib/vue-code-viewer.css";
+Vue.use(CodeView);
+
+new Vue({
+  router,
+  store,
+  render: (h) => h(App),
+}).$mount("#app");
+```
+
+## 💻 示例
+
+::: demo `基础示例`.
+
+```html
+<template>
+  <div id="app">
+    <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
+    <h1>Welcome to Vue.js {{version}} !</h1>
+    <div class="test" >scss test</div>
+  </div>
+</template>
+<script>
+export default {
+    data() {
+      return {
+        version: '2.x'
+      };
+    },
+  };
+</script>
+
+<style>
+#page-container {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+.logo {
+  width:66px;
+}
+</style>
+
+<style lang='scss' >
+$font-stack:    Helvetica, sans-serif;
+$primary-color: red;
+
+.test{
+  font: 100% $font-stack;
+  color: $primary-color;
+}
+</style>  
+```
+
+:::
 
 ::: demo `MD`文档中组件嵌套示例，示例代码中引用组件.
 
@@ -59,46 +148,9 @@ $primary-color: red;
 
 :::
 
-### 📦 安装 Installation
+`JSX`使用方式.
 
-```bash
-npm i vue-code-view
-```
-
-### 📦 配置
-
-使用包含运行时编译器的 Vue 构建版本。
-
-`vue cli`中 `vue.config.js`文件配置
-
-```javascript
-module.exports = {
-  runtimeCompiler: true,
-};
-```
-
-### 🔨 示例
-
-main.js
-
-```javascript
-import Vue from "vue";
-import App from "./App.vue";
-import CodeView from "vue-code-view/lib/vue-code-viewer.common";
-
-import "vue-code-view/lib/vue-code-viewer.css";
-Vue.use(CodeView);
-
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount("#app");
-```
-
-demo.vue
-
-```javascript
+```html
 <script>
 const code_example = `<template>
   <div id="app">
@@ -152,6 +204,15 @@ export default {
 };
 </script>
 ```
+
+## codesandbox 在线示例
+
+<iframe src="https://codesandbox.io/embed/vue-code-view-example-3270e?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="vue-code-view-example"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+   ></iframe>
 
 ### renderToolbar 自定义工具栏
 

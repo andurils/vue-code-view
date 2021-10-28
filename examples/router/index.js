@@ -26,8 +26,8 @@ const routes = [
       require.ensure([], () => r(require("../../CHANGELOG.zh-CN.md"))),
   },
   {
-    path: "/about",
-    name: "About",
+    path: "/md",
+    name: "Markdown",
     component: (r) =>
       require.ensure([], () => r(require("../docs/zh-CN/example.md"))),
   },

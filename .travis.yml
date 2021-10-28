@@ -4,14 +4,14 @@ node_js: 14
 install:
   - yarn 
 
-script: npm run build
+script: npm run deploy:build
 after_script: 
   - mkdir temp_web 
   - cd temp_web
   - git clone --depth 1 -b gh-pages --single-branch https://${TravisCI_Token}@${GH_REF} && cd vue-code-view 
   - echo 'copy && commit' 
   - rm -rf js fonts
-  - cp -rf ../../dist/** .
+  - cp -rf ../../deploy/** .
   - git config user.name "${U_NAME}"
   - git config user.email "${U_EMAIL}"
   - git add -A .
