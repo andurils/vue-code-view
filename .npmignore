@@ -1,26 +1,21 @@
 # 忽略目录
-dist/
-Inspired/
+.vscode/
+examples/
 node_modules/
 public/
+build/
 src/
-packages/
+dist/
+deploy/
 
 
 
 # 忽略指定文件 
-.browserslistrc
-.eslintrc.js
-.prettierrc.js 
-.eslintignore
-.prettierignore
-babel.config.js
-vue.config.js 
-.travis.yml
+.browserslistrc 
+.eslintignore 
+.prettierignore 
 .env
-.env.* 
-
-
-lib/*.html
-lib/*.gz
-reference.md
+.env.*
+*.js
+*.md
+*.yml

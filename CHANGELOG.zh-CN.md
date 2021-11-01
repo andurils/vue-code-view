@@ -2,15 +2,16 @@
 
 ## Dev
 
-- `//TODO`
-  - 国际化
+- `//TODO` 
   - 编辑器功能（主题切换、语言选择等）
   - CSS 预处理支持
 
 - `//DONE`
   - 💥✨ feat:让 Markdown 中的代码可以运行，并预览效果。解析器参考 `element` 的 `md-loder`。
+  - ✨ feat:新增国际化功能，实现参考`element`。
   - 🏗️ 调整 `vue-cli` 默认项目文件结构，调整 `webpack` 配置。
   - 📃 docs: 更新组件说明文档，文档支持组件实时交互。
+
 
 ---
 

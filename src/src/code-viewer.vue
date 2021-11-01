@@ -8,12 +8,14 @@ import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
 import { isEmpty, extend, generateId } from "../utils/util";
 import { addStylesClient } from "../utils/style-loader/addStylesClient";
+import Locale from "../mixins/locale";
 // 字体图标
 import "../fonts/iconfont.css";
 import "../styles/tooltip.css";
 
 export default {
   name: "CodeViewer",
+  mixins: [Locale],
   components: {
     CodeEditor,
     MeButton,
@@ -138,7 +140,9 @@ export default {
     codeLint() {
       // 校验代码是否为空
       this.hasError = this.isCodeEmpty;
-      this.errorMessage = this.isCodeEmpty ? "代码不能为空！" : null;
+      this.errorMessage = this.isCodeEmpty
+        ? this.t("el.error.emptyCode")
+        : null;
       // 代码为空 跳出检查
       if (this.isCodeEmpty) return;
 
@@ -150,7 +154,7 @@ export default {
 
       this.hasError = isTemplateEmpty;
       this.errorMessage = isTemplateEmpty
-        ? "代码格式错误，不存在 <template> ！"
+        ? this.t("el.error.noTemplate")
         : null;
       // 代码为空 跳出检查
       if (this.isTemplateEmpty) return;
@@ -176,6 +180,7 @@ export default {
   watch: {
     // eslint-disable-next-line no-unused-vars
     code(newSource, oldSource) {
+      console.log("code  watch");
       this.codeLint();
       // 错误事件处理
       this.hasError &&
@@ -187,12 +192,14 @@ export default {
   },
 
   render() {
+    // console.log(this.t("el.codebutton.text"));
+    // console.log(this.t("el.transparentbutton.text"));
     const { className, renderToolbar, theme } = this;
     const showCodeButton = (
       <Tooltip
         class="item"
         effect="dark"
-        content="Show the source"
+        content={this.t("el.codebutton.text")}
         placement="top"
       >
         <me-button
@@ -207,7 +214,7 @@ export default {
       <Tooltip
         class="item"
         effect="dark"
-        content="Transparent background"
+        content={this.t("el.transparentbutton.text")}
         placement="top"
       >
         <me-button
@@ -235,7 +242,7 @@ export default {
               lineNumbers
               codeHandler={this.handleCodeChange}
               theme={`base16-${theme}`}
-              value={this.source}
+              value={this.code}
             />
           )}
         </div>

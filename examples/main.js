@@ -4,6 +4,7 @@ import router from "@/router";
 import store from "@/store";
 
 import CodeViewer from "@src";
+import locale from "@src/locale/lang/en";
 // import CodeViewer from "vue-code-view";
 import demoBlock from "./components/demo-block";
 import Antd from "ant-design-vue";
@@ -18,11 +19,14 @@ import "github-markdown-dracula-css/github-markdown.css";
 import "@assets/styles/common.scss";
 
 Vue.config.productionTip = false;
+
+Vue.use(CodeViewer, { locale }); // 国际化配置
+
 // 引入组件 element 2.x
 Vue.use(ElementUI);
 // 引入组件 antd vue 1.x
 Vue.use(Antd);
-Vue.use(CodeViewer);
+
 Vue.component("demo-block", demoBlock);
 
 router.afterEach((route) => {
