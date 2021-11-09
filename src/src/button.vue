@@ -9,7 +9,7 @@
       },
     ]"
   >
-    <i :class="['iconfont', 'me-icon-' + icon]"></i> 
+    <i :class="['iconfont', 'me-icon-' + icon]"></i>
     <span v-if="$slots.default"><slot></slot></span>
   </button>
 </template>

@@ -2,21 +2,33 @@ import Vue from "vue";
 import App from "@/App.vue";
 import router from "@/router";
 import store from "@/store";
-
+// 组件引入
 import CodeViewer from "@src";
+// 国际化语言
 import locale from "@src/locale/lang/en";
-// import CodeViewer from "vue-code-view";
-import demoBlock from "./components/demo-block";
+
+// UI组件库引入
 import Antd from "ant-design-vue";
 import ElementUI from "element-ui";
 // 语法高亮
 import hljs from "highlight.js";
-import "highlight.js/styles/a11y-dark.css";
 
+// 网站页面 模板页面组件
+import MainFooter from "./components/footer";
+import MainHeader from "./components/header";
+// import SideNav from "./components/side-nav";
+// import FooterNav from "./components/footer-nav";
+import demoBlock from "./components/demo-block";
+
+// UI组件库样式引入
 import "ant-design-vue/dist/antd.css";
 import "element-ui/lib/theme-chalk/index.css";
+// Markdown样式
 import "github-markdown-dracula-css/github-markdown.css";
+// 公共样式
 import "@assets/styles/common.scss";
+// highlight主题
+import "highlight.js/styles/a11y-dark.css";
 
 Vue.config.productionTip = false;
 
@@ -28,6 +40,10 @@ Vue.use(ElementUI);
 Vue.use(Antd);
 
 Vue.component("demo-block", demoBlock);
+Vue.component("main-footer", MainFooter);
+Vue.component("main-header", MainHeader);
+// Vue.component("side-nav", SideNav);
+// Vue.component("footer-nav", FooterNav);
 
 router.afterEach((route) => {
   Vue.nextTick(() => {

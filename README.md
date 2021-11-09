@@ -225,6 +225,11 @@ render() {
 | -------- | ---- | -------- |
 | 暂无     | 暂无 | —        |
 
+## 环境
+
+`Nodejs`  14.18.X LTS 
+
+`node-sass`  4.14+
 ## Changelog
 
 Detailed changes for each release are documented in the [release notes](./CHANGELOG.zh-CN.md).

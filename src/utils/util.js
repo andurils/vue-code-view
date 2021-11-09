@@ -120,3 +120,10 @@ export function extend(to, _from) {
   }
   return to;
 }
+
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+
+// 用来判断一个属性是定义在对象本身而不是继承自原型链
+export function hasOwn(obj, key) {
+  return hasOwnProperty.call(obj, key);
+}

@@ -34,6 +34,7 @@ export default {
   },
   data() {
     return {
+      id: this._uid,
       code: ``,
       className: ["vue-code-viewer", "vue-app"], // page className
       dynamicComponent: {

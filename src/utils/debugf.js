@@ -73,26 +73,26 @@ function _logReport({
   pageLevel = "p0"; //getPageLevel();
 
   //此处http请求使用的是vue-resource，可以根据各自的情况进行调整
-  Vue.http.post(logReportUrl, {
-    entryName,
-    scriptVersion,
-    message,
-    metaData,
-    name,
-    releaseStage,
-    severity,
-    stacktrace,
-    time,
-    title,
-    type,
-    url,
-    client,
-    lineNumber,
-    columnNumber,
-    fileName,
-    pageLevel, //页面等级
-  });
-}
+//   Vue.http.post(logReportUrl, {
+//     entryName,
+//     scriptVersion,
+//     message,
+//     metaData,
+//     name,
+//     releaseStage,
+//     severity,
+//     stacktrace,
+//     time,
+//     title,
+//     type,
+//     url,
+//     client,
+//     lineNumber,
+//     columnNumber,
+//     fileName,
+//     pageLevel, //页面等级
+//   });
+// }
 
 export default function (Vue, option = {}) {
   debugConfig = Object.assign(debugConfig, { Vue, ...option });
