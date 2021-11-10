@@ -1,0 +1,26 @@
+{
+  "zh-CN": [
+    {
+      "name": "更新日志",
+      "path": "/changelog"
+    },
+    {
+      "name": "Github Repo",
+      "href": "https://github.com/andurils/vue-code-view/"
+    },
+    {
+      "name": "组件",
+      "groups": [
+        {
+          "groupName": "Basic",
+          "list": [
+            {
+              "path": "/example",
+              "title": "组件说明"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

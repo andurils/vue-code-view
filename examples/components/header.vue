@@ -1,242 +1,241 @@
-<template>
-  <div class="headerWrapper">
-    <header class="header" ref="header">
-      <div class="container">
-        <h1>
-          <router-link :to="`/`">
-            <!-- logo -->
-            <slot>
-              <img
-                src="../assets/images/element-logo.svg"
-                alt="element-logo"
-                class="nav-logo"
-              />
-              <img
-                src="../assets/images/element-logo-small.svg"
-                alt="element-logo"
-                class="nav-logo-small"
-              />
-            </slot>
-          </router-link>
-        </h1>
-
-        <!-- nav -->
-        <ul class="nav">
-          <li class="nav-item nav-item-theme">
-            <router-link active-class="active" :to="`/demo`"
-              >示例说明
-            </router-link>
-          </li>
-          <li class="nav-item nav-item-theme">
-            <router-link active-class="active" :to="`/md`"
-              >组件说明
-            </router-link>
-          </li>
-
-          <li class="nav-item nav-item-theme">
-            <router-link active-class="active" :to="`/changelog`"
-              >更新日志
-            </router-link>
-          </li>
-
-          <li class="nav-item nav-item-theme">
-            <a
-              href="https://github.com/andurils/vue-code-view"
-              class="nav-git-logo"
-              target="_blank"
-              ><a-icon type="github"
-            /></a>
-          </li>
-        </ul>
-      </div>
-    </header>
-  </div>
-</template>
 <script>
+import Logo from "@assets/images/element-logo.svg";
+// import LogoSmall from "@assets/images/element-logo-small.svg";
 export default {
+  name: "MainHeader",
+  props: {
+    isHome: { type: Boolean, default: false },
+  },
   data() {
     return {
-      active: "",
-      verDropdownVisible: true,
-      langDropdownVisible: true,
+      classNames: ["demo-container"], // page className
     };
-  },
-
-  components: {},
-
-  computed: {
-    isComponentPage() {
-      return /^component/.test(this.$route.name);
-    },
-    isHome() {
-      return /^home/.test(this.$route.name);
-    },
   },
   mounted() {},
   methods: {},
 
-  created() {},
+  render() {
+    const { isHome } = this;
+
+    return (
+      <header id="header" class={["clearfix", isHome ? "home-header" : ""]}>
+        {/*responsive menu*/}
+        <a-popover placement="bottomRight">
+          <template slot="content">
+            <p>Content</p>
+            <p>Content</p>
+          </template>
+          <a-icon type="unordered-list" class="nav-phone-icon" />
+        </a-popover>
+
+        {/*nav*/}
+        <a-row>
+          {/*left logo*/}
+          <a-col xs={24} sm={24} md={8} lg={6} xl={5} xxl={4}>
+            <h1>
+              <router-link to={"/"} id="logo">
+                <slot>
+                  <img src={Logo} alt="vue-code-view" class="nav-logo" />
+                </slot>
+              </router-link>
+            </h1>
+          </a-col>
+          {/*right  menu*/}
+          <a-col
+            xs={0}
+            sm={0}
+            md={16}
+            lg={18}
+            xl={19}
+            xxl={20}
+            class="menu-row"
+          >
+            <a-menu id="nav" mode="horizontal">
+              <a-menu-item key="demo">
+                <router-link active-class="active" to={`/demo`}>
+                  示例
+                </router-link>
+              </a-menu-item>
+              <a-menu-item key="component">
+                <router-link active-class="active" to={`/component`}>
+                  组件
+                </router-link>
+              </a-menu-item>
+              <a-menu-item key="changelog">
+                <router-link active-class="active" to={`/changelog`}>
+                  changelog
+                </router-link>
+              </a-menu-item>
+            </a-menu>
+            {/*menu-item-github*/}
+            <a
+              href="https://github.com/andurils/vue-code-view"
+              class="nav-git-logo"
+              target="_blank"
+            >
+              <a-icon type="github" />
+            </a>
+          </a-col>
+        </a-row>
+      </header>
+    );
+  },
 };
 </script>
+
 <style lang="scss" scoped>
-.header {
-  min-width: 64px;
-  height: 64px;
-  line-height: 64px;
+$header-height: 64px;
+$menu-item-border: 2px;
+$mobile-max-width: 767.99px;
 
-  // height: 80px;
-  background-color: #fff;
-  color: #fff;
-  top: 0;
-  left: 0;
-  width: 100%;
-  // line-height: 80px;
-  z-index: 100;
+#header {
   position: relative;
+  z-index: 10;
+  max-width: 100%;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(240, 241, 242, 65);
 
-  box-shadow: 0 2px 8px #f0f1f2;
+  // ===================== Home Page =====================
+  &.home-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    max-width: 1280px;
+    margin-right: auto;
+    margin-left: auto;
+    background: transparent;
+    box-shadow: none;
 
-  .container {
-    height: 100%;
-    box-sizing: border-box;
-    width: 1140px;
+    #logo {
+      padding-right: 16px;
+      padding-left: 40px;
+    }
+
+    .ant-menu {
+      background: transparent;
+    }
   }
 
   h1 {
     margin: 0;
-    float: left;
-    font-size: 32px;
     font-weight: normal;
-
-    a {
-      color: #333;
-      text-decoration: none;
-      display: block;
-    }
-
-    span {
-      font-size: 12px;
-      display: inline-block;
-      width: 34px;
-      height: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      text-align: center;
-      line-height: 18px;
-      vertical-align: middle;
-      margin-left: 10px;
-      border-radius: 3px;
-    }
   }
 
-  .nav {
-    float: right;
-    height: 100%;
-    background: transparent;
-    padding: 0;
+  .menu-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     margin: 0;
-    &::before,
-    &::after {
-      display: table;
-      content: "";
+
+    > * {
+      flex: none;
+      margin: 0 12px 0 0;
+
+      &:last-child {
+        margin-left: 12px;
+        margin-right: 40px;
+      }
     }
-    &::after {
-      clear: both;
-    }
-  }
 
-  .nav-logo,
-  .nav-logo-small {
-    vertical-align: sub;
-  }
-
-  .nav-logo-small {
-    display: none;
-  }
-
-  .nav-item {
-    margin: 0;
-    float: left;
-    list-style: none;
-    position: relative;
-    cursor: pointer;
-
-    a {
-      text-decoration: none;
-      color: #000000d9;
-      display: block;
-      padding: 0 22px;
-
-      &.active,
+    .nav-git-logo {
+      color: #000000;
+      font-size: 20px;
       &:hover {
-        color: #1989fa;
-      }
-
-      &.active::after {
-        content: "";
-        display: inline-block;
-        position: absolute;
-        top: 0;
-        bottom: auto;
-        right: 30px;
-        left: 30px;
-        height: 2px;
-        background: #409eff;
+        color: #1890ff;
       }
     }
-  }
-
-  .nav-git-logo {
-    font-size: 20px;
   }
 }
 
-@media (max-width: 850px) {
-  .header {
-    .nav-logo {
+#nav {
+  height: 100%;
+  font-size: 14px;
+  border: 0;
+
+  &.ant-menu-horizontal {
+    border-bottom: none;
+
+    & > .ant-menu-item,
+    & > .ant-menu-submenu {
+      min-width: (40px + 12px * 2);
+      height: $header-height;
+      padding-right: 12px;
+      padding-left: 12px;
+      line-height: $header-height;
+
+      &::after {
+        top: 0;
+        right: 12px;
+        bottom: auto;
+        left: 12px;
+        border-width: $menu-item-border;
+      }
+    }
+
+    & .ant-menu-submenu-title .anticon {
+      margin: 0;
+    }
+
+    & > .ant-menu-item-selected {
+      a {
+        color: #1890ff;
+      }
+    }
+  }
+
+  & > .ant-menu-item,
+  & > .ant-menu-submenu {
+    text-align: center;
+  }
+}
+
+#logo {
+  height: $header-height;
+  padding-left: 40px;
+  overflow: hidden;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: $header-height;
+  letter-spacing: -0.18px;
+  white-space: nowrap;
+  text-decoration: none;
+
+  img {
+    height: 32px;
+    margin-right: 12px;
+  }
+}
+
+.nav-phone-icon {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  font-size: 18px;
+  color: #000000;
+  z-index: 1;
+  display: none;
+  // width: 16px;
+  height: 22px;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: $mobile-max-width) {
+  #header {
+    text-align: center;
+
+    .menu-row {
       display: none;
     }
-    .nav-logo-small {
-      display: inline-block;
-    }
-    .nav-item {
-      margin-left: 6px;
-
-      &.lang-item,
-      &:last-child {
-        margin-left: 10px;
-      }
-
-      a {
-        padding: 0 5px;
-      }
-    }
   }
-}
 
-@media (max-width: 700px) {
-  .header {
-    .container {
-      padding: 0 12px;
-    }
-    .nav-item {
-      a {
-        font-size: 12px;
-        vertical-align: top;
-      }
+  #logo {
+    padding-right: 0;
+    padding-left: 0;
+  }
 
-      &.lang-item {
-        height: 100%;
-
-        .nav-lang {
-          display: flex;
-          align-items: center;
-
-          span {
-            padding-bottom: 0;
-          }
-        }
-      }
-    }
+  .nav-phone-icon {
+    display: block;
   }
 }
 </style>
