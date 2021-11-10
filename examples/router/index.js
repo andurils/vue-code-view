@@ -106,7 +106,7 @@ const route = [
     path: "/",
     name: "Home",
     // component: Demo,
-    component: () => import("../pages/zh-CN/index.vue"),
+    component: () => import("../pages/zh-CN/Home.vue"),
   },
   {
     path: "/demo",

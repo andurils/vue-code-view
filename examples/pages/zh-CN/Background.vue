@@ -1,52 +1,9 @@
 <script>
-import Logo from "@assets/images/element-logo.svg";
-
-const RANDOM_OFFSET = 50;
-const TOTAL_FRAMES = 600;
-
-function randomFrames(x, y) {
-  const common = { x, y, cubic: "EASE_IN_OUT" };
-
-  return [
-    {
-      frame: 0,
-      ...common,
-    },
-    {
-      frame: TOTAL_FRAMES / 2,
-      ...common,
-      x: x - Math.random() * RANDOM_OFFSET * 2 + RANDOM_OFFSET,
-      y: y - Math.random() * RANDOM_OFFSET * 2 + RANDOM_OFFSET,
-    },
-    {
-      frame: TOTAL_FRAMES,
-      ...common,
-    },
-  ];
-}
-
-const [circleFrames, setCircleFrames] = randomFrames(550, 200);
-const [circle2Frames, setCircle2Frames] = randomFrames(0, 448);
-const [reactFrames, setReactFrames] = randomFrames(1400, 300);
-const [diamondFrames, setDiamondFrames] = randomFrames(1100, -230);
-
 export default {
   name: "HomeBackground",
-  data() {
-    return {
-      classs: ["demo-container"], // page class
-      width: 1440,
-      height: 448,
-    };
-  },
-  mounted() {},
-  methods: {},
-
   render() {
-    const { width, height } = this;
-
     return (
-      <div className="home-banner-background">
+      <div class="home-banner-background">
         <svg viewBox="0 0 1440 448">
           <g
             transform="translate(383.99167402202, 1.252051729629045)"
@@ -233,3 +190,41 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import "../../assets/styles/default.scss";
+
+.home-banner-background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  > * {
+    width: 100%;
+    height: 100%;
+    vertical-align: top;
+  }
+
+  > img {
+    display: block;
+  }
+
+  > svg {
+    display: none;
+  }
+}
+
+@media (min-width: $screen-sm-min) {
+  .home-banner-background {
+    > img {
+      display: none;
+    }
+
+    > svg {
+      display: block;
+    }
+  }
+}
+</style>

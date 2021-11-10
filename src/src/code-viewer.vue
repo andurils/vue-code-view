@@ -181,7 +181,6 @@ export default {
   watch: {
     // eslint-disable-next-line no-unused-vars
     code(newSource, oldSource) {
-      console.log("code  watch");
       this.codeLint();
       // 错误事件处理
       this.hasError &&

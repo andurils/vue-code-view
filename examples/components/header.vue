@@ -18,75 +18,80 @@ export default {
     const { isHome } = this;
 
     return (
-      <header id="header" class={["clearfix", isHome ? "home-header" : ""]}>
-        {/*responsive menu*/}
-        <a-popover placement="bottomRight">
-          <template slot="content">
-            <p>Content</p>
-            <p>Content</p>
-          </template>
-          <a-icon type="unordered-list" class="nav-phone-icon" />
-        </a-popover>
+      <transition>
+        <header id="header" class={["clearfix", isHome ? "home-header" : ""]}>
+          {/*responsive menu*/}
+          <a-popover placement="bottomRight">
+            <template slot="content">
+              <p>Content</p>
+              <p>Content</p>
+            </template>
+            <a-icon type="unordered-list" class="nav-phone-icon" />
+          </a-popover>
 
-        {/*nav*/}
-        <a-row>
-          {/*left logo*/}
-          <a-col xs={24} sm={24} md={8} lg={6} xl={5} xxl={4}>
-            <h1>
-              <router-link to={"/"} id="logo">
-                <slot>
-                  <img src={Logo} alt="vue-code-view" class="nav-logo" />
-                </slot>
-              </router-link>
-            </h1>
-          </a-col>
-          {/*right  menu*/}
-          <a-col
-            xs={0}
-            sm={0}
-            md={16}
-            lg={18}
-            xl={19}
-            xxl={20}
-            class="menu-row"
-          >
-            <a-menu id="nav" mode="horizontal">
-              <a-menu-item key="demo">
-                <router-link active-class="active" to={`/demo`}>
-                  示例
+          {/*nav*/}
+          <a-row>
+            {/*left logo*/}
+            <a-col xs={24} sm={24} md={8} lg={6} xl={5} xxl={4}>
+              <h1>
+                <router-link to={"/"} id="logo">
+                  <slot>
+                    <img src={Logo} alt="vue-code-view" class="nav-logo" />
+                  </slot>
                 </router-link>
-              </a-menu-item>
-              <a-menu-item key="component">
-                <router-link active-class="active" to={`/component`}>
-                  组件
-                </router-link>
-              </a-menu-item>
-              <a-menu-item key="changelog">
-                <router-link active-class="active" to={`/changelog`}>
-                  changelog
-                </router-link>
-              </a-menu-item>
-            </a-menu>
-            {/*menu-item-github*/}
-            <a
-              href="https://github.com/andurils/vue-code-view"
-              class="nav-git-logo"
-              target="_blank"
+              </h1>
+            </a-col>
+            {/*right  menu*/}
+            <a-col
+              xs={0}
+              sm={0}
+              md={16}
+              lg={18}
+              xl={19}
+              xxl={20}
+              class="menu-row"
             >
-              <a-icon type="github" />
-            </a>
-          </a-col>
-        </a-row>
-      </header>
+              <a-menu id="nav" mode="horizontal">
+                <a-menu-item key="demo">
+                  <router-link active-class="active" to={`/demo`}>
+                    示例
+                  </router-link>
+                </a-menu-item>
+                <a-menu-item key="md">
+                  <router-link active-class="active" to={`/md`}>
+                    文档
+                  </router-link>
+                </a-menu-item>
+                <a-menu-item key="component">
+                  <router-link active-class="active" to={`/component`}>
+                    组件
+                  </router-link>
+                </a-menu-item>
+                <a-menu-item key="changelog">
+                  <router-link active-class="active" to={`/changelog`}>
+                    changelog
+                  </router-link>
+                </a-menu-item>
+              </a-menu>
+              {/*menu-item-github*/}
+              <a
+                href="https://github.com/andurils/vue-code-view"
+                class="nav-git-logo"
+                target="_blank"
+              >
+                <a-icon type="github" />
+              </a>
+            </a-col>
+          </a-row>
+        </header>
+      </transition>
     );
   },
 };
 </script>
 
 <style lang="scss" scoped>
-$header-height: 64px;
-$menu-item-border: 2px;
-$mobile-max-width: 767.99px;
+@import "../assets/styles/default.scss";
 
 #header {
   position: relative;
@@ -163,6 +168,10 @@ $mobile-max-width: 767.99px;
       padding-right: 12px;
       padding-left: 12px;
       line-height: $header-height;
+
+      a {
+        color: #000000d9;
+      }
 
       &::after {
         top: 0;

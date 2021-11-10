@@ -28,7 +28,7 @@ export default {
   computed: {
     isComponent() {
       // return /^component-/.test(this.$route.name || "");
-      return this.$route.path.indexOf("/component") > -1;
+      return this.$route.path.indexOf("component") > -1;
     },
     isHome() {
       // return /^home/.test(this.$route.name || "");

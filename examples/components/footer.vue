@@ -53,7 +53,7 @@
 
   .container {
     box-sizing: border-box;
-    width: 1140px;
+    max-width: 1280px;
   }
 
   .footer-main {
@@ -95,9 +95,6 @@
 .rc-footer-bottom-container {
   width: 1140px;
   border-top: 1px solid rgba(255, 255, 255, 0.25);
-  // width: 100%;
-  // max-width: calc(100% - 120px);
-  // max-width: 1200px;
   text-align: center;
   margin: 0 auto;
   padding: 16px 0;
