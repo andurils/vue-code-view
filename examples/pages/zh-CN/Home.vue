@@ -1,5 +1,6 @@
 <script>
-import HomeBackground from "./Background.vue";
+import HomeBackground from "./HomeBackground.vue";
+import HomeCard from "./HomeCard.vue";
 import PicGuide from "@assets/images/guide.png";
 import PicComponent from "@assets/images/component.png";
 import PicThemeIndex from "@assets/images/theme-index-icon.svg";
@@ -7,6 +8,7 @@ import PicResource from "@assets/images/resource.png";
 export default {
   components: {
     HomeBackground,
+    HomeCard,
   },
   name: "Home",
   data() {
@@ -17,7 +19,7 @@ export default {
 
   render() {
     return (
-      <div class="home-wrapper">
+      <div class="home-container">
         <div class="home-banner">
           <home-background></home-background>
           <div class="home-banner-holder">
@@ -42,30 +44,9 @@ export default {
           </div>
         </div>
 
-        <div class="cards">
-          <div class="container">
-            <div class="card">
-              <img src={PicGuide} alt="" />
-              <h3>轻量</h3>
-              <p>无需安装任何环境，打开页面快速体验交互细节。</p>
-            </div>
-            <div class="card">
-              <img src={PicComponent} alt="" />
-              <h3>交互</h3>
-              <p>
-                在线代码编辑器，支持代码高亮、光标行背景高亮、括号/标签匹配自动关闭、代码折叠。
-              </p>
-            </div>
-            <div class="card">
-              <img src={PicThemeIndex} alt="" />
-              <h3>实时</h3>
-              <p>实时预览代码编辑效果。</p>
-            </div>
-            <div class="card">
-              <img src={PicResource} alt="" />
-              <h3>Markdown</h3>
-              <p>支持 Markdown 示例实时渲染</p>
-            </div>
+        <div style=" max-width: 1256px; margin:  0 auto;">
+          <div class="home-block-content">
+            <home-card></home-card>
           </div>
         </div>
       </div>
@@ -76,7 +57,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../assets/styles/default.scss";
-.home-wrapper {
+.home-container {
   max-width: 1280 px;
 
   .home-banner {
@@ -142,65 +123,30 @@ export default {
     font-size: 68px;
     color: #000000f5;
   }
+}
 
-  .cards {
-    margin: 0 auto;
-    max-width: 1280px;
+.home-block-content {
+  margin: 88px 40px 124px;
 
-    .container {
-      padding: 0;
-      margin: 80px 40px;
+  h2.ant-typography {
+    margin-bottom: 56px;
+  }
 
-      display: flex;
-      align-items: center;
+  &-extra {
+    float: right;
+    padding-top: 12px;
+    font-weight: 200;
+    font-size: 16px;
 
-      .card {
-        cursor: pointer;
-        height: 430px;
-        width: 100%;
-        background: #ffffff;
-        border: 1px solid #eaeefb;
-        border-radius: 5px;
-        box-sizing: border-box;
-        text-align: center;
-        position: relative;
-        transition: all 0.3s ease-in-out;
-        bottom: 0;
-        margin-right: 16px;
-
-        img {
-          width: 160px;
-          height: 120px;
-          margin: 66px auto;
-        }
-        h3 {
-          margin: 0;
-          font-size: 18px;
-          color: #1f2f3d;
-          font-weight: normal;
-        }
-        p {
-          font-size: 14px;
-          color: #99a9bf;
-          padding: 0 25px;
-          line-height: 20px;
-        }
-        &:hover {
-          bottom: 6px;
-          box-shadow: 0 6px 18px 0 rgba(232, 237, 250, 0.5);
-        }
-
-        &:last-child {
-          margin-right: 0;
-        }
-      }
+    html.rtl & {
+      float: left;
     }
   }
 }
 
 @media (min-width: $screen-sm-min) {
-  .home-banner {
-    height: 448px;
+  .home-container {
+    // height: 448px;
 
     &-holder {
       margin-top: 130px;
@@ -229,7 +175,7 @@ export default {
 }
 
 @media only screen and (max-width: $mobile-max-width) {
-  .home-wrapper {
+  .home-container {
     .home-card-logo {
       font-size: 32px;
     }

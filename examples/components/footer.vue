@@ -1,129 +1,236 @@
-<template>
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-main">
-        <h4>帮助</h4>
-        <a
-          href="https://github.com/andurils/vue-code-view"
-          class="footer-main-link"
-          target="_blank"
-          ><a-icon type="github" /> GitHub</a
-        >
-        <a
-          :href="`https://github.com/andurils/vue-code-view/blob/main/CHANGELOG.zh-CN.md`"
-          class="footer-main-link"
-          target="_blank"
-          ><a-icon type="history" /> 更新日志</a
-        >
-        <a
-          href="https://github.com/andurils/vue-code-view/issues"
-          class="footer-main-link"
-          target="_blank"
-          ><a-icon type="bug" /> 报告 Bug</a
-        >
-      </div>
-    </div>
-    <section class="rc-footer-bottom">
-      <div class="rc-footer-bottom-container">
-        Made with <span style="color: rgb(255, 0, 0)">❤</span> by
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/andurils"
-          >Andurils</a
-        >
-      </div>
-    </section>
-  </footer>
-</template>
+<script>
+import classNames from "classnames";
+
+export default {
+  name: "Footer",
+  methods: {},
+  render() {
+    const prefixCls = "rc-footer";
+    const theme = "dark";
+    const className = "";
+    const style = {};
+
+    const footerClassName = classNames(`${prefixCls}`, className, {
+      [`${prefixCls}-${theme}`]: !!theme,
+    });
+    return (
+      <footer class={footerClassName} style={style}>
+        {/*columns*/}
+        <section class={`${prefixCls}-container`}>
+          <section class={`${prefixCls}-columns`}>
+            <div
+              class={classNames(`${prefixCls}-column`, className)}
+              style={style}
+            >
+              <h2>相关资源</h2>
+              <div class={classNames(`${prefixCls}-item`, className)}>
+                <a
+                  href="https://ant.design/index-cn"
+                  class="footer-main-link"
+                  target="_blank"
+                >
+                  Ant Design
+                </a>
+
+                <span class={`${prefixCls}-item-separator`}>-</span>
+                <span class={`${prefixCls}-item-description`}>
+                  企业级产品设计体系
+                </span>
+              </div>
+            </div>
+            <div
+              class={classNames(`${prefixCls}-column`, className)}
+              style={style}
+            >
+              <h2>帮助</h2>
+              <div class={classNames(`${prefixCls}-item`, className)}>
+                <a
+                  href="https://github.com/andurils/vue-code-view"
+                  class="footer-main-link"
+                  target="_blank"
+                >
+                  <a-icon type="github" class={`${prefixCls}-item-icon`} />
+                  GitHub
+                </a>
+              </div>
+              <div class={classNames(`${prefixCls}-item`, className)}>
+                <a
+                  href="https://github.com/andurils/vue-code-view/blob/main/CHANGELOG.zh-CN.md"
+                  class="footer-main-link"
+                  target="_blank"
+                >
+                  <a-icon type="history" class={`${prefixCls}-item-icon`} />
+                  更新日志
+                </a>
+              </div>
+              <div class={classNames(`${prefixCls}-item`, className)}>
+                <a
+                  href="https://github.com/andurils/vue-code-view/issues"
+                  class="footer-main-link"
+                  target="_blank"
+                >
+                  <a-icon type="bug" class={`${prefixCls}-item-icon`} />
+                  报告 Bug
+                </a>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        {/*bottom*/}
+        <section class={`${prefixCls}-bottom`}>
+          <div class={`${prefixCls}-bottom-container`}>
+            Copyright © 2021-present
+            <a target="_blank" href="https://github.com/andurils">
+              Andurils
+            </a>
+          </div>
+        </section>
+      </footer>
+    );
+  },
+};
+</script>
 
 <style lang="scss">
-.footer {
+.rc-footer {
+  position: relative;
+  clear: both;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  line-height: 1.5;
   background-color: #000;
-  // background-color: #f7fbfd;
-  width: 100%;
-  padding: 40px 150px 0 150px;
-  margin-top: -340px;
-  box-sizing: border-box;
-  height: 340px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  .container {
-    box-sizing: border-box;
-    max-width: 1280px;
-  }
-
-  .footer-main {
-    font-size: 0;
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 110px;
-
-    h4 {
-      font-size: 18px;
-      // color: #333;
-      color: #fff;
-      line-height: 1;
-      margin: 0 0 15px 0;
-    }
-
-    .footer-main-link {
-      display: block;
-      margin: 0;
-      line-height: 2;
-      font-size: 14px;
-      // color: #666;
-      color: #ffffffe6;
-
-      &:hover {
-        color: #40a9ff;
-      }
-    }
-  }
-}
-
-.rc-footer-bottom {
-  display: flex;
-  color: #fff6;
-  padding: 30px 60px 0 60px;
-  justify-content: center;
-}
-
-.rc-footer-bottom-container {
-  width: 1140px;
-  border-top: 1px solid rgba(255, 255, 255, 0.25);
-  text-align: center;
-  margin: 0 auto;
-  padding: 16px 0;
-  line-height: 32px;
-  font-size: 16px;
 
   a {
     transition: all 0.3s;
-    color: #ffffffe6;
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
+
+    &:hover {
+      color: #40a9ff;
+    }
+  }
+
+  &-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 80px 0 20px;
+    margin: auto;
+  }
+
+  &-columns {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  &-column {
+    margin-bottom: 60px;
+    margin-right: 32px;
+
+    h2 {
+      position: relative;
+      margin: 0 auto 24px;
+      font-weight: 500;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    &-icon {
+      margin-right: 0.5em;
+      width: 22px;
+      display: inline-block;
+      vertical-align: middle;
+      top: -1px;
+      position: relative;
+      text-align: center;
+
+      > span,
+      > svg,
+      img {
+        width: 100%;
+        display: block;
+      }
+    }
+  }
+
+  &-item {
+    margin: 12px 0;
+
+    &-icon {
+      margin-right: 0.4em;
+      width: 16px;
+      display: inline-block;
+      vertical-align: middle;
+      // top: -1px;
+      position: relative;
+      text-align: center;
+
+      > span,
+      > svg,
+      img {
+        width: 100%;
+        display: block;
+      }
+    }
+
+    &-separator {
+      margin: 0 0.3em;
+    }
+  }
+
+  &-bottom {
+    &-container {
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      width: 100%;
+      max-width: 1200px;
+      text-align: center;
+      margin: 0 auto;
+      padding: 16px 0;
+      line-height: 32px;
+      font-size: 16px;
+    }
+  }
+
+  &-light {
+    background-color: transparent;
+    color: rgba(0, 0, 0, 0.85);
+
+    h2,
+    a {
+      color: rgba(0, 0, 0, 0.85);
+    }
+  }
+
+  &-light &-bottom-container {
+    border-top-color: #e8e8e8;
+  }
+
+  &-light &-item-separator,
+  &-light &-item-description {
+    color: rgba(0, 0, 0, 0.45);
   }
 }
 
-@media (max-width: 1140px) {
-  .footer {
-    height: auto;
-  }
-}
+@media only screen and (max-width: 767.99px) {
+  .rc-footer {
+    text-align: center;
 
-@media (max-width: 1000px) {
-  .footer-social {
-    display: none;
-  }
-}
+    &-container {
+      padding: 40px 0;
+    }
 
-@media (max-width: 768px) {
-  .footer {
-    .footer-main {
-      margin-bottom: 30px;
+    &-columns {
+      display: block;
+    }
+
+    &-column {
+      display: block;
+      margin-bottom: 40px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 }

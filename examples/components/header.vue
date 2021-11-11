@@ -7,12 +7,15 @@ export default {
     isHome: { type: Boolean, default: false },
   },
   data() {
-    return {
-      classNames: ["demo-container"], // page className
-    };
+    return {};
   },
   mounted() {},
-  methods: {},
+  methods: {
+    toggleMenu() {
+      console.log(111);
+      this.menuVisible = !this.menuVisible;
+    },
+  },
 
   render() {
     const { isHome } = this;
@@ -21,10 +24,32 @@ export default {
       <transition>
         <header id="header" class={["clearfix", isHome ? "home-header" : ""]}>
           {/*responsive menu*/}
-          <a-popover placement="bottomRight">
+          <a-popover placement="bottomRight" trigger="click">
             <template slot="content">
-              <p>Content</p>
-              <p>Content</p>
+              <div class="popover-menu">
+                <a-menu id="nav" mode="vertical">
+                  <a-menu-item key="demo">
+                    <router-link active-class="active" to={`/demo`}>
+                      示例
+                    </router-link>
+                  </a-menu-item>
+                  <a-menu-item key="md">
+                    <router-link active-class="active" to={`/md`}>
+                      文档
+                    </router-link>
+                  </a-menu-item>
+                  <a-menu-item key="component">
+                    <router-link active-class="active" to={`/component`}>
+                      组件
+                    </router-link>
+                  </a-menu-item>
+                  <a-menu-item key="changelog">
+                    <router-link active-class="active" to={`/changelog`}>
+                      changelog
+                    </router-link>
+                  </a-menu-item>
+                </a-menu>
+              </div>
             </template>
             <a-icon type="unordered-list" class="nav-phone-icon" />
           </a-popover>
@@ -227,6 +252,35 @@ export default {
   // width: 16px;
   height: 22px;
   cursor: pointer;
+}
+
+// Popover menu is only used for mobile
+.popover-menu {
+  width: 300px;
+
+  .ant-popover-inner-content {
+    padding: 0;
+
+    #nav {
+      .ant-menu-item,
+      .ant-menu-submenu {
+        text-align: left;
+      }
+
+      .ant-menu-item-group-title {
+        padding-left: 24px;
+      }
+
+      .ant-menu-item-group-list {
+        padding: 0 16px;
+      }
+
+      .ant-menu-item,
+      a {
+        color: #333;
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: $mobile-max-width) {
