@@ -19,8 +19,8 @@ import ElementUI from "element-ui";
 import hljs from "highlight.js";
 
 // 网站页面 模板页面组件
-import MainFooter from "./components/Footer.vue";
-import MainHeader from "./components/Header.vue";
+import MainFooter from "./components/footer";
+import MainHeader from "./components/header";
 import SideNav from "./components/side-nav";
 import FooterNav from "./components/footer-nav";
 import demoBlock from "./components/demo-block";

@@ -97,12 +97,24 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../../assets/styles/default.scss";
 @import "../../assets/styles/component.scss";
 
 // .drawer-left
 .drawer-handle {
+  display: none;
   right: -40 px;
   box-shadow: 2px 0 8px #00000026;
   border-radius: 0 4 px 4 px 0;
+}
+
+@media only screen and (max-width: $mobile-max-width) {
+  .drawer-handle {
+    display: block;
+  }
+
+  .main-menu {
+    display: none;
+  }
 }
 </style>
