@@ -22,7 +22,7 @@ export default {
               class={classNames(`${prefixCls}-column`, className)}
               style={style}
             >
-              <h2>相关资源</h2>
+              <h2>相关参考</h2>
               <div class={classNames(`${prefixCls}-item`, className)}>
                 <a
                   href="https://ant.design/index-cn"
@@ -37,7 +37,26 @@ export default {
                   企业级产品设计体系
                 </span>
               </div>
+              <div class={classNames(`${prefixCls}-item`, className)}>
+                <a
+                  href="https://www.antdv.com/"
+                  class="footer-main-link"
+                  target="_blank"
+                >
+                  Ant Design Vue
+                </a>
+              </div>
+              <div class={classNames(`${prefixCls}-item`, className)}>
+                <a
+                  href="https://element.eleme.cn/"
+                  class="footer-main-link"
+                  target="_blank"
+                >
+                  Element
+                </a>
+              </div>
             </div>
+
             <div
               class={classNames(`${prefixCls}-column`, className)}
               style={style}

@@ -2,7 +2,7 @@
 import Logo from "@assets/images/element-logo.svg";
 // import LogoSmall from "@assets/images/element-logo-small.svg";
 export default {
-  name: "MainHeader",
+  name: "Header",
   props: {
     isHome: { type: Boolean, default: false },
   },
@@ -80,11 +80,6 @@ export default {
                 <a-menu-item key="demo">
                   <router-link active-class="active" to={`/demo`}>
                     示例
-                  </router-link>
-                </a-menu-item>
-                <a-menu-item key="md">
-                  <router-link active-class="active" to={`/md`}>
-                    文档
                   </router-link>
                 </a-menu-item>
                 <a-menu-item key="component">

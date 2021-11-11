@@ -1,15 +1,11 @@
 <template>
   <div id="app" :class="{ 'is-component': isComponent }">
     <main-header :is-home="isHome"></main-header>
-    <div class="main-cnt">
+    <div class="">
       <router-view
         :class="[
           {
             'markdown-body': $route.path === '/changelog',
-          },
-          {
-            'page-container ':
-              $route.path === '/md' || $route.path === '/changelog',
           },
         ]"
       ></router-view>

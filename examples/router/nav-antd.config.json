@@ -1,0 +1,18 @@
+{
+  "zh-CN": [
+    {
+      "title": "组件文档",
+      "path": "/overview"
+    },
+    {
+      "title": "通用",
+      "type": "group",
+      "children": [
+        {
+          "path": "/demo2",
+          "title": "组件示例"
+        }
+      ]
+    }
+  ]
+}

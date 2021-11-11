@@ -37,67 +37,67 @@ const loadDocs = function (lang, path) {
 };
 
 // 组件页面 路由注册
-const registerRoute = (navConfig) => {
-  let route = [];
-  // 多语言配置
-  Object.keys(navConfig).forEach((lang, index) => {
-    // 页面导航配置
-    let navs = navConfig[lang];
-    // 添加"组件"页面路由
-    route.push({
-      path: `/component`,
-      // 重定向
-      // redirect: `/${lang}/component/installation`,
-      component: load(lang, "component"),
-      children: [],
-    });
+// const registerRoute = (navConfig) => {
+//   let route = [];
+//   // 多语言配置
+//   Object.keys(navConfig).forEach((lang, index) => {
+//     // 页面导航配置
+//     let navs = navConfig[lang];
+//     // 添加"组件"页面路由
+//     route.push({
+//       path: `/component`,
+//       // 重定向
+//       // redirect: `/${lang}/component/installation`,
+//       component: load(lang, "component"),
+//       children: [],
+//     });
 
-    // 组件文档路由添加  参考组件页面侧边导航
-    navs.forEach((nav) => {
-      // 存在外链 不做处理
-      if (nav.href) return;
-      // “组件” 节点下页面导航
-      if (nav.groups) {
-        nav.groups.forEach((group) => {
-          group.list.forEach((nav) => {
-            addRoute(nav, lang, index);
-          });
-        });
-      } else if (nav.children) {
-        // "开发指南" 节点下页面导航
-        nav.children.forEach((nav) => {
-          addRoute(nav, lang, index);
-        });
-      } else {
-        // 没有子集菜单节点路由  例如 更新日志
-        addRoute(nav, lang, index);
-      }
-    });
-  });
-  // 添加路由配置
-  function addRoute(page, lang, index) {
-    // 若是路径 更新日志 路由加载页面 load changelog.vue，
-    // 其他路径 默认加载 项目文档 .md文件
-    const component =
-      page.path === "/changelog"
-        ? load(lang, "changelog")
-        : loadDocs(lang, page.path);
-    let child = {
-      path: page.path.slice(1),
-      meta: {
-        title: page.title || page.name,
-        description: page.description,
-        lang,
-      },
-      name: "component-" + lang + (page.title || page.name),
-      component: component.default || component,
-    };
+//     // 组件文档路由添加  参考组件页面侧边导航
+//     navs.forEach((nav) => {
+//       // 存在外链 不做处理
+//       if (nav.href) return;
+//       // “组件” 节点下页面导航
+//       if (nav.groups) {
+//         nav.groups.forEach((group) => {
+//           group.list.forEach((nav) => {
+//             addRoute(nav, lang, index);
+//           });
+//         });
+//       } else if (nav.children) {
+//         // "开发指南" 节点下页面导航
+//         nav.children.forEach((nav) => {
+//           addRoute(nav, lang, index);
+//         });
+//       } else {
+//         // 没有子集菜单节点路由  例如 更新日志
+//         addRoute(nav, lang, index);
+//       }
+//     });
+//   });
+//   // 添加路由配置
+//   function addRoute(page, lang, index) {
+//     // 若是路径 更新日志 路由加载页面 load changelog.vue，
+//     // 其他路径 默认加载 项目文档 .md文件
+//     const component =
+//       page.path === "/changelog"
+//         ? load(lang, "changelog")
+//         : loadDocs(lang, page.path);
+//     let child = {
+//       path: page.path.slice(1),
+//       meta: {
+//         title: page.title || page.name,
+//         description: page.description,
+//         lang,
+//       },
+//       name: "component-" + lang + (page.title || page.name),
+//       component: component.default || component,
+//     };
 
-    route[index].children.push(child);
-  }
+//     route[index].children.push(child);
+//   }
 
-  return route;
-};
+//   return route;
+// };
 
 // let route = registerRoute(navConfig);
 
@@ -116,11 +116,26 @@ const route = [
   {
     path: "/test",
     name: "Test",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/test.vue"),
+    component: () => import("../views/test.vue"),
+  },
+  {
+    path: "/component",
+    name: "Component",
+    redirect: `/component/overview`,
+    component: () => import("../pages/zh-CN/MainContent.vue"),
+    children: [
+      {
+        path: "overview",
+        name: "overview",
+        component: (r) =>
+          require.ensure([], () => r(require("../docs/zh-CN/example.md"))),
+      },
+      {
+        path: "demo2",
+        name: "demo2",
+        component: Demo,
+      },
+    ],
   },
   {
     path: "/changelog",
@@ -128,12 +143,12 @@ const route = [
     component: (r) =>
       require.ensure([], () => r(require("../../CHANGELOG.zh-CN.md"))),
   },
-  {
-    path: "/md",
-    name: "Markdown",
-    component: (r) =>
-      require.ensure([], () => r(require("../docs/zh-CN/example.md"))),
-  },
+  // {
+  //   path: "/md",
+  //   name: "Markdown",
+  //   component: (r) =>
+  //     require.ensure([], () => r(require("../docs/zh-CN/example.md"))),
+  // },
 ];
 
 // route.concat(routesOther);

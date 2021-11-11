@@ -1,10 +1,6 @@
 <script>
 import HomeBackground from "./HomeBackground.vue";
 import HomeCard from "./HomeCard.vue";
-import PicGuide from "@assets/images/guide.png";
-import PicComponent from "@assets/images/component.png";
-import PicThemeIndex from "@assets/images/theme-index-icon.svg";
-import PicResource from "@assets/images/resource.png";
 export default {
   components: {
     HomeBackground,
