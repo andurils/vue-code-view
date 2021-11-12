@@ -60,7 +60,7 @@ module.exports = function (source) {
 
   return `
     <template>
-      <section class="content me-doc">
+      <section class="markdown">
         ${output.join("")}
       </section>
     </template>

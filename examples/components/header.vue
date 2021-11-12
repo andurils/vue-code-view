@@ -7,49 +7,62 @@ export default {
     isHome: { type: Boolean, default: false },
   },
   data() {
-    return {};
+    return {
+      selectedMenuKey: "",
+      popoverVisible: false,
+    };
   },
   mounted() {},
   methods: {
     toggleMenu() {
-      console.log(111);
       this.menuVisible = !this.menuVisible;
+    },
+    changeSelectedMenu(key) {
+      this.selectedMenuKey = key;
+      this.popoverVisible = false;
+    },
+    getMenu(menuMode = "horizontal") {
+      return (
+        <a-menu
+          id="nav"
+          mode={menuMode}
+          onClick={({ key }) => this.changeSelectedMenu(key)}
+          selectedKeys={[this.isHome ? "" : this.selectedMenuKey]}
+        >
+          <a-menu-item key="demo">
+            <router-link active-class="active" to={`/demo`}>
+              示例
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="component">
+            <router-link active-class="active" to={`/component`}>
+              组件
+            </router-link>
+          </a-menu-item>
+          <a-menu-item key="changelog">
+            <router-link active-class="active" to={`/changelog`}>
+              更新日志
+            </router-link>
+          </a-menu-item>
+        </a-menu>
+      );
     },
   },
 
   render() {
-    const { isHome } = this;
+    const { isHome, selectedMenuKey } = this;
 
     return (
       <transition>
         <header id="header" class={["clearfix", isHome ? "home-header" : ""]}>
           {/*responsive menu*/}
-          <a-popover placement="bottomRight" trigger="click">
+          <a-popover
+            placement="bottomRight"
+            trigger="click"
+            v-model={this.popoverVisible}
+          >
             <template slot="content">
-              <div class="popover-menu">
-                <a-menu id="nav" mode="vertical">
-                  <a-menu-item key="demo">
-                    <router-link active-class="active" to={`/demo`}>
-                      示例
-                    </router-link>
-                  </a-menu-item>
-                  <a-menu-item key="md">
-                    <router-link active-class="active" to={`/md`}>
-                      文档
-                    </router-link>
-                  </a-menu-item>
-                  <a-menu-item key="component">
-                    <router-link active-class="active" to={`/component`}>
-                      组件
-                    </router-link>
-                  </a-menu-item>
-                  <a-menu-item key="changelog">
-                    <router-link active-class="active" to={`/changelog`}>
-                      changelog
-                    </router-link>
-                  </a-menu-item>
-                </a-menu>
-              </div>
+              <div class="popover-menu">{this.getMenu("vertical")}</div>
             </template>
             <a-icon type="unordered-list" class="nav-phone-icon" />
           </a-popover>
@@ -68,31 +81,15 @@ export default {
             </a-col>
             {/*right  menu*/}
             <a-col
+              class="menu-row"
               xs={0}
               sm={0}
               md={16}
               lg={18}
               xl={19}
               xxl={20}
-              class="menu-row"
             >
-              <a-menu id="nav" mode="horizontal">
-                <a-menu-item key="demo">
-                  <router-link active-class="active" to={`/demo`}>
-                    示例
-                  </router-link>
-                </a-menu-item>
-                <a-menu-item key="component">
-                  <router-link active-class="active" to={`/component`}>
-                    组件
-                  </router-link>
-                </a-menu-item>
-                <a-menu-item key="changelog">
-                  <router-link active-class="active" to={`/changelog`}>
-                    changelog
-                  </router-link>
-                </a-menu-item>
-              </a-menu>
+              {this.getMenu("horizontal")}
               {/*menu-item-github*/}
               <a
                 href="https://github.com/andurils/vue-code-view"

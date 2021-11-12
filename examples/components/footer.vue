@@ -101,7 +101,7 @@ export default {
           <div class={`${prefixCls}-bottom-container`}>
             Copyright © 2021-present
             <a target="_blank" href="https://github.com/andurils">
-              Andurils
+              &nbsp; andurils
             </a>
           </div>
         </section>

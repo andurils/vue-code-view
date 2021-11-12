@@ -1,5 +1,5 @@
 <script>
-import navsData from "../../router/nav-antd.config.json";
+import navsData from "../../router/side-nav.config.json";
 export default {
   components: {},
   name: "MainContent",
@@ -8,13 +8,13 @@ export default {
       lang: "zh-CN",
       base: "/component",
       visible: false,
+      selectedMenuKey: "",
     };
   },
   mounted() {},
   methods: {
     onClose() {
       this.visible = false;
-      console.log(this.visible);
     },
     toggleDrawer() {
       this.visible = !this.visible;
@@ -36,25 +36,49 @@ export default {
       });
     },
     generateMenuItem(isTop, item, { before = null, after = null }) {
-      // <router-link
-      //   v-if="item.path"
-      //   active-class="active"
-      //   to={this.base + item.path}
-      //   exact
-      //   v-text="item.title || item.name"
-      // ></router-link>;
-
-      return (
-        <a-menu-item>
-          <router-link active-class="active" to={this.base + item.path} exact>
-            {item.title}
-          </router-link>
-        </a-menu-item>
+      const child = !item.href ? (
+        <router-link active-class="active" to={this.base + item.path} exact>
+          {before}
+          {item.title}
+          {after}
+        </router-link>
+      ) : (
+        <a
+          href={item.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="menu-item-link-outside"
+        >
+          {before}
+          {item.title}
+          {after}
+        </a>
       );
+
+      return <a-menu-item key={item.name.toLowerCase()}>{child}</a-menu-item>;
+    },
+    changeSelectedMenu(key) {
+      this.selectedMenuKey = key;
+    },
+  },
+  computed: {
+    isOverview() {
+      return /^overview/.test(this.$route.name || "");
     },
   },
 
   render() {
+    const menuChild = (
+      <a-menu
+        class="aside-container menu-site"
+        mode="inline"
+        onClick={({ key }) => this.changeSelectedMenu(key)}
+        selectedKeys={[this.isOverview ? "overview" : this.selectedMenuKey]}
+      >
+        {this.getMenuItems()}
+      </a-menu>
+    );
+
     return (
       <div class="main-wrapper">
         <a-row>
@@ -68,19 +92,12 @@ export default {
             visible={this.visible}
             onClose={this.onClose}
           >
-            <a-menu class="aside-container menu-site" mode="inline">
-              {this.getMenuItems()}
-            </a-menu>
+            {menuChild}
           </a-drawer>
 
           <a-col xxl={4} xl={5} lg={6} md={6} sm={24} xs={24} class="main-menu">
             <a-affix offset-top={0}>
-              <section class="main-menu-inner">
-                {/*  openKeys   selectedKeys   onOpenChange */}
-                <a-menu class="aside-container menu-site" mode="inline">
-                  {this.getMenuItems()}
-                </a-menu>
-              </section>
+              <section class="main-menu-inner">{menuChild}</section>
             </a-affix>
           </a-col>
 
@@ -106,6 +123,10 @@ export default {
   right: -40 px;
   box-shadow: 2px 0 8px #00000026;
   border-radius: 0 4 px 4 px 0;
+}
+
+.ant-drawer-body {
+  padding: 56px 0;
 }
 
 @media only screen and (max-width: $mobile-max-width) {

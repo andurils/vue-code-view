@@ -1,0 +1,40 @@
+{
+  "zh-CN": [
+    {
+      "title": "组件概述",
+      "name": "overview",
+      "path": "/overview",
+      "componentPath": "docs/zh-CN/overview.md"
+    },
+    {
+      "title": "blogs",
+      "type": "group",
+      "children": [
+        {
+          "title": "项目工程化简介",
+          "name": "project-intro",
+          "path": "/project-intro",
+          "componentPath": "docs/blogs/project-intro.md"
+        },
+        {
+          "title": "代码逻辑简介",
+          "name": "code-logic-intro",
+          "path": "/code-logic-intro",
+          "componentPath": "docs/blogs/code-logic-intro.md"
+        }
+      ]
+    },
+    {
+      "title": "Resources",
+      "type": "group",
+      "children": [
+        {
+          "title": "Github Repo",
+          "name": "github",
+          "path": "/github",
+          "href": "https://github.com/andurils/vue-code-view"
+        }
+      ]
+    }
+  ]
+}

@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import navConfig from "../router/nav.config.json";
+import navConfig from "../router/side-nav.config.json";
 
 export default {
   data() {

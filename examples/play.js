@@ -1,9 +1,9 @@
 import Vue from "vue";
-import App from "@/play/index.vue";
-import router from "@/router";
-import store from "@/store";
+import App from "@examples/play/index.vue";
+import router from "@examples/router";
+import store from "@examples/store";
 
-import CodeViewer from "@src";
+import CodeViewer from "@/index";
 // import CodeViewer from "vue-code-view";
 
 import Antd from "ant-design-vue";

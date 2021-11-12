@@ -1,4 +1,3 @@
-sudo: false
 language: node_js
 node_js: 14
 install:
@@ -19,5 +18,3 @@ after_script:
   - git push origin gh-pages  
   - echo "DONE, Bye~"
   - exit 0
- 
- 

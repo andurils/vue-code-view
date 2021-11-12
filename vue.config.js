@@ -68,9 +68,9 @@ module.exports = {
     // 添加别名
     config.resolve.alias
       .set("vue$", "vue/dist/vue.esm.js")
-      .set("@", resolve("examples"))
+      .set("@", resolve("src"))
+      .set("@examples", resolve("examples"))
       .set("@assets", resolve("examples/assets"))
-      .set("@src", resolve("src"))
       .set("@views", resolve("examples/views"))
       .set("@router", resolve("examples/router"))
       .set("@store", resolve("examples/store"));
