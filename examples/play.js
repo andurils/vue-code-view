@@ -11,7 +11,6 @@ import ElementUI from "element-ui";
 
 import "ant-design-vue/dist/antd.css";
 import "element-ui/lib/theme-chalk/index.css";
-import "github-markdown-dracula-css/github-markdown.css";
 
 Vue.config.productionTip = false;
 // 引入组件 element 2.x
