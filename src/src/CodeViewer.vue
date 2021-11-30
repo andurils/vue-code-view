@@ -70,14 +70,16 @@ export default {
       this.handleCodeChange(this.source);
     },
 
-    genComponent() {
+    async genComponent() {
       const demoComponent = {};
       const { template, script, styles, customBlocks, errors } =
         this.sfcDescriptor;
 
       const templateCode = template ? template.content.trim() : ``;
       let scriptCode = script ? script.content.trim() : ``;
-      const styleCodes = genStyleInjectionCode(styles, this.viewId);
+      const styleCodes = await genStyleInjectionCode(styles, this.viewId);
+
+      console.log("vcv", styleCodes, styleCodes.length);
 
       // script
       if (!isEmpty(scriptCode)) {

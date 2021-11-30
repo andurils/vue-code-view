@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 
 const resolve = (dir) => path.join(__dirname, dir);
 const BundleAnalyzerPlugin =
@@ -79,6 +80,10 @@ module.exports = {
     // .set("@plugins", resolve("examples/plugins"))
     // .set("@layouts", resolve("examples/layouts"))
     // .set("@static", resolve("examples/static"));
+
+    config
+      .plugin("ignore")
+      .use(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)); //忽略/moment/locale下的所有文件
 
     // Markdown Loader
     config.module

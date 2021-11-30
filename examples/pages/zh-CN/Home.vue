@@ -30,7 +30,7 @@ export default {
 
               <div class="home-banner-content-operations">
                 <a-button type="primary" shape="round" size="large">
-                  <router-link to={"/component"}>开始使用</router-link>
+                  <router-link to={"/doc"}>开始使用</router-link>
                 </a-button>
                 <a-button shape="round" size="large" ghost>
                   <router-link to={"/demo"}>在线示例</router-link>
