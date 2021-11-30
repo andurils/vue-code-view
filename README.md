@@ -1,7 +1,12 @@
 <h1 style="display:flex;justify-content:center;">
 Vue Code View
-<a href="https://app.travis-ci.com/github/andurils/vue-code-view" style="margin-left:12px;"><img src="https://app.travis-ci.com/andurils/vue-code-view.svg?branch=main" alt="Build Status"></a>
 </h1>
+
+[![Build Status](https://app.travis-ci.com/andurils/vue-code-view.svg?branch=dev)](https://app.travis-ci.com/andurils/vue-code-view)
+[![GitHub license](https://img.shields.io/github/license/andurils/vue-code-view)](https://github.com/andurils/vue-code-view/blob/main/LICENSE)
+![npm](https://img.shields.io/npm/v/vue-code-view)
+![npm bundle size](https://img.shields.io/bundlephobia/min/vue-code-view)
+![npm](https://img.shields.io/npm/dt/vue-code-view?label=npm%20downloads)
 
 English | [简体中文](./README.zh-CN.md)
 
@@ -227,9 +232,10 @@ render() {
 
 ## 环境
 
-`Nodejs`  14.18.X LTS 
+`Nodejs`  14.18.X LTS
 
 `node-sass`  4.14+
+
 ## Changelog
 
 Detailed changes for each release are documented in the [release notes](./CHANGELOG.zh-CN.md).

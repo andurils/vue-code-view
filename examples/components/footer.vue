@@ -3,6 +3,50 @@ import classNames from "classnames";
 
 export default {
   name: "Footer",
+  data() {
+    return {
+      navList: [
+        {
+          title: "相关参考",
+          urlList: [
+            {
+              title: "Ant Design",
+              url: "https://ant.design/index-cn",
+              desc: "企业级产品设计体系",
+            },
+            {
+              title: "Ant Design Vue",
+              url: "https://www.antdv.com/",
+            },
+            {
+              title: "Element",
+              url: "https://element.eleme.cn/",
+            },
+          ],
+        },
+        {
+          title: "帮助",
+          urlList: [
+            {
+              title: "GitHub",
+              url: "https://github.com/andurils/vue-code-view",
+              iconCls: "github",
+            },
+            {
+              title: "更新日志",
+              url: "https://github.com/andurils/vue-code-view/blob/main/CHANGELOG.zh-CN.md",
+              iconCls: "history",
+            },
+            {
+              title: "报告 Bug",
+              url: "https://github.com/andurils/vue-code-view/issues",
+              iconCls: "bug",
+            },
+          ],
+        },
+      ],
+    };
+  },
   methods: {},
   render() {
     const prefixCls = "rc-footer";
@@ -18,81 +62,45 @@ export default {
         {/*columns*/}
         <section class={`${prefixCls}-container`}>
           <section class={`${prefixCls}-columns`}>
-            <div
-              class={classNames(`${prefixCls}-column`, className)}
-              style={style}
-            >
-              <h2>相关参考</h2>
-              <div class={classNames(`${prefixCls}-item`, className)}>
-                <a
-                  href="https://ant.design/index-cn"
-                  class="footer-main-link"
-                  target="_blank"
-                >
-                  Ant Design
-                </a>
+            {this.navList.map((item) => {
+              const navItems = item.urlList.map((sItem) => {
+                return (
+                  <div class={classNames(`${prefixCls}-item`, className)}>
+                    <a
+                      href={sItem.url}
+                      class="footer-main-link"
+                      target="_blank"
+                    >
+                      {sItem.iconCls && (
+                        <a-icon
+                          type={sItem.iconCls}
+                          class={`${prefixCls}-item-icon`}
+                        />
+                      )}
+                      {sItem.title}
+                    </a>
+                    {sItem.desc && (
+                      <span class={`${prefixCls}-item-separator`}>-</span>
+                    )}
+                    {sItem.desc && (
+                      <span class={`${prefixCls}-item-description`}>
+                        {sItem.desc}
+                      </span>
+                    )}
+                  </div>
+                );
+              });
 
-                <span class={`${prefixCls}-item-separator`}>-</span>
-                <span class={`${prefixCls}-item-description`}>
-                  企业级产品设计体系
-                </span>
-              </div>
-              <div class={classNames(`${prefixCls}-item`, className)}>
-                <a
-                  href="https://www.antdv.com/"
-                  class="footer-main-link"
-                  target="_blank"
+              return (
+                <div
+                  class={classNames(`${prefixCls}-column`, className)}
+                  style={style}
                 >
-                  Ant Design Vue
-                </a>
-              </div>
-              <div class={classNames(`${prefixCls}-item`, className)}>
-                <a
-                  href="https://element.eleme.cn/"
-                  class="footer-main-link"
-                  target="_blank"
-                >
-                  Element
-                </a>
-              </div>
-            </div>
-
-            <div
-              class={classNames(`${prefixCls}-column`, className)}
-              style={style}
-            >
-              <h2>帮助</h2>
-              <div class={classNames(`${prefixCls}-item`, className)}>
-                <a
-                  href="https://github.com/andurils/vue-code-view"
-                  class="footer-main-link"
-                  target="_blank"
-                >
-                  <a-icon type="github" class={`${prefixCls}-item-icon`} />
-                  GitHub
-                </a>
-              </div>
-              <div class={classNames(`${prefixCls}-item`, className)}>
-                <a
-                  href="https://github.com/andurils/vue-code-view/blob/main/CHANGELOG.zh-CN.md"
-                  class="footer-main-link"
-                  target="_blank"
-                >
-                  <a-icon type="history" class={`${prefixCls}-item-icon`} />
-                  更新日志
-                </a>
-              </div>
-              <div class={classNames(`${prefixCls}-item`, className)}>
-                <a
-                  href="https://github.com/andurils/vue-code-view/issues"
-                  class="footer-main-link"
-                  target="_blank"
-                >
-                  <a-icon type="bug" class={`${prefixCls}-item-icon`} />
-                  报告 Bug
-                </a>
-              </div>
-            </div>
+                  <h2>{item.title}</h2>
+                  {navItems}
+                </div>
+              );
+            })}
           </section>
         </section>
 

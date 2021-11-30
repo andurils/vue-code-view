@@ -25,6 +25,7 @@ const code_example_1 = `<template>
       <a-button type="danger" shape="round" loading />
     </div>
     <div class="test" >scss support!</div>
+    <div class="stylus-test" >stylus support!</div>
   </div>
 </template> 
 <script>
@@ -63,6 +64,14 @@ $primary-color: red;
   color: $primary-color;
   font-size:32px;
 }
+</style>
+<style lang='stylus' > 
+.stylus-test
+  width 80%
+  text-align center
+  padding 10px
+  margin 0 auto
+  box-shadow 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 8px 0 rgba(0, 0, 0, 0.19)
 </style> `;
 
 // const code_test = `

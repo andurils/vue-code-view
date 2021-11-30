@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       lang: "zh-CN",
-      base: "/component",
+      base: "/doc",
       visible: false,
       selectedMenuKey: "",
     };

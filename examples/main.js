@@ -59,11 +59,9 @@ const router = new VueRouter({
 
 router.afterEach((route) => {
   Vue.nextTick(() => {
-    // Array.prototype.forEach.call(blocks, hljs.highlightBlock);
-    // hljs.configure({ useBR: true });
     const blocks = document.querySelectorAll("pre code");
     blocks.forEach((block) => {
-      hljs.highlightBlock(block);
+      hljs.highlightElement(block);
     });
   });
 });

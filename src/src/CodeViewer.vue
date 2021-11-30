@@ -1,12 +1,14 @@
 <script>
-import CodeEditor from "./code-editor.vue";
+import _ from "lodash";
+import classNames from "classnames";
+import CodeEditor from "./CodeEditor.vue";
 import Tooltip from "./tooltip";
 import MeButton from "./button.vue";
 import { debounce } from "throttle-debounce";
 import { toggleClass } from "../utils/DOMhelper";
 import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
-import { isEmpty, extend, generateId } from "../utils/util";
+import { isEmpty } from "../utils/util";
 import { addStylesClient } from "../utils/style-loader/addStylesClient";
 import Locale from "../mixins/locale";
 // 字体图标
@@ -49,18 +51,17 @@ export default {
     };
   },
   created() {
-    this.viewId = `vcv-${generateId()}`; // vue-code-view => vcv
+    this.viewId = _.uniqueId("vcv-"); // `vcv-${generateId()}`;  vue-code-view => vcv
     this.debounceErrorHandler = debounce(this.debounceDelay, this.errorHandler);
 
     // this.update = debounce(this.debounceDelay, addStylesClient(this.viewId, {}));
     this.stylesUpdateHandler = addStylesClient(this.viewId, {});
   },
   mounted() {
-    this._initialize();
+    this.init();
   },
   methods: {
-    // 初始化
-    _initialize() {
+    init() {
       // md-loader 用于静态示例展示处理  模板字符串 嵌套 模板字符串 情况特殊处理，
       if (!isEmpty(this.source)) {
         this.source = this.source.replace(/<--backticks-->/g, "\u0060");
@@ -70,19 +71,15 @@ export default {
     },
 
     genComponent() {
+      const demoComponent = {};
       const { template, script, styles, customBlocks, errors } =
         this.sfcDescriptor;
-
-      // console.log(this.sfcDescriptor);
 
       const templateCode = template ? template.content.trim() : ``;
       let scriptCode = script ? script.content.trim() : ``;
       const styleCodes = genStyleInjectionCode(styles, this.viewId);
 
-      // 构建组件
-      const demoComponent = {};
-
-      // 组件 script
+      // script
       if (!isEmpty(scriptCode)) {
         const componentScript = {};
         scriptCode = scriptCode.replace(
@@ -90,21 +87,21 @@ export default {
           "componentScript ="
         );
         eval(scriptCode);
-        extend(demoComponent, componentScript);
+        // update component's content
+        _.assignIn(demoComponent, componentScript);
       }
 
-      // 组件 template
-      // id="${componentId}"
+      // template
       demoComponent.template = `<section id="${this.viewId}" class="result-box" >
         ${templateCode}
       </section>`;
 
-      // 组件 style
+      // style
       // https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js
       this.stylesUpdateHandler(styleCodes);
 
-      // 组件内容更新
-      extend(this.dynamicComponent, {
+      // update dynamicComponent
+      _.assignIn(this.dynamicComponent, {
         name: this.viewId,
         component: demoComponent,
       });
@@ -192,9 +189,7 @@ export default {
   },
 
   render() {
-    // console.log(this.t("el.codebutton.text"));
-    // console.log(this.t("el.transparentbutton.text"));
-    const { className, renderToolbar, theme } = this;
+    const { viewId, className, renderToolbar, theme } = this;
     const showCodeButton = (
       <Tooltip
         class="item"
@@ -226,11 +221,11 @@ export default {
       </Tooltip>
     );
     return (
-      <div class={className} ref="codeViewer">
+      <div class={classNames(`${viewId}`, className)} ref="codeViewer">
         <div class="code-view-wrapper">
           {/* --------- renderExample  --------- */}
           {this.renderPreview()}
-          {/* --------- toolbar   --------- */}
+          {/* --------- toolbar   ---------  */}
           <div class="code-view-toolbar">
             {renderToolbar
               ? renderToolbar(showCodeButton, showTransparentButton)

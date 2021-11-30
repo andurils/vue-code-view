@@ -60,7 +60,7 @@ module.exports = function (source) {
 
   return `
     <template>
-      <section class="markdown">
+      <section class="markdown api-container">
         ${output.join("")}
       </section>
     </template>

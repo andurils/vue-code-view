@@ -7,7 +7,8 @@
   - CSS 预处理支持
 
 - `//DONE`
-  - 💥✨ feat:编写`md-loder`，让 Markdown 中的代码实时渲染预览效果。具体实现参考 `element 2`。
+  - 💥✨ feat:新增`md-loder`，支持 Markdown 中的代码实时渲染预览效果。具体实现参考 `element 2`。
+  - 💥✨ feat: 新增CSS预处理器`stylus`支持，参考 [stylus-loader](https://github.com/webpack-contrib/stylus-loader/blob/master/src/utils.js) 。
   - ✨ feat:新增国际化功能，具体实现参考`element 2`。
   - 🏗️ 调整 `vue-cli` 默认项目文件结构，调整 `webpack` 配置。
   - 📃 docs: 更新组件说明文档，文档支持组件实时交互。
@@ -15,11 +16,11 @@
 
 ---
 
-## 0.4.1
+## 0.3.9
 
 `2021-10-27`
 
-- 💥✨ feat: 新增组件示例 `styles` 动态去添加、更新和移除事件，参考 [vue-style-loader/addStylesClient](https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js) 。
+- 💥✨ feat: 新增组件示例 `styles` 动态添加、更新和移除事件，参考 [vue-style-loader/addStylesClient](https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js) 。
 - 💥✨ feat: 新增代码校验功能，提供异常处理,提供界面展示提醒、事件 API `errorHandler`。
 - 💥✨ feat: 新增组件工具栏自定义事件 API `renderToolbar`。
 - ✨ feat: 新增组件示例基于 ID 实现样式隔离。
@@ -31,7 +32,7 @@
 - 🔧 build: 发布可用 npm 包 [npm/vue-code-view@0.3.8](https://www.npmjs.com/package/vue-code-view)。
 - 📃 docs: 新增组件示例说明文档。
 
-## 0.4.0
+## 0.3.8
 
 `2021-10-14`
 

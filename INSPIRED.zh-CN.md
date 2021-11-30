@@ -1,38 +1,24 @@
 ### 示例参考
 
-- NPM react-to-vue
-- <https://github.com/simonguo/react-code-view>
-- <https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-dynamic-components-with-binding?file=/index.html:942-1011>
+## react-to-vue 
+- <https://github.com/simonguo/react-code-view> 
 - <https://github.com/vuejs/jsx#installation>
 
-### vue-cli
+## JSX
+- <https://github.com/vuejs/jsx#installation>
 
-通过 · 命令使用 GUI 运行更多的特性脚本
+ 
+## 动态组件
 
-### 动态组件
+<https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-keep-alive-with-dynamic-components?file=/index.html>
 
 <https://cn.vuejs.org/v2/guide/components.html>#动态组件
 绑定组件选项对象
+
 <https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-dynamic-components-with-binding>
 
 <https://juejin.cn/post/6992483283187531789>
 
-###
-
-一种通过运行时转换， http-vue-loader。VUE 解析 Template、CSS、Script，输出一个 JS 对象。
-cnpm i http-vue-loader
-
-<https://www.jianshu.com/p/40a315a6ffc3>
-
-// vue 文件的转换 js
-<https://www.npmjs.com/package/vue2js>
-
-### vue-loader
-
-cnpm i @vue/component-compiler-utils@2.6.0
-
-cnpm i throttle-debounce@2.3.0 --save
-cnpm install vue2-storage --save
 
 ### 内置样式实现参考
 
@@ -58,16 +44,13 @@ cnpm install vue2-storage --save
 <https://cnpmjs.org/package/markdown-it-container>
 <https://www.cnblogs.com/lindongdong/p/9287303.html>
 
-### 动态组件
 
-<https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-keep-alive-with-dynamic-components?file=/index.html>
 
 ## repo 样式参考
 
-<https://github.com/ant-design/ant-design/blob/master/README-zh_CN.md>
-<https://github.com/PanJiaChen/vue-element-admin/blob/master/README.zh-CN.md>
+<https://github.com/ant-design/ant-design/blob/master/README-zh_CN.md> 
 
-### css 配置&预处理
+## css 配置&预处理
 
 <https://cli.vuejs.org/zh/guide/css.html>#预处理器
 
@@ -77,12 +60,32 @@ cnpm install vue2-storage --save
 <https://github.com/wizardpisces/tiny-sass-compiler>
 <https://wizardpisces.github.io/sass>
 
+
+### stylus
+
+https://github.com/webpack-contrib/stylus-loader/blob/master/src/utils.js
+https://stylus-lang.com/
+
 ### Markdown
 
 <https://cnpmjs.org/package/markdown-it-container>
 <https://www.cnblogs.com/lindongdong/p/9287303.html>
+
+```bash
 cnpm i --save-dev markdown-it markdown-it-anchor markdown-it-chain markdown-it-container
+```
 
 # Tools
 
-svg <http://www.zuohaotu.com/svg/>
+## svg 编辑生成
+
+<http://www.zuohaotu.com/svg/>
+
+## badge
+
+推荐 <https://shields.io/>  
+<https://badgen.net/>
+
+
+## TOC  
+<https://github.dev/ant-design/ant-design/>

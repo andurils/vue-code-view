@@ -10,9 +10,9 @@ const registerRoute = (navConfig) => {
   Object.keys(navConfig).forEach((lang, index) => {
     let navs = navConfig[lang];
     route.push({
-      path: `/component`,
+      path: `/doc`,
       // 重定向
-      redirect: `/component/overview`,
+      redirect: `/doc/overview`,
       component: LOAD_Component("pages/zh-CN/MainContent.vue"),
       children: [],
     });

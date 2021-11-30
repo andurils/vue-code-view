@@ -35,8 +35,8 @@ export default {
             </router-link>
           </a-menu-item>
           <a-menu-item key="component">
-            <router-link active-class="active" to={`/component`}>
-              组件
+            <router-link active-class="active" to={`/doc`}>
+              文档
             </router-link>
           </a-menu-item>
           <a-menu-item key="changelog">

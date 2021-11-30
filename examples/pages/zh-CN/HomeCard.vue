@@ -6,45 +6,48 @@ import PicResource from "@assets/images/resource.png";
 
 export default {
   name: "HomeCard",
+  data() {
+    return {
+      cardList: [
+        {
+          title: "轻量",
+          desc: "无需安装任何环境，打开页面快速体验交互细节。",
+          bgSrc: PicGuide,
+        },
+        {
+          title: "实时",
+          desc: "在线代码编辑器实时调试预览代码编辑效果。",
+          bgSrc: PicThemeIndex,
+        },
+        {
+          title: "交互",
+          desc: "支持代码高亮、括号/标签匹配自动关闭、代码折叠。",
+          bgSrc: PicComponent,
+        },
+        {
+          title: "Markdown",
+          desc: "支持 Markdown 示例实时渲染。",
+          bgSrc: PicResource,
+        },
+      ],
+    };
+  },
   render() {
     return (
       <a-row gutter={[24, 32]}>
-        <a-col xs={24} sm={6}>
-          <a-card hoverable class="more-card">
-            <img slot="cover" alt="example" src={PicGuide} />
-            <a-card-meta
-              title="轻量"
-              description="无需安装任何环境，打开页面快速体验交互细节。"
-            ></a-card-meta>
-          </a-card>
-        </a-col>
-        <a-col xs={24} sm={6}>
-          <a-card hoverable class="more-card">
-            <img slot="cover" alt="example" src={PicComponent} />
-            <a-card-meta
-              title="交互"
-              description="在线代码编辑器，支持代码高亮、光标行背景高亮、括号/标签匹配自动关闭、代码折叠。"
-            ></a-card-meta>
-          </a-card>
-        </a-col>
-        <a-col xs={24} sm={6}>
-          <a-card hoverable class="more-card">
-            <img slot="cover" alt="example" src={PicThemeIndex} />
-            <a-card-meta
-              title="实时"
-              description="实时预览代码编辑效果。"
-            ></a-card-meta>
-          </a-card>
-        </a-col>
-        <a-col xs={24} sm={6}>
-          <a-card hoverable class="more-card">
-            <img slot="cover" alt="example" src={PicResource} />
-            <a-card-meta
-              title="Markdown"
-              description="支持 Markdown 示例实时渲染。"
-            ></a-card-meta>
-          </a-card>
-        </a-col>
+        {this.cardList.map((item) => {
+          return (
+            <a-col xs={24} sm={6}>
+              <a-card hoverable class="more-card">
+                <img slot="cover" alt="example" src={item.bgSrc} />
+                <a-card-meta
+                  title={item.title}
+                  description={item.desc}
+                ></a-card-meta>
+              </a-card>
+            </a-col>
+          );
+        })}
       </a-row>
     );
   },

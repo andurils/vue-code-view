@@ -99,11 +99,11 @@ export default {
   },
   mounted() {
     // 初始化
-    this._initialize();
+    this.init();
   },
   methods: {
     // 初始化
-    _initialize() {
+    init() {
       // 初始化编辑器实例，传入需要被实例化的文本域对象和默认配置
       this.codeEditor = CodeMirror.fromTextArea(
         this.$refs.codeContainer,

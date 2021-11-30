@@ -1,5 +1,6 @@
 import { compile } from "tiny-sass-compiler";
 import { isEmpty } from "../util";
+import stylusLoader from "../style-loader/stylusLoader";
 // import { compiler } from "../less-compiler";
 
 /* styles
@@ -48,6 +49,14 @@ export function genStyleInjectionCode(styles, parentId) {
       // compiler.fromSource(style.content.trim()).then((res) => {
       //   styleCodes.push(res.css.trim());
       // });
+      return;
+    }
+
+    if (style.lang === "stylus") {
+      // stylus compiler
+      const result = stylusLoader(style.content.trim());
+      style.css = rootParentIdMixIn(result, parentId);
+      styleCodes.push(style);
       return;
     }
 

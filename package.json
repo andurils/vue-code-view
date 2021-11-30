@@ -16,11 +16,13 @@
   "dependencies": {
     "codemirror": "^5.62.2",
     "deepmerge": "^4.2.2",
+    "lodash": "^4.17.21",
     "throttle-debounce": "^3.0.1",
     "tiny-sass-compiler": "^0.12.2"
   },
   "peerDependencies": {
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "stylus": ">=0.52.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -44,6 +46,7 @@
     "node-sass": "^4.12.0",
     "prettier": "^2.2.1",
     "sass-loader": "^8.0.2",
+    "stylus": "^0.55.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vue": "^2.6.11",
     "vue-loader": "^15.9.8",
