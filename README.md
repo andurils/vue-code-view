@@ -1,6 +1,4 @@
-<h1 style="display:flex;justify-content:center;">
-Vue Code View
-</h1>
+# Vue Code View
 
 [![Build Status](https://app.travis-ci.com/andurils/vue-code-view.svg?branch=dev)](https://app.travis-ci.com/andurils/vue-code-view)
 [![GitHub license](https://img.shields.io/github/license/andurils/vue-code-view)](https://github.com/andurils/vue-code-view/blob/main/LICENSE)
@@ -14,7 +12,7 @@ English | [简体中文](./README.zh-CN.md)
 
 当我们阅读包含大量代码的文档时，当需要查看、调试代码运行效果，必须要打开IDE或者跳转至 `codepen` `codesandbox`等在线编辑器。虽然很多 `Markdown` 文档通过 `loader` 实现了示例代码的 `render` 展示，当需要调试代码时，还是需要重复上述步骤，体验不是太友好。那么能不能有这么一个组件能支持在页面中编辑代码，实时运行预览效果？
 
-> 起初没有找到，当看到了 [react-code-view](https://github.com/simonguo/react-code-view) 受到了启发，所以有了此组件，再次特别感谢！
+当看到了 [react-code-view](https://github.com/simonguo/react-code-view) 受到了启发，所以有了此组件，再次特别感谢！
 
 使用此组件,  `vue` 页面还是 `Markdown` 文档中的多示例代码，都可以实时编辑运行代码、预览效果。
 

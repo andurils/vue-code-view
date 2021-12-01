@@ -114,3 +114,16 @@ const hasOwnProperty = Object.prototype.hasOwnProperty;
 export function hasOwn(obj, key) {
   return hasOwnProperty.call(obj, key);
 }
+
+/**
+ * @function  将一个对象的内容合并到目标对象
+ * @description 如果对象具有相同的属性，则后者会覆盖前者的属性值
+ * @param to 目标对象
+ * @param _from 被合并的对象
+ */
+export function extend(to, _from) {
+  for (let key in _from) {
+    to[key] = _from[key];
+  }
+  return to;
+}

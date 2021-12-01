@@ -1,7 +1,5 @@
 import { compile } from "tiny-sass-compiler";
 import { isEmpty } from "../util";
-// import stylusLoader from "../style-loader/stylusLoader";
-// import { compiler } from "../less-compiler";
 import lessLoader from "../style-loader/lessLoader";
 
 /* styles
@@ -29,88 +27,34 @@ export async function genStyleInjectionCode(styles, parentId) {
   const isNotEmptyStyle = (style) =>
     !style.src && nonWhitespaceRE.test(style.content);
 
-  // eslint-disable-next-line no-unused-vars
-  // styles.forEach(async (style, i) => {
-  //   if (!isNotEmptyStyle(style)) {
-  //     console.log(`the css link  or style content empty is  not support !`);
-  //     return;
-  //   }
-
-  //   if (style.lang === "scss" || style.lang === "sass") {
-  //     // scss compiler
-  //     const result = sassCompiler(style.content.trim());
-  //     style.css = rootParentIdMixIn(result.code, parentId);
-  //     styleCodes.push(style);
-  //     return;
-  //   }
-
-  //   if (style.lang === "less") {
-  //     // less compiler
-  //     var data = await lessLoader(style.content.trim());
-  //     style.css = rootParentIdMixIn(data.css, parentId);
-  //     styleCodes.push(style);
-  //     return;
-
-  //     // lessLoader(style.content.trim()).then((data) => {
-  //     //   console.log("less 1", data);
-
-  //     //   console.log("less 2");
-
-  //     // });
-  //   }
-
-  //   if (style.lang === "stylus") {
-  //     console.log(`the stylus is  not support !`);
-  //     // stylus compiler
-  //     // const result = stylusLoader(style.content.trim());
-  //     // style.css = rootParentIdMixIn(result, parentId);
-  //     // styleCodes.push(style);
-  //     // return;
-  //   }
-
-  //   if (isEmpty(style.lang)) {
-  //     style.css = rootParentIdMixIn(style.content.trim(), parentId);
-  //     styleCodes.push(style);
-  //     return;
-  //   }
-  //   // 更多预处理格式 暂不支持
-  //   if (style.lang != null) {
-  //     console.log(`the ${style.lang} is  not support !`);
-  //     return;
-  //   }
-  // });
-
   await asyncForEach(styles, async (style, i) => {
-    console.log(i);
     if (!isNotEmptyStyle(style)) {
-      console.log(`the css link  or style content empty is  not support !`);
-    } else if (style.lang === "scss" || style.lang === "sass") {
-      // scss compiler
+      console.log(`the css link  or style content empty is unsupported !`);
+    }
+    // scss compiler
+    else if (style.lang === "scss" || style.lang === "sass") {
       const result = sassCompiler(style.content.trim());
       style.css = rootParentIdMixIn(result.code, parentId);
       styleCodes.push(style);
-    } else if (style.lang === "less") {
-      // less compiler
+    }
+    // less compiler
+    else if (style.lang === "less") {
       var data = await lessLoader(style.content.trim());
       style.css = rootParentIdMixIn(data.css, parentId);
       styleCodes.push(style);
-    } else if (style.lang === "stylus") {
-      console.log(`the stylus is  not support !`);
-      // stylus compiler
-      // const result = stylusLoader(style.content.trim());
-      // style.css = rootParentIdMixIn(result, parentId);
-      // styleCodes.push(style);
-      // return;
+    }
+    // stylus compiler
+    else if (style.lang === "stylus") {
+      console.log(`the stylus is unsupported !`);
     }
     // 更多预处理格式 暂不支持
     else if (style.lang != null) {
-      console.log(`the ${style.lang} is  not support !`);
+      console.log(`the ${style.lang} is unsupported !`);
     } else if (isEmpty(style.lang)) {
       style.css = rootParentIdMixIn(style.content.trim(), parentId);
       styleCodes.push(style);
     }
   });
-  console.log("Done");
 
   return styleCodes;
 }

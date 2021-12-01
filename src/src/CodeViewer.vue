@@ -1,5 +1,4 @@
 <script>
-import _ from "lodash";
 import classNames from "classnames";
 import CodeEditor from "./CodeEditor.vue";
 import Tooltip from "./tooltip";
@@ -8,7 +7,7 @@ import { debounce } from "throttle-debounce";
 import { toggleClass } from "../utils/DOMhelper";
 import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
-import { isEmpty } from "../utils/util";
+import { isEmpty, extend, generateId } from "../utils/util";
 import { addStylesClient } from "../utils/style-loader/addStylesClient";
 import Locale from "../mixins/locale";
 // 字体图标
@@ -51,7 +50,7 @@ export default {
     };
   },
   created() {
-    this.viewId = _.uniqueId("vcv-"); // `vcv-${generateId()}`;  vue-code-view => vcv
+    this.viewId = `vcv-${generateId()}`;
     this.debounceErrorHandler = debounce(this.debounceDelay, this.errorHandler);
 
     // this.update = debounce(this.debounceDelay, addStylesClient(this.viewId, {}));
@@ -79,8 +78,6 @@ export default {
       let scriptCode = script ? script.content.trim() : ``;
       const styleCodes = await genStyleInjectionCode(styles, this.viewId);
 
-      console.log("vcv", styleCodes, styleCodes.length);
-
       // script
       if (!isEmpty(scriptCode)) {
         const componentScript = {};
@@ -90,7 +87,7 @@ export default {
         );
         eval(scriptCode);
         // update component's content
-        _.assignIn(demoComponent, componentScript);
+        extend(demoComponent, componentScript);
       }
 
       // template
@@ -103,7 +100,7 @@ export default {
       this.stylesUpdateHandler(styleCodes);
 
       // update dynamicComponent
-      _.assignIn(this.dynamicComponent, {
+      extend(this.dynamicComponent, {
         name: this.viewId,
         component: demoComponent,
       });

@@ -24,8 +24,7 @@ const code_example_1 = `<template>
       <a-button type="primary" shape="circle" loading />
       <a-button type="danger" shape="round" loading />
     </div>
-    <div class="test" >scss support!</div>
-    <div class="stylus-test" >stylus support!</div>
+    <div class="test" >scss support!</div> 
     <div class="less-test" >less support!</div>
   </div>
 </template> 
@@ -65,7 +64,7 @@ $primary-color: red;
   color: $primary-color;
   font-size:32px;
 }
-</style>
+</style> 
 <style lang='less' > 
 @width: 10px;
 @height: @width + 10px;
