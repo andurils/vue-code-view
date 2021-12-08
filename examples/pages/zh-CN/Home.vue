@@ -1,6 +1,6 @@
 <script>
-import HomeBackground from "./HomeBackground.vue";
-import HomeCard from "./HomeCard.vue";
+import HomeBackground from "./home-background.vue";
+import HomeCard from "./home-card.vue";
 export default {
   components: {
     HomeBackground,

@@ -1,6 +1,6 @@
 <script>
-import Tooltip from "./tooltip";
-import MeButton from "./button.vue";
+import Tooltip from "../components/tooltip";
+import MeButton from "../components/button.vue";
 import Locale from "../mixins/locale";
 
 export default {

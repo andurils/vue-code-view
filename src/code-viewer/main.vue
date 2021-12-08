@@ -1,12 +1,12 @@
 <script>
 import classNames from "classnames";
-import CodeEditor from "./CodeEditor.vue";
+import CodeEditor from "./code-editor.vue";
 import { debounce } from "throttle-debounce";
 import { toggleClass } from "../utils/DOMhelper";
 import { isEmpty, generateId } from "../utils/util";
 import Locale from "../mixins/locale";
-import OutputContainer from "./OutputContainer.vue";
-import Toolbar from "./Toolbar.vue";
+import OutputContainer from "./output-container.vue";
+import Toolbar from "./toolbar.vue";
 
 // 字体图标
 import "../fonts/iconfont.css";
