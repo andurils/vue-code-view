@@ -34,8 +34,9 @@ export default {
 $font-stack:    Helvetica, sans-serif;
 $primary-color: red;
 
-body .test{
-  font: 100% $font-stack;
+.test{
+  font-size:66px; 
+  font: 600 $font-stack;
   color: $primary-color;
 }
 </style> `;
@@ -58,7 +59,9 @@ export default {
         <h2>demo play</h2>
         <code-viewer
           source={code_example_1}
-          showCode={false}
+          showCode={true}
+          height={200}
+          layout={"left"}
           errorHandler={(errorMsg) => {
             this.$notify.error({
               title: "Info",

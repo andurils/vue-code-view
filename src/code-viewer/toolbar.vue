@@ -68,16 +68,6 @@ export default {
   computed: {},
 
   render() {
-    const {
-      viewId,
-      className,
-      renderToolbar,
-      theme,
-      layoutCls,
-      lengthType,
-      paneLengthValue,
-    } = this;
-
     const showCodeButton = (
       <Tooltip
         class="item"

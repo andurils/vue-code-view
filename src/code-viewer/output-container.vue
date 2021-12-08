@@ -1,27 +1,20 @@
 <script>
-import classNames from "classnames";
 import { debounce } from "throttle-debounce";
-import { toggleClass } from "../utils/DOMhelper";
 import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
-import { isEmpty, extend, generateId } from "../utils/util";
+import { isEmpty, extend } from "../utils/util";
 import { addStylesClient } from "../utils/style-loader/addStylesClient";
 import Locale from "../mixins/locale";
 
 export default {
   name: "OutputContainer",
   mixins: [Locale],
+  inject: ["viewId"],
   props: {
     code: { type: String },
-    viewId: { type: String },
   },
   data() {
     return {
-      triggerLeftOffset: 0, // 鼠标距滑动器左(顶)侧偏移量
-      paneLengthPercent: 50,
-      direction: "row",
-      layOutName: `layout-${this.layout}`,
-      className: ["vue-code-viewer", "vue-app"], // page className
       dynamicComponent: {
         component: {
           template: "<div>Hello Vue.js!</div>",
@@ -29,8 +22,6 @@ export default {
       },
       hasError: false,
       errorMessage: null,
-      showCodeEditor: this.showCode,
-      showCodeIcon: {},
     };
   },
   created() {
@@ -141,3 +132,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.output-container {
+  padding: 8px;
+}
+</style>

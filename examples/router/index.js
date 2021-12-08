@@ -1,4 +1,4 @@
-import Demo from "../views/Demo.vue";
+import Demo from "../views/demo.vue";
 import sideNavConfig from "./side-nav.config.json";
 
 const lang = "zh-CN";
@@ -13,7 +13,7 @@ const registerRoute = (navConfig) => {
       path: `/doc`,
       // 重定向
       redirect: `/doc/overview`,
-      component: LOAD_Component("pages/zh-CN/MainContent.vue"),
+      component: LOAD_Component("pages/zh-CN/main-content.vue"),
       children: [],
     });
 
@@ -60,18 +60,18 @@ let route = [
     path: "/",
     name: "Home",
     // component: Demo,
-    component: () => import("@examples/pages/zh-CN/Home.vue"),
+    component: () => import("@examples/pages/zh-CN/home.vue"),
   },
   {
     path: "/demo",
     name: "Demo",
     component: Demo,
   },
-  {
-    path: "/test",
-    name: "Test",
-    component: () => import("@examples/views/test.vue"),
-  },
+  // {
+  //   path: "/test",
+  //   name: "Test",
+  //   component: () => import("@examples/views/test.vue"),
+  // },
   {
     path: "/changelog",
     name: "Changelog",
