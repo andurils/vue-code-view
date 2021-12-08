@@ -128,6 +128,7 @@ export default {
         <code-viewer
           source={code_example_1}
           showCode
+          layout={"top"}
           errorHandler={(errorMsg) => {
             this.$notify.error({
               title: "Info",

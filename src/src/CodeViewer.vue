@@ -1,15 +1,13 @@
 <script>
 import classNames from "classnames";
 import CodeEditor from "./CodeEditor.vue";
-import Tooltip from "./tooltip";
-import MeButton from "./button.vue";
 import { debounce } from "throttle-debounce";
 import { toggleClass } from "../utils/DOMhelper";
-import { parseComponent } from "../utils/sfcParser/parser";
-import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
-import { isEmpty, extend, generateId } from "../utils/util";
-import { addStylesClient } from "../utils/style-loader/addStylesClient";
+import { isEmpty, generateId } from "../utils/util";
 import Locale from "../mixins/locale";
+import OutputContainer from "./OutputContainer.vue";
+import Toolbar from "./Toolbar.vue";
+
 // 字体图标
 import "../fonts/iconfont.css";
 import "../styles/tooltip.css";
@@ -17,10 +15,11 @@ import "../styles/tooltip.css";
 export default {
   name: "CodeViewer",
   mixins: [Locale],
+
   components: {
     CodeEditor,
-    MeButton,
-    Tooltip,
+    OutputContainer,
+    Toolbar,
   },
   props: {
     theme: { type: String, default: "dark" }, //light
@@ -32,79 +31,76 @@ export default {
       type: Number,
       default: 300,
     },
+    // 布局  output所在位置
+    layout: {
+      type: String,
+      default: "top",
+      validator(val) {
+        return ["top", "right", "left"].indexOf(val) > -1;
+      },
+    },
+    height: {
+      type: Number,
+      default: 300,
+    },
+    min: {
+      type: Number,
+      default: 10,
+    },
+
+    max: {
+      type: Number,
+      default: 90,
+    },
+    triggerLength: {
+      type: Number,
+      default: 10,
+    },
   },
   data() {
     return {
       id: this._uid,
+      minHeight: 125, // px
+      triggerLeftOffset: 0, // 鼠标距滑动器左(顶)侧偏移量
+      paneLengthPercent: 50,
+      direction: "row",
+      layOutName: `layout-${this.layout}`,
       code: ``,
       className: ["vue-code-viewer", "vue-app"], // page className
-      dynamicComponent: {
-        component: {
-          template: "<div>Hello Vue.js!</div>",
-        },
-      },
-      hasError: false,
-      errorMessage: null,
       showCodeEditor: this.showCode,
       showCodeIcon: {},
     };
   },
+  provide: function () {
+    return {
+      handleShowCode: this.handleShowCode,
+      handleChangeTransparent: this.handleChangeTransparent,
+      changView: this.changView,
+      handleCodeChange: this.handleCodeChange,
+    };
+  },
   created() {
+    // component id, vcv-1
     this.viewId = `vcv-${generateId()}`;
-    this.debounceErrorHandler = debounce(this.debounceDelay, this.errorHandler);
-
-    // this.update = debounce(this.debounceDelay, addStylesClient(this.viewId, {}));
-    this.stylesUpdateHandler = addStylesClient(this.viewId, {});
   },
   mounted() {
     this.init();
   },
   methods: {
     init() {
-      // md-loader 用于静态示例展示处理  模板字符串 嵌套 模板字符串 情况特殊处理，
       if (!isEmpty(this.source)) {
-        this.source = this.source.replace(/<--backticks-->/g, "\u0060");
+        // md-loader 用于静态示例展示处理  模板字符串 嵌套 模板字符串 情况特殊处理，
+        const souceCode = this.source.replace(/<--backticks-->/g, "\u0060");
+
+        this.handleCodeChange(souceCode);
       }
-      // 传入初始值赋值  prop.source=>code
-      this.handleCodeChange(this.source);
+      // ex 源码内容为空！！
+    },
+    // 更新 code 内容
+    handleCodeChange(val) {
+      this.code = val;
     },
 
-    async genComponent() {
-      const demoComponent = {};
-      const { template, script, styles, customBlocks, errors } =
-        this.sfcDescriptor;
-
-      const templateCode = template ? template.content.trim() : ``;
-      let scriptCode = script ? script.content.trim() : ``;
-      const styleCodes = await genStyleInjectionCode(styles, this.viewId);
-
-      // script
-      if (!isEmpty(scriptCode)) {
-        const componentScript = {};
-        scriptCode = scriptCode.replace(
-          /export\s+default/,
-          "componentScript ="
-        );
-        eval(scriptCode);
-        // update component's content
-        extend(demoComponent, componentScript);
-      }
-
-      // template
-      demoComponent.template = `<section id="${this.viewId}" class="result-box" >
-        ${templateCode}
-      </section>`;
-
-      // style
-      // https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js
-      this.stylesUpdateHandler(styleCodes);
-
-      // update dynamicComponent
-      extend(this.dynamicComponent, {
-        name: this.viewId,
-        component: demoComponent,
-      });
-    },
     // 组件代码编辑器展示
     handleShowCode() {
       this.showCodeEditor = !this.showCodeEditor;
@@ -113,133 +109,147 @@ export default {
     handleChangeTransparent() {
       toggleClass(this.$refs.codeViewer, "vue-code-transparent");
     },
-    // 更新 code 内容
-    handleCodeChange(val) {
-      this.code = val;
+
+    changView(e) {
+      this.layOutName = `layout-${e}`;
     },
 
-    renderPreview() {
-      const { hasError, errorMessage } = this;
-      // <div>{this.initialExample ? this.initialExample : <div>Loading...</div>}</div>
-      if (hasError) {
-        return <pre class="code-view-error">{errorMessage}</pre>;
+    // 按下滑动器
+    handleMouseDown(e) {
+      document.addEventListener("mousemove", this.handleMouseMove);
+      document.addEventListener("mouseup", this.handleMouseUp);
+
+      if (this.direction === "row") {
+        this.triggerLeftOffset =
+          e.pageX - e.srcElement.getBoundingClientRect().left;
+      } else {
+        this.triggerLeftOffset =
+          e.pageY - e.srcElement.getBoundingClientRect().top;
       }
 
-      const renderComponent = this.dynamicComponent.component;
-
-      return (
-        <div class="code-view zoom-1">
-          <renderComponent></renderComponent>
-        </div>
-      );
+      console.log(e, this.triggerLeftOffset);
     },
-    // 代码检查
-    codeLint() {
-      // 校验代码是否为空
-      this.hasError = this.isCodeEmpty;
-      this.errorMessage = this.isCodeEmpty
-        ? this.t("el.error.emptyCode")
-        : null;
-      // 代码为空 跳出检查
-      if (this.isCodeEmpty) return;
 
-      // 校验代码是否存在<template>
-      const { template } = this.sfcDescriptor;
-      const templateCode =
-        template && template.content ? template.content.trim() : ``;
-      const isTemplateEmpty = isEmpty(templateCode);
+    // 按下滑动器后移动鼠标
+    handleMouseMove(e) {
+      const clientRect = this.$refs.splitPane.getBoundingClientRect();
+      let paneLengthPercent = 0;
 
-      this.hasError = isTemplateEmpty;
-      this.errorMessage = isTemplateEmpty
-        ? this.t("el.error.noTemplate")
-        : null;
-      // 代码为空 跳出检查
-      if (this.isTemplateEmpty) return;
+      if (this.direction === "row") {
+        const offset =
+          e.pageX -
+          clientRect.left -
+          this.triggerLeftOffset +
+          this.triggerLength / 2;
+        paneLengthPercent = (offset / clientRect.width) * 100;
+      } else {
+        const offset =
+          e.pageY -
+          clientRect.top -
+          this.triggerLeftOffset +
+          this.triggerLength / 2;
+        paneLengthPercent = (offset / clientRect.height) * 100;
+      }
+
+      if (paneLengthPercent < this.min) {
+        paneLengthPercent = this.min;
+      }
+      // if (paneLengthPercent > this.max) {
+      //   paneLengthPercent = this.max;
+      // }
+
+      this.paneLengthPercent = paneLengthPercent;
+      console.log("update:paneLengthPercent", paneLengthPercent);
+      // this.$emit("update:paneLengthPercent", paneLengthPercent);
     },
-    defaultButtonRender(showCodeButton, showTransparentButton) {
-      return (
-        <div>
-          {showCodeButton} {showTransparentButton}
-        </div>
-      );
+
+    // 松开滑动器
+    handleMouseUp() {
+      document.removeEventListener("mousemove", this.handleMouseMove);
     },
   },
   computed: {
-    // SFC Descriptor Object
-    sfcDescriptor: function () {
-      return parseComponent(this.code);
+    layoutCls: function () {
+      let cls = [`${this.layOutName}`];
+      if (this.layOutName !== "layout-top") {
+        cls.push("layout-side");
+      }
+      return cls;
     },
-    // 代码是否为空
-    isCodeEmpty: function () {
-      return !(this.code && !isEmpty(this.code.trim()));
+    lengthType() {
+      return this.direction === "row" ? "width" : "height";
     },
-  },
-  watch: {
-    // eslint-disable-next-line no-unused-vars
-    code(newSource, oldSource) {
-      this.codeLint();
-      // 错误事件处理
-      this.hasError &&
-        this.errorHandler &&
-        this.debounceErrorHandler(this.errorMessage);
-
-      if (!this.hasError) this.genComponent();
+    viewHeight() {
+      return this.height <= this.minHeight ? this.minHeight : this.height;
+    },
+    paneLengthValue() {
+      console.log(
+        `calc(${this.paneLengthPercent}% - ${this.triggerLength / 2 + "px"})`
+      );
+      return `calc(${this.paneLengthPercent}% - ${
+        this.triggerLength / 2 + "px"
+      })`;
     },
   },
 
   render() {
-    const { viewId, className, renderToolbar, theme } = this;
-    const showCodeButton = (
-      <Tooltip
-        class="item"
-        effect="dark"
-        content={this.t("el.codebutton.text")}
-        placement="top"
-      >
-        <me-button
-          icon="code"
-          size="xs"
-          circle
-          onClick={this.handleShowCode}
-        ></me-button>
-      </Tooltip>
-    );
-    const showTransparentButton = (
-      <Tooltip
-        class="item"
-        effect="dark"
-        content={this.t("el.transparentbutton.text")}
-        placement="top"
-      >
-        <me-button
-          icon="transparent"
-          size="xs"
-          circle
-          onClick={this.handleChangeTransparent}
-        ></me-button>
-      </Tooltip>
-    );
+    const {
+      viewId,
+      className,
+      renderToolbar,
+      theme,
+      layoutCls,
+      lengthType,
+      paneLengthValue,
+    } = this;
+
     return (
-      <div class={classNames(`${viewId}`, className)} ref="codeViewer">
-        <div class="code-view-wrapper">
-          {/* --------- renderExample  --------- */}
-          {this.renderPreview()}
-          {/* --------- toolbar   ---------  */}
-          <div class="code-view-toolbar">
-            {renderToolbar
-              ? renderToolbar(showCodeButton, showTransparentButton)
-              : this.defaultButtonRender(showCodeButton, showTransparentButton)}
+      <div
+        class={classNames(`${viewId}`, className, layoutCls)}
+        ref="codeViewer"
+      >
+        {/*-- component wrapper start --*/}
+        <div
+          class="code-view-wrapper"
+          ref="splitPane"
+          style={
+            this.layOutName !== "layout-top"
+              ? { height: `${this.viewHeight}px` }
+              : {}
+          }
+        >
+          {/*-- example render start --*/}
+          <div
+            class="code-view dSNpeq"
+            style={`${lengthType}:${paneLengthValue}`}
+          >
+            {/*-- toolbar --*/}
+            <Toolbar></Toolbar>
+            {/*-- result-box --*/}
+            <OutputContainer
+              code={this.code}
+              view-id={viewId}
+            ></OutputContainer>
           </div>
-          {/* --------- CodeEditor   --------- */}
+          {/*-- example render end --*/}
+
+          {/*-- resizer --*/}
+          <div id="resizer" class="resizer" onMousedown={this.handleMouseDown}>
+            <span></span>
+            <div id="width-readout" class="width-readout"></div>
+          </div>
+
+          {/*-- code editor start --*/}
           {this.showCodeEditor && (
             <CodeEditor
-              lineNumbers
-              codeHandler={this.handleCodeChange}
+              line-numbers
               theme={`base16-${theme}`}
               value={this.code}
             />
           )}
+          {/*-- code editor end --*/}
         </div>
+        {/*-- component wrapper start --*/}
       </div>
     );
   },
@@ -251,11 +261,18 @@ $code-view-wrapper-border-color: #f1f1f1;
 $code-view-wrapper-bg: #ffffff;
 $primary-color: #3498ff;
 
+// .vue-code-viewer {
+//   // min-height: 300px;
+// }
+
 .code-view-wrapper {
-  position: relative;
+  // position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  // min-height: 125px;
   margin: 18px 0;
   padding: 0;
-  // border: 1px dashed #f1f1f1;
   border: 1px solid #ebebeb;
 
   border-color: $code-view-wrapper-border-color;
@@ -264,21 +281,19 @@ $primary-color: #3498ff;
   transition: 0.3s linear border-color;
 
   &:hover {
-    border: 1px dashed $primary-color;
+    border: 1px dashed #3498ff;
+  }
+
+  .resizer {
+    background: #060606;
+    border: solid 1px #2f2f2f;
+    box-sizing: border-box;
   }
 
   .code-view {
-    padding: 18px;
-    // &:after {
-    //   position: absolute;
-    //   top: 18px;
-    //   left: 18px;
-    //   font-size: 12px;
-    //   font-weight: 300;
-    //   color: #959595;
-    //   text-transform: uppercase;
-    //   letter-spacing: 1px;
-    // }
+    position: relative;
+    display: flex;
+    overflow: hidden;
   }
   .code-view-error {
     padding: 18px;
@@ -297,19 +312,35 @@ $primary-color: #3498ff;
       font-size: 16px;
     }
   }
+
+  .code-editor {
+    // -webkit-box-flex: 1;
+    // -webkit-flex-grow: 1;
+    // -ms-flex-positive: 1;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    background: #060606;
+    padding-right: 6px;
+  }
 }
 
-// CodeMirror
+// CodeMirror  default height  300px
 .CodeMirror {
   text-align: left;
-  padding: 10px;
+  // padding: 10px;
+  flex-grow: 1;
+  // height: 100%;
   // margin: 10px 0;
-  height: auto !important;
+  // height: auto !important;
   pre {
     padding: 0 20px;
   }
 }
 
+// 背景透明
 .vue-code-transparent .code-view {
   background-image: linear-gradient(
       45deg,
@@ -323,53 +354,116 @@ $primary-color: #3498ff;
   background-position: 0px 0px, 10px 0px, 10px -10px, 0px 10px;
 }
 
-// codepen
-// https://v3.cn.vuejs.org/guide/introduction.html#%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BA%94%E7%94%A8%E6%9E%84%E5%BB%BA
-// #result-box iframe {
-//     width: 100%;
-//     height: 100%;
-//     border: none;
-//     background: var(--cp-color-1);
-//     overflow: auto;
-//     -webkit-overflow-scrolling: touch;
-//     -webkit-transform-origin: 0 0;
-//     transform-origin: 0 0
-// }
+// layout
 
-// #result-box iframe::-webkit-scrollbar {
-//     width: .5em;
-//     height: .5em
-// }
+.layout-side {
+  // flex-direction: column;
+  .resizer {
+    height: 100%;
+    width: 18px;
+    cursor: col-resize;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 10;
+  }
+}
+.layout-left .resizer,
+.layout-right .resizer {
+  border-top: none;
+  border-bottom: none;
+}
+// layout-left
+.layout-left {
+  .code-view {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+  .code-editor {
+    // -webkit-box-flex: 1;
+    // -webkit-flex-grow: 1;
+    // -ms-flex-positive: 1;
+    // flex-grow: 1;
+    position: relative;
+  }
+}
 
-// #result-box iframe::-webkit-scrollbar-thumb {
-//     background: rgba(0,0,0,.5)
-// }
+// layout-right
+.layout-right {
+  .code-view {
+    -webkit-box-ordinal-group: 4;
+    -webkit-order: 3;
+    -ms-flex-order: 3;
+    flex-grow: 1;
+    order: 3;
+  }
+  #resizer {
+    -webkit-box-ordinal-group: 3;
+    -webkit-order: 2;
+    -ms-flex-order: 2;
+    order: 2;
+  }
+}
 
-// #result-box iframe::-webkit-scrollbar-track {
-//     background: 0 0
-// }
+// layout-top
+.layout-top {
+  .code-view-wrapper {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
 
-// #result-box.zoom-1 iframe {
-//     width: 100%!important;
-//     height: 100%!important
-// }
+  .code-view {
+    width: 100%;
+    // height: 350px;
+    min-height: 125px;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
 
-// #result-box.zoom-05 iframe {
-//     width: 200%!important;
-//     height: 200%!important;
-//     -webkit-transform: scale(.5);
-//     transform: scale(.5)
-// }
+  .resizer {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+  .resizer {
+    height: 18px;
+    cursor: row-resize;
+    position: relative;
+    z-index: 10;
+  }
 
-// #result-box.zoom-025 iframe {
-//     width: 400%!important;
-//     height: 400%!important;
-//     -webkit-transform: scale(.25);
-//     transform: scale(.25)
-// }
+  .code-editor {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    position: relative;
+  }
+}
+
+.dSNpeq {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.eqwZsr {
+  position: absolute;
+  left: 16px;
+  z-index: 99;
+  display: flex;
+  bottom: 44px;
+  opacity: 1;
+  transition-property: opacity, bottom;
+  transition-duration: 300ms;
+}
 </style>
 
 <style lang="scss">
-// @import "../styles/tooltip.scss";
-//
+// @import "../styles/layout.scss";
 </style>

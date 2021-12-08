@@ -42,11 +42,12 @@ import "codemirror/addon/selection/active-line";
 // import "codemirror/addon/lint/css-lint";
 
 // 滚动条样式
-// import "codemirror/addon/scroll/simplescrollbars.css";
-// import "codemirror/addon/scroll/simplescrollbars";
+import "codemirror/addon/scroll/simplescrollbars.css";
+import "codemirror/addon/scroll/simplescrollbars";
 
 export default {
   name: "CodeEditor",
+  inject: ["handleCodeChange"],
   props: {
     value: { type: String },
     readOnly: { type: Boolean },
@@ -61,6 +62,7 @@ export default {
     return {
       // 编辑器实例
       codeEditor: null,
+      sourceCode: ``,
       // 默认配置
       defaultOptions: {
         mode: "text/x-vue", //语法高亮  使用 MIME-TYPE   https://codemirror.net/mode/vue/index.html
@@ -75,7 +77,7 @@ export default {
         styleActiveLine: true, // 高亮选中行
         tabSize: this.tabSize || 2, // tab 字符的宽度
         theme: this.theme || "base16-dark", //设置主题
-        // scrollbarStyle: "simple", // 默认 "null" 不显示  'simple'  内侧 "overlay"外侧
+        scrollbarStyle: "overlay", // 默认 "null" 不显示  'simple'  内侧 "overlay"外侧
 
         // 编辑器交互优化
         autoCloseBrackets: true, // 括号自动关闭
@@ -117,7 +119,9 @@ export default {
       // });
       // 使用 prop function 替换 onChange 事件
       this.codeEditor.on("change", (item) => {
-        this.codeHandler(item.getValue());
+        // this.codeHandler(item.getValue());
+
+        this.handleCodeChange(item.getValue());
       });
     },
   },
