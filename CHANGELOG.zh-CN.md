@@ -1,18 +1,18 @@
 # 更新日志
 
-## Unreleased 
+## Unreleased
 
-- `//TODO` 
+- `//TODO`
   - 编辑器功能（主题切换、语言选择等）
   - CSS 预处理支持
-
+  
 - `//DONE`
   - 💥✨ feat:新增`md-loder`，支持 Markdown 中的代码实时渲染预览效果。具体实现参考 `element 2`。
-  - 💥✨ feat: 新增CSS预处理器`stylus`支持，参考 [stylus-loader](https://github.com/webpack-contrib/stylus-loader/blob/master/src/utils.js) 。
+  - 💥✨ feat: 新增CSS预处理器`less`支持，参考 [less-loader](https://github.com/webpack-contrib/less-loader/blob/master/src/index.js) 。
   - ✨ feat:新增国际化功能，具体实现参考`element 2`。
   - 🏗️ 调整 `vue-cli` 默认项目文件结构，调整 `webpack` 配置。
   - 📃 docs: 更新组件说明文档，文档支持组件实时交互。
-
+  - ✨ feat: add cahnge view feature,support  `top`  `right` `left` items。
 
 ---
 
@@ -92,9 +92,9 @@
 
 ---
 
-本项目严格遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
+## 发布周期
 
-### 发布周期
+本项目严格遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
 - 修订版本号：每周末会进行日常 bugfix 更新。（如果有紧急的 bugfix，则任何时候都可发布）
 - 次版本号：每月发布一个带有新特性的向下兼容的版本。
@@ -102,7 +102,7 @@
 
 ---
 
-### Emoji for changelog
+## Emoji for changelog
 
 - ✨ feat: 新增[特性]
 - 🐞 fix: 修复[问题]
@@ -117,10 +117,11 @@
 - 🚀 deploy:部署
 - ⚰️ remove dead code
 
-#### 参考
+---
+
+## 参考
 
 - <https://gitmoji.dev/>
 - <https://www.webfx.com/tools/emoji-cheat-sheet/>
 - <https://github.com/liuchengxu/git-commit-emoji-cn>
-
 - <https://keepachangelog.com/zh-CN/1.0.0/>

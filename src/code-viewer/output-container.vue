@@ -9,7 +9,7 @@ import Locale from "../mixins/locale";
 export default {
   name: "OutputContainer",
   mixins: [Locale],
-  inject: ["viewId"],
+  inject: ["viewId", "errorHandler"],
   props: {
     code: { type: String },
   },
@@ -22,13 +22,20 @@ export default {
       },
       hasError: false,
       errorMessage: null,
+      debounceDelay: {
+        type: Number,
+        default: 300,
+      },
     };
   },
   created() {
+    console.log("created");
     this.debounceErrorHandler = debounce(this.debounceDelay, this.errorHandler);
     this.stylesUpdateHandler = addStylesClient(this.viewId, {});
   },
-  mounted() {},
+  mounted() {
+    console.log("mounted");
+  },
   methods: {
     async genComponent() {
       const demoComponent = {};
@@ -57,7 +64,6 @@ export default {
       </section>`;
 
       // style
-      // https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js
       this.stylesUpdateHandler(styleCodes);
 
       // update dynamicComponent

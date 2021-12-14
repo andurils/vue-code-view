@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-useless-escape
 var templateStringsEscaper = /\`/g;
 
 // 模板字符串  反引号转义

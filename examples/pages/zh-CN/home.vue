@@ -1,10 +1,12 @@
 <script>
 import HomeBackground from "./home-background.vue";
 import HomeCard from "./home-card.vue";
+import HomeExample from "./home-example.vue";
 export default {
   components: {
     HomeBackground,
     HomeCard,
+    HomeExample,
   },
   name: "Home",
   data() {
@@ -17,7 +19,7 @@ export default {
     return (
       <div class="home-container">
         <div class="home-banner">
-          <home-background></home-background>
+          <HomeBackground></HomeBackground>
           <div class="home-banner-holder">
             <div class="home-banner-content">
               <div>
@@ -42,7 +44,13 @@ export default {
 
         <div style=" max-width: 1256px; margin:  0 auto;">
           <div class="home-block-content">
-            <home-card></home-card>
+            <HomeCard></HomeCard>
+          </div>
+        </div>
+
+        <div style=" max-width: 1256px; margin:  0 auto;">
+          <div class="home-block-content">
+            <HomeExample></HomeExample>
           </div>
         </div>
       </div>

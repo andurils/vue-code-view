@@ -21,6 +21,7 @@ export default {
       handleChangeTransparent: this.handleChangeTransparent,
       handleCodeChange: this.handleCodeChange,
       changView: this.changView,
+      errorHandler: this.errorHandler,
     };
   },
   components: {
@@ -116,15 +117,7 @@ export default {
   },
 
   render() {
-    const {
-      viewId,
-      className,
-      renderToolbar,
-      theme,
-      layoutCls,
-      lengthType,
-      paneLengthValue,
-    } = this;
+    const { viewId, className, theme, layoutCls } = this;
 
     return (
       <div
@@ -139,10 +132,7 @@ export default {
           }
         >
           {/*-- example render start --*/}
-          <div
-            class="code-view dSNpeq"
-            style={`${lengthType}:${paneLengthValue}`}
-          >
+          <div class="code-view dSNpeq">
             {/*-- toolbar --*/}
             <Toolbar></Toolbar>
             {/*-- result-box --*/}
@@ -254,7 +244,8 @@ $code-view-wrapper-bg: #ffffff;
 // layout-left
 .layout-left {
   .code-view {
-    flex-grow: 1;
+    // flex-grow: 1;
+    flex: 0 0 40%;
     overflow: hidden;
   }
   .code-editor {
@@ -269,11 +260,13 @@ $code-view-wrapper-bg: #ffffff;
 // layout-right
 .layout-right {
   .code-view {
-    -webkit-box-ordinal-group: 4;
-    -webkit-order: 3;
-    -ms-flex-order: 3;
     flex-grow: 1;
+    flex-shrink: 1;
     order: 1;
+  }
+
+  .code-editor {
+    flex: 0 0 60%;
   }
 }
 
