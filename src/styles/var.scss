@@ -1,0 +1,47 @@
+/* Element Chalk Variables */
+
+/* Color
+-------------------------- */
+/// color|1|Brand Color|0
+$--color-primary: #409eff !default;
+/// color|1|Background Color|4
+$--color-white: #ffffff !default;
+/// color|1|Background Color|4
+$--color-black: #000000 !default;
+/// color|1|Functional Color|1
+$--color-success: #67c23a !default;
+/// color|1|Functional Color|1
+$--color-warning: #e6a23c !default;
+/// color|1|Functional Color|1
+$--color-danger: #f56c6c !default;
+/// color|1|Functional Color|1
+$--color-info: #909399 !default;
+
+/// color|1|Font Color|2
+$--color-text-primary: #303133 !default;
+/// color|1|Font Color|2
+$--color-text-regular: #606266 !default;
+/// color|1|Font Color|2
+$--color-text-secondary: #909399 !default;
+/// color|1|Font Color|2
+$--color-text-placeholder: #c0c4cc !default;
+
+/* z-index
+-------------------------- */
+$--index-normal: 1 !default;
+$--index-top: 1000 !default;
+$--index-popper: 2000 !default;
+
+/* Tooltip
+-------------------------- */
+/// color|1|Color|0
+$--tooltip-fill: $--color-text-primary !default;
+/// color|1|Color|0
+$--tooltip-color: $--color-white !default;
+/// fontSize||Font|1
+$--tooltip-font-size: 12px !default;
+/// color||Color|0
+$--tooltip-border-color: $--color-text-primary !default;
+$--tooltip-arrow-size: 6px !default;
+/// padding||Spacing|3
+$--tooltip-padding: 10px !default;

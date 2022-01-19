@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 
 const resolve = (dir) => path.join(__dirname, dir);
 const BundleAnalyzerPlugin =
@@ -6,27 +7,32 @@ const BundleAnalyzerPlugin =
 
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 
-// gzip压缩  webpack 4.x 对应 6.x版本
+// gzip压缩  webpack 4.x 对应 6.x版本 cnpm i compression-webpack-plugin@6.1.1 --save-dev
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 // 代码压缩
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-// 引入压缩插件  cnpm i terser-webpack-plugin@4.2.3 --save-dev
-// const TerserPlugin = require("terser-webpack-plugin");
-// 打包进度
-// const ProgressBarPlugin = require("progress-bar-webpack-plugin");
 
 module.exports = {
-  runtimeCompiler: true, // 是否使用包含运行时编译器的 Vue 构建版本
+  // runtimeCompiler: true, // 是否使用包含运行时编译器的 Vue 构建版本
   publicPath: process.env.VUE_APP_PUBLIC_PATH || "/",
   productionSourceMap: false,
-  // eslint-disable-next-line no-unused-vars
+  outputDir: process.env.VUE_APP_ENV === "deploy" ? "deploy" : "dist",
+  css: {
+    // 是否将组件中的 CSS 提取至一个独立的 CSS 文件中
+    extract: process.env.VUE_APP_ENV === "deploy" ? true : false,
+  },
   configureWebpack: (config) => {
+    config.entry.app =
+      process.env.VUE_APP_ENV === "play"
+        ? "./examples/play.js"
+        : "./examples/main.js";
     config.resolveLoader.modules = ["node_modules", "./build/"]; // 自定义loader
 
     const plugins = [];
+
     // 生产环境相关配置
-    if (IS_PROD) {
+    if (IS_PROD && process.env.VUE_APP_ENV === "pub") {
       plugins.push(
         new CompressionWebpackPlugin({
           filename: "[path][base].gz",
@@ -56,45 +62,28 @@ module.exports = {
           parallel: true, //使用多进程并行运行来提高构建速度。默认并发运行数：os.cpus().length - 1。
         })
       );
-
-      // plugins.push(new ProgressBarPlugin());
-
-      // plugins.push(
-      //   new TerserPlugin({
-      //     cache: true,
-      //     sourceMap: false,
-      //     // 多进程
-      //     parallel: true,
-      //     terserOptions: {
-      //       ecma: undefined,
-      //       warnings: false,
-      //       parse: {},
-      //       compress: {
-      //         drop_console: true,
-      //         drop_debugger: false,
-      //         pure_funcs: ["console.log"], // 移除console
-      //       },
-      //     },
-      //   })
-      // );
     }
     config.plugins = [...config.plugins, ...plugins];
   },
   chainWebpack: (config) => {
     // 添加别名
     config.resolve.alias
-      // .set("vue$", "vue/dist/vue.esm.js")
+      .set("vue$", "vue/dist/vue.esm.js")
       .set("@", resolve("src"))
-      .set("@assets", resolve("src/assets"))
-      .set("@packages", resolve("packages"));
+      .set("@examples", resolve("examples"))
+      .set("@assets", resolve("examples/assets"))
+      .set("@views", resolve("examples/views"))
+      .set("@router", resolve("examples/router"))
+      .set("@store", resolve("examples/store"));
     // .set("@scss", resolve("src/assets/scss"))
-    // .set("@components", resolve("src/components"))
-    // .set("@plugins", resolve("src/plugins"))
-    // .set("@views", resolve("src/views"))
-    // .set("@router", resolve("src/router"))
-    // .set("@store", resolve("src/store"))
-    // .set("@layouts", resolve("src/layouts"))
-    // .set("@static", resolve("src/static"));
+    // .set("@components", resolve("examples/components"))
+    // .set("@plugins", resolve("examples/plugins"))
+    // .set("@layouts", resolve("examples/layouts"))
+    // .set("@static", resolve("examples/static"));
+
+    config
+      .plugin("ignore")
+      .use(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)); //忽略/moment/locale下的所有文件
 
     // Markdown Loader
     config.module
@@ -104,24 +93,11 @@ module.exports = {
       .loader("vue-loader")
       .end()
       // 自定义loader
-      // .use("md-loader")
-      // .loader("md-loader")
-      // .end();
-      .use("vue-markdown-loader")
-      .loader("vue-markdown-loader/lib/markdown-compiler")
-      .options({
-        wrapper: "article",
-        raw: true,
-        preventExtract: true,
-        use: [
-          [require("markdown-it-container"), "tip"],
-          [require("markdown-it-container"), "warning"],
-          [require("markdown-it-container"), "danger"],
-          [require("markdown-it-container"), "details"],
-        ],
-      });
+      .use("md-loader")
+      .loader("md-loader")
+      .end();
 
-    if (IS_PROD) {
+    if (IS_PROD && process.env.VUE_APP_ENV === "pub") {
       // config.optimization.delete("splitChunks");
 
       // 打包分析

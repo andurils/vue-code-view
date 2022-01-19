@@ -1,30 +1,41 @@
 # 更新日志
 
-## Dev
+## Unreleased
 
 - `//TODO`
-  - 全局动态配置
-  - 编辑器功能（主题切换、语言选择等）
-- `//DONE`
+  - 编辑器功能（主题切换、语言选择等） 
 
 ---
 
-## 0.4.1
+## 0.4.0
 
-`2021-10-21`
+`2022-01-19`
 
+- ✨ feat
+  - 💥新增`md-loder`，支持 Markdown 中的代码实时渲染预览效果。具体实现参考 `element 2`。
+  - 💥新增CSS预处理器`less`支持，参考 [less-loader](https://github.com/webpack-contrib/less-loader/blob/master/src/index.js) 。
+  - 新增国际化功能，具体实现参考`element 2`。
+  - 新增 render 视图布局切换功能，支持 `top`  `right` `left`布局。
+- 📃 docs: 更新组件说明文档，文档支持组件实时交互。
+- 🏗️ 调整 `vue-cli` 默认项目文件结构，调整 `webpack` 配置。
+
+## 0.3.9
+
+`2021-10-27`
+
+- 💥✨ feat: 新增组件示例 `styles` 动态添加、更新和移除事件，参考 [vue-style-loader/addStylesClient](https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js) 。
 - 💥✨ feat: 新增代码校验功能，提供异常处理,提供界面展示提醒、事件 API `errorHandler`。
 - 💥✨ feat: 新增组件工具栏自定义事件 API `renderToolbar`。
-- 💥✨ perf: 优化组件示例 `styles` 添加、更新和移除事件，参考 [vue-style-loader/addStylesClient](https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js) 。
+- ✨ feat: 新增组件示例基于 ID 实现样式隔离。
 - ✨ feat: 新增代码展示透明背景切换功能。
 - ✨ feat: 新增自定义组件`button` 、`tooltip`，参考`element 2`。
 - ✨ feat: 新增 `iconfont` 字体集。
 - 🦄 refactor: 组件代码重构 🎨⚡️，去除无效代码 ⚰️，保留基础功能。
 - 🐳 chore: 添加打包配置 JS 压缩功能。
-- 🔧 build: 发布可用 npm 包 [npm/vue-code-view@0.3.7](https://www.npmjs.com/package/vue-code-view)。
+- 🔧 build: 发布可用 npm 包 [npm/vue-code-view@0.3.8](https://www.npmjs.com/package/vue-code-view)。
 - 📃 docs: 新增组件示例说明文档。
 
-## 0.4.0
+## 0.3.8
 
 `2021-10-14`
 
@@ -84,9 +95,9 @@
 
 ---
 
-本项目严格遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
+## 发布周期
 
-### 发布周期
+本项目严格遵循 [Semantic Versioning 2.0.0](http://semver.org/lang/zh-CN/) 语义化版本规范。
 
 - 修订版本号：每周末会进行日常 bugfix 更新。（如果有紧急的 bugfix，则任何时候都可发布）
 - 次版本号：每月发布一个带有新特性的向下兼容的版本。
@@ -94,7 +105,7 @@
 
 ---
 
-### Emoji for changelog
+## Emoji for changelog
 
 - ✨ feat: 新增[特性]
 - 🐞 fix: 修复[问题]
@@ -109,8 +120,11 @@
 - 🚀 deploy:部署
 - ⚰️ remove dead code
 
-#### 参考
+---
+
+## 参考
 
 - <https://gitmoji.dev/>
 - <https://www.webfx.com/tools/emoji-cheat-sheet/>
 - <https://github.com/liuchengxu/git-commit-emoji-cn>
+- <https://keepachangelog.com/zh-CN/1.0.0/>

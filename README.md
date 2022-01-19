@@ -1,58 +1,74 @@
-<h1 style="display:flex;justify-content:center;">
-Vue Code View
-<a href="https://app.travis-ci.com/github/andurils/vue-code-view" style="margin-left:12px;"><img src="https://app.travis-ci.com/andurils/vue-code-view.svg?branch=main" alt="Build Status"></a>
-</h1>
+# Vue Code View
+
+[![Build Status](https://app.travis-ci.com/andurils/vue-code-view.svg?branch=dev)](https://app.travis-ci.com/andurils/vue-code-view)
+[![GitHub license](https://img.shields.io/github/license/andurils/vue-code-view)](https://github.com/andurils/vue-code-view/blob/main/LICENSE)
+![npm](https://img.shields.io/npm/v/vue-code-view)
+![npm bundle size](https://img.shields.io/bundlephobia/min/vue-code-view)
+![npm](https://img.shields.io/npm/dt/vue-code-view?label=npm%20downloads)
 
 English | [简体中文](./README.zh-CN.md)
 
-一个可以实时编辑代码、预览效果的 `代码示例` 展示组件。
 
-效果如下：
+A lightweight code interaction component based on `vue 2.x`, which can edit, run and preview the code effect display in real time on the web page.
 
-![preview][preview-ol]
+When reading docs that contain a lot of code, many project docs implement a `render` representation of the sample code via the `markdown loader`, but it is static. When we want to debug code, we generally need to open the local IDE or open online editor websites such as `codepen`, `codesandbox`, and it is also subject to whether the computer has a development environment installed or whether the network connection is smooth.
+
+So can there be such a component that can support editing code in the page, edit, run and preview the code effect display in real time in the web page?
+
+Special thanks to the component [react-code-view](https://github.com/simonguo/react-code-view), based on which the vue version of the component was written! Using this component, you can edit the running code and preview the effect in real time by using the multi-sample code in the `vue` page or the `markdown` document.
+
+## Project Site
+
+site address: <https://andurils.github.io/vue-code-view/>
+
+![首页][preview-ol-v01]  
 
 ## Online Demo
 
-在线预览: <https://andurils.github.io/vue-code-view/>
+demo  address: <https://andurils.github.io/vue-code-view/#/demo>
+
+![示例][preview-ol-v03]  
 
 ## ✨ Features
 
-- 🌈 代码可以在线编辑，实时预览效果。
-- 🎨 支持代码高亮。
-- 📦 自动保存代码，支持历史回溯。
-- 📦 支持 `<style>` 解析渲染。
-- ⚙️ 更多特性解锁中。
 
-## 组件使用说明
+- 💻 Code can be edited online and preview the effect in real time.
+- 🎨 Support sample code highlighting, configure themes.
+- 🌈 Support `<style>` parsing and rendering.
+- 📑 Support `Markdown` file example rendering
 
-### 📦 安装 Installation
+## 📦 Install
 
 ```bash
 npm i vue-code-view
+# or
+yarn add vue-code-view
 ```
 
-### 📦 配置
+## 🔨 Configure
 
-使用包含运行时编译器的 Vue 构建版本。
-
-`vue cli`中 `vue.config.js`文件配置
+Using `vue cli` requires configuration in the `vue.config.js` file, which supports the use of Vue builds that include the runtime compiler.
 
 ```javascript
 module.exports = {
   runtimeCompiler: true,
-};
+  // or
+  chainWebpack: (config) => { 
+    config.resolve.alias
+      .set("vue$", "vue/dist/vue.esm.js");
+  },
+}; 
 ```
 
-### 🔨 示例
+## 💻 Usage
 
-main.js
+Components are introduced in the entry file `main.js`, and there is no need to manually introduce styles.
 
 ```javascript
 import Vue from "vue";
 import App from "./App.vue";
-import CodeView from "vue-code-view/lib/vue-code-viewer.common";
+import CodeView from "vue-code-view";
 
-import "vue-code-view/lib/vue-code-viewer.css";
 Vue.use(CodeView);
 
 new Vue({
@@ -62,128 +78,26 @@ new Vue({
 }).$mount("#app");
 ```
 
-demo.vue
-
-```javascript
-<script>
-const code_example = `<template>
-  <div id="app">
-    <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
-    <h1>Welcome to Vue.js {{version}} !</h1>
-  </div>
-</template>
-<script>
-export default {
-    data() {
-      return {
-        version: '2.x'
-      };
-    },
-  };
-<\/script>
-
-<style>
-#page-container {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-.logo {
-  width:66px;
-}
-</style>
-
-<style lang='scss' >
-$font-stack:    Helvetica, sans-serif;
-$primary-color: red;
-
-body .test{
-  font: 100% $font-stack;
-  color: $primary-color;
-}
-</style> `;
-
-export default {
-  name: "demo",
-  render() {
-    return (
-      <div >
-        <code-viewer source={code_example}
-          showCode={false}
-        ></code-viewer>
-      </div>
-    );
-  },
-};
-</script>
-```
-
-### renderToolbar 自定义工具栏
-
-```jsx
-render() {
-  return (
-    <div >
-      <code-viewer
-        source={code_example}
-        showCode={false}
-        renderToolbar={(CodeButton) => {
-          return (
-            <div>
-              {CodeButton}
-              <a-tooltip>
-                <template slot="title">jsx renderToolbar</template>
-                <a-button type="primary" shape="circle" icon="search" />
-              </a-tooltip>
-            </div>
-          );
-        }}
-      ></code-viewer>
-    </div>
-  );
-},
-```
-
-### errorHandler 自定义错误处理函数
-
-```jsx
-render() {
-  return (
-    <div >
-      <code-viewer
-        source={code_example}
-        showCode={false}
-        errorHandler={(errorMsg) => {
-          this.$notify.error({
-            title: "Info",
-            message: errorMsg,
-          });
-        }}
-      ></code-viewer>
-    </div>
-  )
-}
-```
+## API
 
 ### Attributes
 
 | 参数          | 说明                         | 类型              | 默认值 | 版本 |
 | ------------- | ---------------------------- | ----------------- | ------ | ---- |
-| theme         | theme mode,支持 light / dark | `light` \| `dark` | `dark` |      |
-| showCode      | 是否显示代码编辑器           | boolean           | false  |      |
-| source        | 示例代码                     | string            | -      |      |
-| renderToolbar | 自定义工具栏展示             | function          | -      |      |
-| errorHandler  | 错误处理函数                 | function          | -      |      |
-| debounceDelay | 错误处理防抖延迟(ms)         | number            | 300    |      |
+| theme         | code editor theme mode  | `light` \| `dark` | `dark` |      |
+| showCode      | show the code editor           | boolean           | false  |      |
+| source        | source code               | string            | -      |      |
+| errorHandler  | error handling function                 | function          | -      |      |
+| debounceDelay | error handling debounce delay (ms)         | number            | 300    |      |
+| layout        | render view layout             |  `top` \| `right`  \| `left`  | `top` | `0.4.0`
 
 ## Changelog
 
 Detailed changes for each release are documented in the [release notes](./CHANGELOG.zh-CN.md).
 
-## Inspired
+## 💡 Inspired
 
-[Links List](./inspired.zh-cn.md)
+Inspired by [links](./inspired.zh-cn.md).
 
 ## License
 
@@ -192,3 +106,6 @@ Detailed changes for each release are documented in the [release notes](./CHANGE
 Copyright (c) 2021-present Anduril
 
 [preview-ol]: https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/912bf867ef4c44d3a716e4bf723573ac~tplv-k3u1fbpfcp-watermark.image?
+[preview-ol-v01]:https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e056aef106b04752bde86e5bc48434c9~tplv-k3u1fbpfcp-watermark.image?
+[preview-ol-v02]:https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4550d42d98084cf99fe333fadb3f5983~tplv-k3u1fbpfcp-watermark.image?
+[preview-ol-v03]:https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/987ab9814e314f92a244fdf6510e6224~tplv-k3u1fbpfcp-watermark.image?

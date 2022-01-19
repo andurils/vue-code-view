@@ -1,0 +1,15 @@
+@import "./default.scss";
+
+body {
+  overflow-x: hidden;
+  font-size: $font-size-base;
+  font-family: $font-family;
+  background: $body-background;
+}
+
+.me-md-wrapper {
+  .hljs {
+    background: #2b2b2b;
+    color: #f8f8f2;
+  }
+}

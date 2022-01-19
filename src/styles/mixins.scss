@@ -1,0 +1,77 @@
+$namespace: "me"; // 命名空间  element缩写
+$element-separator: "__"; // 定义元素分隔符
+$modifier-separator: "--"; // 定义状态分隔符
+$state-prefix: "is-"; // 状态前缀
+
+/* BEM
+ -------------------------- */
+@mixin b($block) {
+  $B: $namespace + "-" + $block !global;
+
+  .#{$B} {
+    @content;
+  }
+}
+
+@mixin e($element) {
+  $E: $element !global;
+  $selector: &;
+  $currentSelector: "";
+  // 传入元素数组 生成 ('white', 'black')
+  // .el-badge__white, .el-badge__black
+  @each $unit in $element {
+    $currentSelector: #{$currentSelector +
+      "." +
+      $B +
+      $element-separator +
+      $unit +
+      ","};
+  }
+
+  // 父选择器 & (Referencing Parent Selectors: &)
+  // 判断是否符合规则 使用 父选择器 &
+  // https://www.sass.hk/skill/sass40.html
+  // 使用@at-root和#{&}可以引用父（在Sass中总是引用父选择器）和插值
+  // 实现BEM与Sass的结合
+  @if hitAllSpecialNestRule($selector) {
+    @at-root {
+      #{$selector} {
+        #{$currentSelector} {
+          @content;
+        }
+      }
+    }
+  } @else {
+    @at-root {
+      #{$currentSelector} {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin m($modifier) {
+  $selector: &;
+  $currentSelector: "";
+  @each $unit in $modifier {
+    $currentSelector: #{$currentSelector +
+      & +
+      $modifier-separator +
+      $unit +
+      ","};
+  }
+
+  @at-root {
+    #{$currentSelector} {
+      @content;
+    }
+  }
+}
+
+@mixin when($state) {
+  @at-root {
+    &.#{$state-prefix + $state} {
+      @content;
+    }
+  }
+}
