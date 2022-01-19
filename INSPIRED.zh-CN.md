@@ -1,91 +1,95 @@
-### 示例参考
+# Inspired By
 
-## react-to-vue
+## react-code-view
 
-- <https://github.com/simonguo/react-code-view>
-- <https://github.com/vuejs/jsx#installation>
+[simonguo/react-code-view](https://github.com/simonguo/react-code-view)
 
 ## JSX
 
-- <https://github.com/vuejs/jsx#installation>
+[vuejs/jsx](https://github.com/vuejs/jsx#installation)
 
-## 动态组件
+## dynamic components
 
-<https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-keep-alive-with-dynamic-components?file=/index.html>
+[components#动态组件](https://cn.vuejs.org/v2/guide/components.html#动态组件)
 
-<https://cn.vuejs.org/v2/guide/components.html>#动态组件
-绑定组件选项对象
+[vue-20-dynamic-components-with-binding](https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-dynamic-components-with-binding)
 
-<https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-dynamic-components-with-binding>
+[vue-20-keep-alive-with-dynamic-components](https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-keep-alive-with-dynamic-components?file=/index.html)
 
-<https://juejin.cn/post/6992483283187531789>
+[你可能不知道的动态组件玩法](https://juejin.cn/post/6992483283187531789)
 
-### 内置样式实现参考
+## dynamic styles
 
-<https://stackoverflow.com/questions/47322875/vue-js-dynamic-style-with-variables>
-<https://codepen.io/mickeymullin/pen/bKVWzg>
-<https://www.cnblogs.com/stephenykk/p/5406614.html>
+[vue-js-dynamic-style-with-variables](https://stackoverflow.com/questions/47322875/vue-js-dynamic-style-with-variables)
 
-### vue cli
+[js动态创建样式: style 和 link](https://www.cnblogs.com/stephenykk/p/5406614.html)  
 
-<https://blog.csdn.net/u010622874/article/details/103312051>
+[codepen/Dynamic Styles](https://codepen.io/mickeymullin/pen/bKVWzg)
 
-<https://github.com/ant-design/ant-design/blob/master/README-zh_CN.md>
-<https://github.com/PanJiaChen/vue-element-admin/blob/master/README.zh-CN.md>
+## vue cli
 
-### sfc-parser
+[vue-cli3开发组件库](https://blog.csdn.net/u010622874/article/details/103312051)
 
-<https://github.com/vuejs/vue/blob/dev/test/unit/modules/sfc/sfc-parser.spec.js>
-<https://github.com/vuejs/vue-loader/blob/master/lib/codegen/styleInjection.js>
-<https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js>
+[vue-cli4 全面配置](https://github.com/andurils/vue-cli4-config)
 
-### Markdown
+[vue-cli css 预处理器](https://cli.vuejs.org/zh/guide/css.html#预处理器)
 
-<https://cnpmjs.org/package/markdown-it-container>
-<https://www.cnblogs.com/lindongdong/p/9287303.html>
+## sfc parser
 
-## repo 样式参考
+[vue-loader/sfc-parser](https://github.com/vuejs/vue/blob/dev/test/unit/modules/sfc/sfc-parser.spec.js)
 
-<https://github.com/ant-design/ant-design/blob/master/README-zh_CN.md>
+[vue-loader/styleInjection](https://github.com/vuejs/vue-loader/blob/master/lib/codegen/styleInjection.js)
 
-## css 配置&预处理
+[vue-style-loader/addStylesClient](https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js)
 
-<https://cli.vuejs.org/zh/guide/css.html>#预处理器
+## markdown
 
-### sass
-
-<https://www.sassmeister.com/>
-<https://github.com/wizardpisces/tiny-sass-compiler>
-<https://wizardpisces.github.io/sass>
-
-### less
-<https://github.com/webpack-contrib/less-loader/blob/master/src/index.js>
-
-### stylus
-
-<https://github.com/webpack-contrib/stylus-loader/blob/master/src/utils.js>
-<https://stylus-lang.com/>
-
-### Markdown
-
-<https://cnpmjs.org/package/markdown-it-container>
-<https://www.cnblogs.com/lindongdong/p/9287303.html>
+[npm/markdown-it-container](https://cnpmjs.org/package/markdown-it-container)
 
 ```bash
 cnpm i --save-dev markdown-it markdown-it-anchor markdown-it-chain markdown-it-container
 ```
 
+[Markdown 生成文档和演示案例](https://www.cnblogs.com/lindongdong/p/9287303.html)
+
+## readme template
+
+[ant-design/README](ttps://github.com/ant-design/ant-design/blob/master/README-zh_CN.md)
+
+## css 预处理器
+
+[sassmeister](https://www.sassmeister.com/)
+
+[tiny-sass-compiler](https://github.com/wizardpisces/tiny-sass-compiler)
+
+[tiny-sass-compiler demo](https://wizardpisces.github.io/sass)
+
+[webpack-contrib/less-loader](https://github.com/webpack-contrib/less-loader/blob/master/src/index.js)
+
+[stylus-lang](https://stylus-lang.com/)
+
+## split pane
+
+<https://raven78.github.io/vue-resize-split-pane/>
+
+<https://www.cnblogs.com/fqh123/p/13246027.html>
+
+<https://github.com/PanJiaChen/vue-split-pane>
+
+<http://panjiachen.github.io/split-pane/demo/index.html>
+
+<https://juejin.cn/post/6941785036173606926>
+
+---
+
 # Tools
-
-## svg 编辑生成
-
-<http://www.zuohaotu.com/svg/>
 
 ## badge
 
-推荐 <https://shields.io/>  
-<https://badgen.net/>
+[shields.io(推荐)](https://shields.io/)
 
-## TOC  
+[badgen.net](https://badgen.net/)
 
-<https://github.dev/ant-design/ant-design/>
+## logo svg
+
+[svg 编辑生成](http://www.zuohaotu.com/svg/)

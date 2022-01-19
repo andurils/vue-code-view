@@ -170,7 +170,7 @@ $code-view-wrapper-bg: #ffffff;
   padding: 0;
   border: 1px solid #ebebeb;
 
-  border-color: $code-view-wrapper-border-color;
+  // border-color: $code-view-wrapper-border-color;
   background-color: #ffffff;
   border-radius: 4px;
   transition: 0.3s linear border-color;

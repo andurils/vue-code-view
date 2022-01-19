@@ -1,6 +1,6 @@
 {
   "name": "vue-code-view",
-  "version": "0.3.9",
+  "version": "0.4.0",
   "description": "A code editor component based on Vue.js 2 : compile source code (SFC) and render it in real time 🖖",
   "main": "lib/vue-code-viewer.common.js",
   "unpkg": "lib/vue-code-viewer.umd.js",
@@ -20,8 +20,7 @@
     "tiny-sass-compiler": "^0.12.2"
   },
   "peerDependencies": {
-    "vue": "^2.6.11",
-    "stylus": ">=0.52.4"
+    "vue": "^2.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -46,7 +45,6 @@
     "prettier": "^2.2.1",
     "sass": "^1.44.0",
     "sass-loader": "^8.0.2",
-    "stylus": "^0.55.0",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "vue": "^2.6.11",
     "vue-loader": "^15.9.8",

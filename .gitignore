@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 /dist
-/lib
+/lib/*.html
+/lib/*.html.gz
 /deploy
 
 # local env files
