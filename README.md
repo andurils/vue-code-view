@@ -1,4 +1,10 @@
-# Vue Code View
+<p align="center">
+  <a href="https://andurils.github.io/vue-code-view/">
+    <img width="200" src="https://iconfont.alicdn.com/t/5602941b-e109-4b22-99c5-21b0b041f234.png">
+  </a>
+</p>
+
+<h1 align="center">Vue Code View(VCV)</h1>
 
 [![Build Status](https://app.travis-ci.com/andurils/vue-code-view.svg?branch=dev)](https://app.travis-ci.com/andurils/vue-code-view)
 [![GitHub license](https://img.shields.io/github/license/andurils/vue-code-view)](https://github.com/andurils/vue-code-view/blob/main/LICENSE)
@@ -8,7 +14,6 @@
 
 English | [简体中文](./README.zh-CN.md)
 
-
 A lightweight code interaction component based on `vue 2.x`, which can edit, run and preview the code effect display in real time on the web page.
 
 When reading docs that contain a lot of code, many project docs implement a `render` representation of the sample code via the `markdown loader`, but it is static. When we want to debug code, we generally need to open the local IDE or open online editor websites such as `codepen`, `codesandbox`, and it is also subject to whether the computer has a development environment installed or whether the network connection is smooth.
@@ -17,20 +22,15 @@ So can there be such a component that can support editing code in the page, edit
 
 Special thanks to the component [react-code-view](https://github.com/simonguo/react-code-view), based on which the vue version of the component was written! Using this component, you can edit the running code and preview the effect in real time by using the multi-sample code in the `vue` page or the `markdown` document.
 
-## Project Site
-
-site address: <https://andurils.github.io/vue-code-view/>
-
-![首页][preview-ol-v01]  
-
 ## Online Demo
-
-demo  address: <https://andurils.github.io/vue-code-view/#/demo>
 
 ![示例][preview-ol-v03]  
 
-## ✨ Features
+demo address: <https://andurils.github.io/vue-code-view/#/demo>
 
+`codesandbox` example: [vue-code-view-example](https://codesandbox.io/s/vue-code-view-example-forked-nivmw?fontsize=14&hidenavigation=1&theme=dark)
+
+## ✨ Features
 
 - 💻 Code can be edited online and preview the effect in real time.
 - 🎨 Support sample code highlighting, configure themes.
@@ -97,11 +97,11 @@ Detailed changes for each release are documented in the [release notes](./CHANGE
 
 ## 💡 Inspired
 
-Inspired by [links](./inspired.zh-cn.md).
+[links](./INSPIRED.zh-CN.md).
 
 ## License
 
-[MIT](./license)
+VCV is licensed under the terms of the [MIT License](./LICENSE)
 
 Copyright (c) 2021-present Anduril
 

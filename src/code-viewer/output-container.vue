@@ -132,7 +132,9 @@ export default {
 
     return (
       <div class="output-container zoom-1">
-        <renderComponent></renderComponent>
+        <div>
+          <renderComponent></renderComponent>
+        </div>
       </div>
     );
   },
@@ -142,5 +144,48 @@ export default {
 <style lang="scss" scoped>
 .output-container {
   padding: 8px;
+
+  div {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: var(--cp-color-1);
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+  }
+
+  div::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+  }
+
+  div::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  div::-webkit-scrollbar-track {
+    background: 0 0;
+  }
+}
+// codepen zoom
+.zoom-1 div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.zoom-05 div {
+  width: 200% !important;
+  height: 200% !important;
+  -webkit-transform: scale(0.5);
+  transform: scale(0.5);
+}
+
+.zoom-025 div {
+  width: 400% !important;
+  height: 400% !important;
+  -webkit-transform: scale(0.25);
+  transform: scale(0.25);
 }
 </style>

@@ -1,5 +1,5 @@
 <script>
-import Logo from "@assets/images/element-logo.svg";
+import Logo from "@assets/images/vcv-logo.svg";
 // import LogoSmall from "@assets/images/element-logo-small.svg";
 export default {
   name: "Header",
@@ -228,7 +228,7 @@ export default {
   text-decoration: none;
 
   img {
-    height: 32px;
+    height: 24px;
     margin-right: 12px;
   }
 }

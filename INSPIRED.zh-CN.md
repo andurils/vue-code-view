@@ -93,3 +93,6 @@ cnpm i --save-dev markdown-it markdown-it-anchor markdown-it-chain markdown-it-c
 ## logo svg
 
 [svg 编辑生成](http://www.zuohaotu.com/svg/)
+
+https://svgporn.com/
+https://simpleicons.org/
