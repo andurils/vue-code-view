@@ -1,5 +1,9 @@
 # Inspired By
 
+## Vue 3 SFC Playground
+
+<https://sfc.vuejs.org/>
+
 ## react-code-view
 
 [simonguo/react-code-view](https://github.com/simonguo/react-code-view)
@@ -68,18 +72,6 @@ cnpm i --save-dev markdown-it markdown-it-anchor markdown-it-chain markdown-it-c
 
 [stylus-lang](https://stylus-lang.com/)
 
-## split pane
-
-<https://raven78.github.io/vue-resize-split-pane/>
-
-<https://www.cnblogs.com/fqh123/p/13246027.html>
-
-<https://github.com/PanJiaChen/vue-split-pane>
-
-<http://panjiachen.github.io/split-pane/demo/index.html>
-
-<https://juejin.cn/post/6941785036173606926>
-
 ---
 
 # Tools
@@ -92,7 +84,5 @@ cnpm i --save-dev markdown-it markdown-it-anchor markdown-it-chain markdown-it-c
 
 ## logo svg
 
-[svg 编辑生成](http://www.zuohaotu.com/svg/)
-
-https://svgporn.com/
-https://simpleicons.org/
+<https://svgporn.com/>
+<https://simpleicons.org/>

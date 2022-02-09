@@ -1,18 +1,18 @@
 <script>
 import { debounce } from "throttle-debounce";
-import { parseComponent } from "../utils/sfcParser/parser";
-import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
-import { isEmpty, extend } from "../utils/util";
-import { addStylesClient } from "../utils/style-loader/addStylesClient";
-import Locale from "../mixins/locale";
+import { parseComponent } from "@/utils/sfcParser/parser";
+import { genStyleInjectionCode } from "@/utils/sfcParser/styleInjection";
+import { isEmpty, extend } from "@/utils/util";
+import { addStylesClient } from "@/utils/style-loader/addStylesClient";
+import Locale from "@/mixins/locale";
 
 export default {
   name: "OutputContainer",
   mixins: [Locale],
-  inject: ["viewId", "errorHandler"],
+  inject: ["viewId", "errorHandler", "code"],
   props: {
-    code: { type: String },
-    layout: { type: String },
+    // code: { type: String },
+    // layout: { type: String },
   },
   data() {
     return {
@@ -31,6 +31,7 @@ export default {
   },
   created() {
     // console.log("op created");
+    console.log("op code", this.code);
     this.debounceErrorHandler = debounce(this.debounceDelay, this.errorHandler);
     this.stylesUpdateHandler = addStylesClient(this.viewId, {});
   },
@@ -38,7 +39,7 @@ export default {
     if (!this.isCodeEmpty) {
       this.cprocess();
     }
-    // console.log("op mounted");
+    console.log("op code", this.code);
   },
   methods: {
     cprocess() {
