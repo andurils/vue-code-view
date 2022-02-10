@@ -11,7 +11,7 @@
       ></router-view>
     </div>
     <!-- 首页显示 -->
-    <main-footer v-if="!isComponent"></main-footer>
+    <main-footer v-if="isHome || isChangelog"></main-footer>
   </div>
 </template>
 
@@ -25,6 +25,13 @@ export default {
     isComponent() {
       // return /^component-/.test(this.$route.name || "");
       return this.$route.path.indexOf("component") > -1;
+    },
+    isRepl() {
+      return this.$route.path.indexOf("repl") > -1;
+    },
+    isChangelog() {
+      console.log(this.$route.name);
+      return /^changelog/.test(this.$route.name || "");
     },
     isHome() {
       // return /^home/.test(this.$route.name || "");

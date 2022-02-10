@@ -29,9 +29,9 @@ export default {
           onClick={({ key }) => this.changeSelectedMenu(key)}
           selectedKeys={[this.isHome ? "" : this.selectedMenuKey]}
         >
-          <a-menu-item key="demo">
-            <router-link active-class="active" to={`/demo`}>
-              示例
+          <a-menu-item key="repl">
+            <router-link active-class="active" to={`/repl`}>
+              REPL
             </router-link>
           </a-menu-item>
           <a-menu-item key="component">

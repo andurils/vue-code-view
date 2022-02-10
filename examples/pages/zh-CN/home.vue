@@ -35,7 +35,7 @@ export default {
                   <router-link to={"/doc"}>开始使用</router-link>
                 </a-button>
                 <a-button shape="round" size="large" ghost>
-                  <router-link to={"/demo"}>在线示例</router-link>
+                  <router-link to={"/repl"}>在线示例</router-link>
                 </a-button>
               </div>
             </div>

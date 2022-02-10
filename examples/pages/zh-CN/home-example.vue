@@ -8,21 +8,23 @@ export default {
         {
           title: "简单组件",
           desc: "无需安装任何环境，打开页面快速体验交互细节。",
+          height: 300,
+          maxHeight: 500,
           layout: "right",
           source: `<template>
   <div id="app">
     <img :src="src" style="width:60px;" />
-    <h1>Welcome to Vue.js {{version}} !</h1> 
+    <h1>Welcome to Vue.js {{version}} !</h1>
   </div>
-</template> 
+</template>
 <script>
 export default {
   data() {
-    return { 
+    return {
       src:'https://cn.vuejs.org/images/logo.svg',
       version: '2.x'
     };
-  }, 
+  },
 };
 <\/script>`,
         },
@@ -31,28 +33,30 @@ export default {
           title: "Style 样式支持",
           desc: "支持样式编辑，同时支持 CSS 预处理sass、less。",
           layout: "left",
+          height: 0,
+          maxHeight: 500,
           source: `<template>
   <div id="app">
-    <img class="logo" src="https://cn.vuejs.org/images/logo.svg" /> 
-    <div class="test" >scss support!</div> 
+    <img class="logo" src="https://cn.vuejs.org/images/logo.svg" />
+    <div class="test" >scss support!</div>
     <div class="less-test" >less support!</div>
   </div>
-</template>  
-<style>  
+</template>
+<style>
 .logo {
   width:66px;
 }
-</style> 
- 
-<style lang='scss' > 
+</style>
+
+<style lang='scss' >
 $primary-color: red;
 
-.test{ 
+.test{
   color: $primary-color;
   font-size:32px;
 }
-</style> 
-<style lang='less' > 
+</style>
+<style lang='less' >
 @width: 10px;
 @height: @width + 10px;
 
@@ -81,6 +85,8 @@ $primary-color: red;
                   source={item.source}
                   showCode
                   layout={item.layout}
+                  height={item.height}
+                  maxHeight={item.maxHeight}
                 ></CodeViewer>
               </div>
             </div>

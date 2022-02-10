@@ -56,7 +56,9 @@ export default {
     },
     height: {
       type: Number,
-      default: 300,
+    },
+    maxHeight: {
+      type: Number,
     },
   },
   data() {
@@ -64,9 +66,9 @@ export default {
       id: this._uid,
       viewId: `vcv-${generateId()}`,
       layoutName: "top",
-      minHeight: 300, //125, // px
+      minHeight: 200, // px
       code: ``,
-      className: ["code-view-root"],
+      className: ["vue-repl", "code-view-root"],
       showCodeEditor: this.showCode,
     };
   },
@@ -124,30 +126,31 @@ export default {
     viewHeight() {
       return this.height <= this.minHeight ? this.minHeight : this.height;
     },
-  },
+    calcHeight() {
+      let heightSetting = `min-height:${this.minHeight}px;`;
 
+      // height 设置后，maxHeight 设置无效。
+      if (!isEmpty(this.height) && this.height >= 0) {
+        let tmpHeight =
+          this.height <= this.minHeight ? this.minHeight : this.height;
+        heightSetting += ` height:${tmpHeight}px;`;
+      } else if (!isEmpty(this.maxHeight)) {
+        let tmpMaxheight =
+          this.maxHeight <= this.minHeight ? this.minHeight : this.maxHeight;
+        heightSetting += ` max-height:${tmpMaxheight}px;`;
+      }
+      return heightSetting;
+    },
+  },
   render() {
     const { viewId, className } = this;
 
     return (
-      <div
-        class={classNames(`${viewId}`, className, "dark1")}
-        style={
-          this.layoutName !== "top" ? { height: `${this.viewHeight}px` } : {}
-        }
-        ref="vcv"
-      >
-        <SplitPane
-          class="vue-repl code-view-wrapper"
-          isVertical={this.isVertical}
-        >
-          {/*-- example render start --*/}
+      <div class={classNames(`${viewId}`, className, "dark1")} ref="vcv">
+        <SplitPane class="code-view-wrapper" isVertical={this.isVertical}>
+          {/*-- example render  --*/}
           <template slot={this.outputSlot}>
-            <div
-              class="code-view dSNpeq"
-              style={{ height: `${this.viewHeight}px` }}
-            >
-              {/*-- <Output></Output> --*/}
+            <div class="code-view dSNpeq" style={this.calcHeight}>
               {/*-- toolbar  --*/}
               <Toolbar></Toolbar>
               {/*-- result-box   --*/}
@@ -158,10 +161,7 @@ export default {
           {/*-- code editor   --*/}
           <template slot={this.editorSlot}>
             {(!this.isVertical || this.showCodeEditor) && (
-              <div
-                class="editor-container"
-                style={{ height: `${this.viewHeight}px` }}
-              >
+              <div class="editor-container" style={this.calcHeight}>
                 <CodeEditor
                   line-numbers
                   value={this.code}
@@ -179,18 +179,15 @@ export default {
 
 <style lang="scss">
 $code-view-wrapper-border-color: #f1f1f1;
-$code-view-wrapper-bg: #ffffff;
 
 .code-view-wrapper {
   // position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  margin: 18px 0;
-  padding: 0;
+  // width: 100%;
+  // height: 100%;
+  // display: flex;
+  // margin: 18px 0;
+  // padding: 0;
   border: 1px solid #ebebeb;
-
-  // border-color: $code-view-wrapper-border-color;
   background-color: #ffffff;
   border-radius: 4px;
   transition: 0.3s linear border-color;
@@ -199,11 +196,11 @@ $code-view-wrapper-bg: #ffffff;
     border: 1px dashed #3498ff;
   }
 
-  .code-view {
-    position: relative;
-    display: flex;
-    overflow: hidden;
-  }
+  // .code-view {
+  //   position: relative;
+  //   display: flex;
+  //   overflow: hidden;
+  // }
   .code-view-error {
     padding: 18px;
     color: red;
@@ -245,17 +242,6 @@ $code-view-wrapper-bg: #ffffff;
   height: 100%;
 }
 
-.eqwZsr {
-  position: absolute;
-  left: 16px;
-  z-index: 99;
-  display: flex;
-  bottom: 44px;
-  opacity: 1;
-  transition-property: opacity, bottom;
-  transition-duration: 300ms;
-}
-
 .vue-repl {
   --bg: #fff;
   --bg-soft: #f8f8f8;
@@ -272,6 +258,8 @@ $code-view-wrapper-bg: #ffffff;
   margin: 0;
   overflow: hidden;
   background-color: var(--bg-soft);
+
+  height: 100%;
 }
 
 .dark .vue-repl {
