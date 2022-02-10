@@ -1,10 +1,10 @@
 <script>
 import { debounce } from "throttle-debounce";
-import { parseComponent } from "../utils/sfcParser/parser";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
 import { isEmpty, extend } from "../utils/util";
 import { addStylesClient } from "../utils/style-loader/addStylesClient";
 import Locale from "../mixins/locale";
+const compiler = require("vue-template-compiler");
 
 export default {
   name: "OutputContainer",
@@ -54,6 +54,15 @@ export default {
       const demoComponent = {};
       const { template, script, styles, customBlocks, errors } =
         this.sfcDescriptor;
+
+      // errors
+      if (errors && errors.length) {
+        console.error(
+          `Error compiling template:\n\n` +
+            errors.map((e) => `  - ${e}`).join("\n") +
+            "\n\n"
+        );
+      }
 
       const templateCode = template ? template.content.trim() : ``;
       let scriptCode = script ? script.content.trim() : ``;
@@ -112,7 +121,8 @@ export default {
   computed: {
     // SFC Descriptor Object
     sfcDescriptor: function () {
-      return parseComponent(this.code);
+      return compiler.parseComponent(this.code);
+      // return parseComponent(this.code);
     },
     // 代码是否为空
     isCodeEmpty: function () {

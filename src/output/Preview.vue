@@ -1,6 +1,6 @@
 <script>
 import { debounce } from "throttle-debounce";
-import { parseComponent } from "@/utils/sfcParser/parser";
+const compiler = require("vue-template-compiler");
 import { genStyleInjectionCode } from "@/utils/sfcParser/styleInjection";
 import { isEmpty, extend } from "@/utils/util";
 import { addStylesClient } from "@/utils/style-loader/addStylesClient";
@@ -113,7 +113,7 @@ export default {
   computed: {
     // SFC Descriptor Object
     sfcDescriptor: function () {
-      return parseComponent(this.code);
+      return compiler.parseComponent(this.code);
     },
     // 代码是否为空
     isCodeEmpty: function () {
