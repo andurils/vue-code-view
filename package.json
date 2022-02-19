@@ -23,6 +23,7 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "@iconify/vue2": "^1.1.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",

@@ -9,18 +9,15 @@
 import { debounce } from "throttle-debounce";
 import CodeMirror from "codemirror";
 // import "codemirror/lib/codemirror.css";
+// 自定义主题
 import "./codemirror.css";
-
-// 主题 theme style
-// import "codemirror/theme/base16-light.css";
-// import "codemirror/theme/base16-dark.css";
 
 // 语言 modes
 import "codemirror/mode/vue/vue";
-// import "codemirror/mode/javascript/javascript";
+import "codemirror/mode/javascript/javascript";
 // import "codemirror/mode/jsx/jsx";
-// import "codemirror/mode/css/css";
-// import "codemirror/mode/htmlmixed/htmlmixed.js";
+import "codemirror/mode/css/css";
+import "codemirror/mode/htmlmixed/htmlmixed.js";
 
 // 括号/标签 匹配自动关闭
 import "codemirror/addon/edit/matchbrackets";
@@ -39,11 +36,6 @@ import "codemirror/addon/fold/indent-fold";
 // 光标行背景高亮
 import "codemirror/addon/selection/active-line";
 
-// import "codemirror/addon/lint/lint";
-// import "codemirror/addon/lint/javascript-lint";
-// import "codemirror/addon/lint/json-lint";
-// import "codemirror/addon/lint/css-lint";
-
 // 滚动条样式
 import "codemirror/addon/scroll/simplescrollbars.css";
 import "codemirror/addon/scroll/simplescrollbars";
@@ -54,12 +46,7 @@ export default {
   props: {
     value: { type: String },
     readOnly: { type: Boolean },
-    // theme: { type: String },
-    // matchBrackets: { type: Boolean },
     lineNumbers: { type: Boolean, default: true },
-    // lineWrapping: { type: Boolean },
-    tabSize: { type: Number },
-    // codeHandler: { type: Function },
   },
   data() {
     return {
@@ -69,17 +56,11 @@ export default {
       // 默认配置
       defaultOptions: {
         mode: "text/x-vue", //语法高亮  使用 MIME-TYPE   https://codemirror.net/mode/vue/index.html
-        gutters: [
-          "CodeMirror-linenumbers",
-          "CodeMirror-foldgutter",
-          // "CodeMirror-lint-markers",
-        ],
-        // lint: true,
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
         lineNumbers: this.lineNumbers, //显示行号
         lineWrapping: "wrap", // 长行时文字是换行  换行(wrap)/滚动(scroll)
         styleActiveLine: true, // 高亮选中行
-        tabSize: this.tabSize || 2, // tab 字符的宽度
-        // theme: "base16-light", //设置主题   //  this.theme ||
+        tabSize: 2, // tab 字符的宽度
         scrollbarStyle: "overlay", // 默认 "null" 不显示  'simple'  内侧 "overlay"外侧
 
         // 编辑器交互优化
@@ -129,12 +110,6 @@ export default {
       //     })
       //   );
       // }
-      // 使用 prop function 替换 onChange 事件
-      // this.codeEditor.on("change", (item) => {
-      //   // this.codeHandler(item.getValue());
-
-      //   this.handleCodeChange(item.getValue());
-      // });
     },
   },
 };

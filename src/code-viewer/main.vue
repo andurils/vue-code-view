@@ -25,6 +25,7 @@ export default {
       code: this.code,
       changView: this.changView,
       errorHandler: this.errorHandler,
+      showCode: !this.isVertical || this.showCodeEditor,
       // needAutoResize: this.needAutoResize,
     };
   },
@@ -68,7 +69,7 @@ export default {
       layoutName: "top",
       minHeight: 200, // px
       code: ``,
-      className: ["vue-repl", "code-view-root"],
+      className: ["dark1", "code-view-root"],
       showCodeEditor: this.showCode,
     };
   },
@@ -98,6 +99,7 @@ export default {
     // 组件代码编辑器展示
     handleShowCode() {
       this.showCodeEditor = !this.showCodeEditor;
+      console.log(!this.isVertical || this.showCodeEditor);
     },
     // 组件演示背景透明切换
     handleChangeTransparent() {
@@ -146,15 +148,20 @@ export default {
     const { viewId, className } = this;
 
     return (
-      <div class={classNames(`${viewId}`, className, "dark1")} ref="vcv">
-        <SplitPane class="code-view-wrapper" isVertical={this.isVertical}>
+      <div class={classNames(`${viewId}`, className)} ref="vcv">
+        <SplitPane
+          class="vue-repl code-view-wrapper "
+          isVertical={this.isVertical}
+        >
           {/*-- example render  --*/}
           <template slot={this.outputSlot}>
             <div class="code-view dSNpeq" style={this.calcHeight}>
-              {/*-- toolbar  --*/}
-              <Toolbar></Toolbar>
-              {/*-- result-box   --*/}
-              <OutputContainer code={this.code}></OutputContainer>
+              <Output sourceCode={this.code}></Output>
+              {/*-- toolbar  
+              <Toolbar></Toolbar> --*/}
+
+              {/*-- result-box   
+              <OutputContainer code={this.code}></OutputContainer> --*/}
             </div>
           </template>
 
@@ -246,11 +253,12 @@ $code-view-wrapper-border-color: #f1f1f1;
   --bg: #fff;
   --bg-soft: #f8f8f8;
   --border: #ddd;
-  --text-light: #888;
+  // --text-light: #888;
+  --text-light: rgba(60, 60, 60, 1);
   --font-code: Menlo, Monaco, Consolas, "Courier New", monospace;
   --color-branding: #42b883;
   --color-branding-dark: #416f9c;
-  --header-height: 38px;
+  --header-height: 32px;
 
   font-size: 13px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -266,7 +274,8 @@ $code-view-wrapper-border-color: #f1f1f1;
   --bg: #1a1a1a;
   --bg-soft: #242424;
   --border: #383838;
-  --text-light: #aaa;
+  // --text-light: #aaa;
+  --text-light: rgba(252, 252, 252, 1);
   --color-branding: #42d392;
   --color-branding-dark: #89ddff;
 }
@@ -276,5 +285,10 @@ $code-view-wrapper-border-color: #f1f1f1;
   height: 100%;
   overflow: hidden;
   position: relative;
+}
+
+.vcv-icon {
+  font-size: 14px;
+  color: var(--text-light);
 }
 </style>

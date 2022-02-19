@@ -60,7 +60,7 @@ export default {
         <code-viewer
           source={code_example_1}
           showCode={true}
-          height={200}
+          height={600}
           layout={"left"}
           errorHandler={(errorMsg) => {
             this.$notify.error({

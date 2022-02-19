@@ -20,6 +20,7 @@
   --selected-bg: #d7d4f0;
   --selected-bg-non-focus: #d9d9d9;
   --cursor: #000;
+  --mustache: #1a1a1a;
 
   direction: ltr;
   font-family: var(--font-code);
@@ -40,6 +41,7 @@
   --property: #f07178;
   --attribute: #c792ea;
   --cursor: #fff;
+  --mustache: #fff;
 
   --selected-bg: rgba(255, 255, 255, 0.1);
   --selected-bg-non-focus: rgba(255, 255, 255, 0.15);
@@ -265,7 +267,8 @@
   color: #085;
 }
 .cm-s-default .cm-meta {
-  color: #555;
+  /* color: #555; */
+  color: var(--mustache);
 }
 .cm-s-default .cm-qualifier {
   color: var(--qualifier);
@@ -298,8 +301,13 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
 .CodeMirror-matchingtag {
   background: rgba(255, 150, 0, 0.3);
 }
+/* 高亮选中行背景色 */
 .CodeMirror-activeline-background {
-  background: #e8f2ff;
+  background: var(--selected-bg-non-focus);
+}
+
+.CodeMirror-activeline-background:focus {
+  background: var(--selected-bg);
 }
 
 /* STOP */
