@@ -12,45 +12,45 @@
         </button>
       </div>
       <div class="toolbar-navs">
-        <!-- <button class="item" @click="handleShowCode">
-          <Icon icon="ic:round-code-off" class="vcv-icon" v-if="showCode" />
-          <Icon icon="ic:round-code" class="vcv-icon" v-if="!showCode" />
-        </button> -->
+        <button class="item" @click="changeShowCodeState" v-if="isVertical">
+          <Icon icon="ic:round-code-off" class="vcv-icon" v-if="isShowCode" />
+          <Icon icon="ic:round-code" class="vcv-icon" v-if="!isShowCode" />
+        </button>
         <!-- <button class="item">
           <Icon icon="radix-icons:transparency-grid" class="vcv-icon" />
         </button> -->
 
-        <button class="item" @click="changView('top')">
-          <Icon icon="mdi:dock-top" class="vcv-icon" />
-        </button>
-        <button class="item" @click="changView('left')">
-          <Icon icon="mdi:dock-left" class="vcv-icon" />
-        </button>
-        <button class="item" @click="changView('right')">
-          <Icon icon="mdi:dock-right" class="vcv-icon" />
-        </button>
-        <!-- <button class="item">
-          <Icon icon="ic:round-devices" class="vcv-icon" />
-          <span>default</span>
-          <Icon icon="ic:round-keyboard-arrow-down" class="vcv-icon" />
-        </button>  -->
-        <!-- <Dropdown class="item">
-          <span class="el-dropdown-link">
-            <Icon icon="ic:round-devices" class="vcv-icon" />
-            <span> {{ svalue }} </span>
-            <Icon icon="ic:round-keyboard-arrow-down" class="vcv-icon" />
+        <!-- docker side -->
+        <Dropdown class="item" @command="changeDockTo">
+          <span class="dropdown-btn">
+            <Icon :icon="dockSides[dockSide]" class="vcv-icon" />
+            <span class="more-text"> {{ dockSide }} </span>
+            <!-- <Icon icon="ic:round-keyboard-arrow-down" class="vcv-icon" /> -->
           </span>
           <DropdownMenu slot="dropdown">
-            <DropdownItem icon="ic:round-keyboard-arrow-down"
-              >xxxx</DropdownItem
+            <DropdownItem
+              v-for="(_, index) in dockSides"
+              :icon="_"
+              :key="index"
+              :value="index"
+              :command="index"
             >
-            <DropdownItem icon="ic:round-devices">1111</DropdownItem>
+              {{ index }}
+              <Icon
+                icon="carbon:checkmark"
+                width="13"
+                height="13"
+                style="margin-left: 6px"
+                v-if="index === dockSide"
+              />
+            </DropdownItem>
           </DropdownMenu>
-        </Dropdown> -->
-        <Dropdown class="item" @command="handleCommand">
-          <span class="el-dropdown-link">
+        </Dropdown>
+        <!-- 设备模拟 -->
+        <!-- <Dropdown class="item" @command="handleCommand">
+          <span class="dropdown-btn">
             <Icon icon="ic:round-devices" class="vcv-icon" />
-            <span> {{ svalue }} </span>
+            <span class="more-text"> {{ svalue }} </span>
             <Icon icon="ic:round-keyboard-arrow-down" class="vcv-icon" />
           </span>
           <DropdownMenu slot="dropdown">
@@ -61,15 +61,30 @@
               :command="index"
             >
               {{ index }}
+              <Icon
+                icon="carbon:checkmark"
+                width="13"
+                height="13"
+                style="margin-left: 6px"
+              />
             </DropdownItem>
           </DropdownMenu>
-        </Dropdown>
+        </Dropdown> -->
       </div>
     </div>
 
     <div class="output-container">
       <!-- <Preview :show="mode === 'preview'" v-if="mode === 'preview'" /> -->
+      <!-- -->
       <OutputContainer :code="sourceCode"></OutputContainer>
+      <!-- <DeviceEmulation
+        :width="width"
+        :height="height"
+        :disable-scaling="enabled"
+      >
+        
+        <OutputContainer :code="sourceCode"></OutputContainer>
+      </DeviceEmulation> -->
     </div>
   </div>
 </template>
@@ -81,15 +96,15 @@ import OutputContainer from "../code-viewer/output-container.vue";
 import Dropdown from "../dropdown/Dropdown.vue";
 import DropdownMenu from "../dropdown/DropdownMenu.vue";
 import DropdownItem from "../dropdown/DropdownItem.vue";
-
+import DeviceEmulation from "../vcv/DeviceEmulation.vue";
 import "../dropdown/dropdown.css";
 
 export default {
   inject: [
-    "handleShowCode",
+    "vcv",
+    // "handleShowCode",
     "handleChangeTransparent",
-    "changView",
-    "showCode",
+    // "showCode",
     "code",
   ],
   components: {
@@ -99,6 +114,7 @@ export default {
     DropdownMenu,
     DropdownItem,
     OutputContainer,
+    // DeviceEmulation,
   },
   props: {
     sourceCode: { type: String },
@@ -113,16 +129,60 @@ export default {
       object: {
         name: "Object Name",
       },
+      // "iPhone 6/7/8 Plus": [414, 736],
+      width: 414,
+      height: 736,
+      enabled: false,
+      dockSides: {
+        top: "mdi:dock-top",
+        right: "mdi:dock-right",
+        left: "mdi:dock-left",
+      },
+      dockSide: this.vcv.layoutName, // 默认"top",
+      isShowCode: this.vcv.showCodeEditor,
     };
   },
+  created() {
+    console.log("output created", this.vcv.layoutName);
+  },
+  //   const size = ref<keyof typeof sizes>('Default')
+  // const enabled = computed(() => size.value === 'Default')
+  // const width = computed(() => sizes[size.value][0])
+  // const height = computed(() => sizes[size.value][1])
   methods: {
     methodToRunOnSelect(payload) {
       this.object = payload;
+    },
+    changeDockTo(cmd) {
+      this.dockSide = cmd;
+      this.$emit("dock", this.dockSide);
+    },
+    changeShowCodeState() {
+      this.isShowCode = !this.isShowCode;
+      this.$emit("codeshow", this.isShowCode);
+      console.log(
+        "changeShowCodeState",
+        this.vcv.showCodeEditor,
+        this.isShowCode
+      );
     },
     handleCommand(command) {
       console.log("click on item " + command);
       this.svalue = command;
       console.log(this.svalue);
+    },
+  },
+  computed: {
+    isVertical() {
+      return this.dockSide === "top";
+    },
+  },
+  watch: {
+    "vcv.layoutName": {
+      immediate: true,
+      handler(val) {
+        this.dockSide = val;
+      },
     },
   },
 };
@@ -137,16 +197,6 @@ button {
 }
 
 .output-header {
-  /* box-sizing: border-box;
-  border-bottom: 1px solid var(--border);
-  background-color: var(--bg);
-  height: var(--header-height);
-  overflow: hidden;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between; */
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -180,24 +230,10 @@ button.active {
   padding-left: 30px;
   flex: 0 1 auto;
   overflow: hidden;
-  /* display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  overflow: hidden;
-
-  font-size: 13px;
-  text-transform: uppercase;
-  color: var(--text-light); */
-
-  /* position: sticky;
-  margin-left: auto;
-  top: 0;
-  right: 0; */
-  /* background-color: var(--bg); */
 }
 
 .toolbar-navs .item {
-  padding: 6px 12px 6px;
+  padding: 6px 8px 6px;
   border-left: 1px solid var(--border);
 }
 
@@ -205,5 +241,26 @@ button.active {
   height: calc(100% - var(--header-height));
   overflow: hidden;
   position: relative;
+}
+
+/* dropdown-btn 文字样式 */
+.dropdown-btn {
+  display: flex;
+  align-items: center;
+}
+.dropdown-btn span {
+  font-size: 13px;
+  line-height: 20px;
+  margin: 0 2px 0 6px;
+  font-family: var(--font-code);
+  text-transform: uppercase;
+  color: var(--text-light);
+  max-width: 80px;
+}
+
+span.more-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

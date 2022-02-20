@@ -42,7 +42,7 @@ import "codemirror/addon/scroll/simplescrollbars";
 
 export default {
   name: "CodeEditor",
-  // inject: ["handleCodeChange","needAutoResize"],
+  inject: ["vcv"],
   props: {
     value: { type: String },
     readOnly: { type: Boolean },
@@ -52,6 +52,7 @@ export default {
     return {
       // 编辑器实例
       codeEditor: null,
+      needAutoResize: this.vcv.autoResize,
       sourceCode: ``,
       // 默认配置
       defaultOptions: {
@@ -101,15 +102,15 @@ export default {
         this.$emit("change", item.getValue());
       });
 
-      // if (this.needAutoResize) {
-      //   window.addEventListener(
-      //     "resize",
-      //     debounce(100, () => {
-      //       console.log("needAutoResize");
-      //       this.codeEditor.refresh();
-      //     })
-      //   );
-      // }
+      if (this.needAutoResize) {
+        window.addEventListener(
+          "resize",
+          debounce(100, () => {
+            console.log("code editor autoResize");
+            this.codeEditor.refresh();
+          })
+        );
+      }
     },
   },
 };

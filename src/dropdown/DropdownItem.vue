@@ -7,8 +7,7 @@
     }"
     @click="handleClick"
   >
-    <!-- <i :class="icon" v-if="icon"></i> -->
-    <Icon :icon="icon" v-if="icon" />
+    <Icon :icon="icon" class="me-dropdown__icon" v-if="icon" />
     <slot></slot>
   </li>
 </template>

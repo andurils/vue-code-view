@@ -1,4 +1,4 @@
-import CodeViewer from "./code-viewer/main.vue";
+import CodeViewer from "./vcv/VCV.vue";
 import locale from "./locale";
 
 const install = function (Vue, opts = {}) {

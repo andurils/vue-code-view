@@ -126,6 +126,7 @@ export default {
     return (
       <div class="repl-outer" style={style}>
         <code-viewer
+          class="vue-vcv"
           source={code_example_1}
           showCode
           layout={"right"}
@@ -165,5 +166,8 @@ export default {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+}
+.vue-vcv {
+  height: calc(100% - 2px);
 }
 </style>

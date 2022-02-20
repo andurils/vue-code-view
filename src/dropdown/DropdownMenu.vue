@@ -1,7 +1,8 @@
 <template>
   <transition name="el-zoom-in-top" @after-leave="doDestroy">
     <ul
-      class="me-dropdown-menu me-popper me-dropdown-menu--small dark"
+      class="me-dropdown-menu me-popper"
+      :class="[isDark && `dark`]"
       v-show="showPopper"
     >
       <slot></slot>
@@ -15,7 +16,7 @@ export default {
   name: "MeDropdownMenu",
   componentName: "MeDropdownMenu",
   mixins: [Popper],
-  inject: ["dropdown"],
+  inject: ["dropdown", "vcv"],
   props: {
     visibleArrow: {
       type: Boolean,
@@ -25,8 +26,15 @@ export default {
 
   data() {
     return {
-      size: "small",
+      themeMode: this.vcv.themeMode,
     };
+  },
+
+  computed: {
+    isDark() {
+      console.log("themeMode", this.vcv.themeMode);
+      return this.themeMode === "dark";
+    },
   },
   created() {
     this.$on("updatePopper", () => {
@@ -48,6 +56,12 @@ export default {
       immediate: true,
       handler(val) {
         this.currentPlacement = val;
+      },
+    },
+    "vcv.themeMode": {
+      immediate: true,
+      handler(val) {
+        this.themeMode = val;
       },
     },
   },

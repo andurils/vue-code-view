@@ -6,8 +6,8 @@ import { toggleClass } from "../utils/DOMhelper";
 import { isEmpty, generateId } from "../utils/util";
 import { debounce } from "throttle-debounce";
 import Locale from "../mixins/locale";
-import OutputContainer from "./output-container.vue";
-import Toolbar from "./toolbar.vue";
+// import OutputContainer from "./output-container.vue";
+// import Toolbar from "./toolbar.vue";
 import SplitPane from "./SplitPane.vue";
 
 // 字体图标
@@ -34,13 +34,14 @@ export default {
   components: {
     CodeEditor,
     Output,
-    OutputContainer,
-    Toolbar,
+    // OutputContainer,
+    // Toolbar,
     SplitPane,
   },
   props: {
     source: { type: String },
     themeMode: { type: String }, // light||dark，默认 light
+    autoResize: { type: Boolean, default: true },
     showCode: { type: Boolean, default: false },
     // renderToolbar: { type: Function },
     errorHandler: { type: Function },
@@ -60,8 +61,12 @@ export default {
     height: {
       type: Number,
     },
-    maxHeight: {
+    // maxHeight: {
+    //   type: Number,
+    // },
+    minHeight: {
       type: Number,
+      default: 300, // PX
     },
   },
   data() {
@@ -69,9 +74,8 @@ export default {
       id: this._uid,
       viewId: `vcv-${generateId()}`,
       layoutName: "top",
-      minHeight: 200, // px
       code: ``,
-      className: ["code-view-root"],
+      rootNames: ["code-view-root", "vcv-root"],
       showCodeEditor: this.showCode,
     };
   },
@@ -94,11 +98,11 @@ export default {
     },
     // 更新 code 内容
     handleCodeChange(val) {
+      console.log("code change!");
       this.code = val;
-      console.log("code change");
     },
 
-    // 组件代码编辑器展示
+    // 组件代码编辑器展示 废弃
     handleShowCode() {
       this.showCodeEditor = !this.showCodeEditor;
       console.log(!this.isVertical || this.showCodeEditor);
@@ -107,9 +111,15 @@ export default {
     handleChangeTransparent() {
       toggleClass(this.$refs.vcv, "vue-code-transparent");
     },
-
-    changView(e) {
+    // ---------------------
+    // 布局切换
+    onDockHandler(e) {
       this.layoutName = e;
+    },
+    // 组件代码编辑器展示
+    onCodeShowHandler(showState) {
+      this.showCodeEditor = showState;
+      console.log(!this.isVertical || this.showCodeEditor);
     },
   },
   computed: {
@@ -127,44 +137,58 @@ export default {
     outputSlot() {
       return this.viewLayout == "right" ? "right" : "left";
     },
-    viewHeight() {
-      return this.height <= this.minHeight ? this.minHeight : this.height;
-    },
     calcHeight() {
-      let heightSetting = `min-height:${this.minHeight}px;`;
+      // let heightSetting = `min-height:${this.minHeight}px;`;
+      // // height 设置后，maxHeight 设置无效。
+      // if (!isEmpty(this.height) && this.height >= 0) {
+      //   let tmpHeight =
+      //     this.height <= this.minHeight ? this.minHeight : this.height;
+      //   heightSetting += ` height:${tmpHeight}px;`;
+      // } else if (!isEmpty(this.maxHeight)) {
+      //   let tmpMaxheight =
+      //     this.maxHeight <= this.minHeight ? this.minHeight : this.maxHeight;
+      //   heightSetting += ` max-height:${tmpMaxheight}px;`;
+      // }
 
-      // height 设置后，maxHeight 设置无效。
+      let heightSetting = ` `;
       if (!isEmpty(this.height) && this.height >= 0) {
-        let tmpHeight =
+        let vcvHeight =
           this.height <= this.minHeight ? this.minHeight : this.height;
-        heightSetting += ` height:${tmpHeight}px;`;
-      } else if (!isEmpty(this.maxHeight)) {
-        let tmpMaxheight =
-          this.maxHeight <= this.minHeight ? this.minHeight : this.maxHeight;
-        heightSetting += ` max-height:${tmpMaxheight}px;`;
+        heightSetting += ` height:${vcvHeight}px;`;
       }
+      // if (!isEmpty(this.maxHeight)) {
+      //   let tmpMaxheight =
+      //     this.maxHeight <= this.minHeight ? this.minHeight : this.maxHeight;
+      //   heightSetting += ` max-height:${tmpMaxheight}px;`;
+      // }
+      console.log(heightSetting);
       return heightSetting;
     },
   },
   render() {
-    const { viewId, className } = this;
+    const { viewId, rootNames } = this;
 
     return (
-      <div class={classNames(`${viewId}`, className, this.themeMode)} ref="vcv">
+      <div class={classNames(rootNames, this.themeMode, `${viewId}`)} ref="vcv">
         <SplitPane
           class="vue-repl code-view-wrapper "
           isVertical={this.isVertical}
         >
-          {/*-- example render  --*/}
+          {/*-- output render  --*/}
           <template slot={this.outputSlot}>
-            <div class="code-view dSNpeq" style={this.calcHeight}>
-              <Output sourceCode={this.code}></Output>
-              {/*-- toolbar  
+            <Output
+              sourceCode={this.code}
+              style={this.calcHeight}
+              onDock={this.onDockHandler}
+              onCodeshow={this.onCodeShowHandler}
+            ></Output>
+
+            {/*-- toolbar
+               <div class="code-view dSNpeq"> </div>
               <Toolbar></Toolbar> --*/}
 
-              {/*-- result-box   
+            {/*-- result-box
               <OutputContainer code={this.code}></OutputContainer> --*/}
-            </div>
           </template>
 
           {/*-- code editor   --*/}
@@ -283,10 +307,11 @@ $code-view-wrapper-border-color: #f1f1f1;
 }
 
 .editor-container {
-  // height: calc(100% - var(--header-height));
-  height: 100%;
+  height: calc(100% - 2px);
+  // height: 100%;
   overflow: hidden;
   position: relative;
+  // background-color: var(--bg-soft);
 }
 
 .vcv-icon {
