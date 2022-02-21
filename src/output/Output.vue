@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="output-wrapper">
     <div class="output-header">
       <div class="tab-buttons">
         <button
@@ -47,10 +47,10 @@
           </DropdownMenu>
         </Dropdown>
         <!-- 设备模拟 -->
-        <!-- <Dropdown class="item" @command="handleCommand">
+        <Dropdown class="item" @command="changeDeviceSizes">
           <span class="dropdown-btn">
             <Icon icon="ic:round-devices" class="vcv-icon" />
-            <span class="more-text"> {{ svalue }} </span>
+            <span class="more-text"> {{ deviceSizeSeleted }} </span>
             <Icon icon="ic:round-keyboard-arrow-down" class="vcv-icon" />
           </span>
           <DropdownMenu slot="dropdown">
@@ -66,25 +66,26 @@
                 width="13"
                 height="13"
                 style="margin-left: 6px"
+                v-if="index === deviceSizeSeleted"
               />
             </DropdownItem>
           </DropdownMenu>
-        </Dropdown> -->
+        </Dropdown>
       </div>
     </div>
 
-    <div class="output-container">
+    <div class="output-container" :class="{ 'padding-32': !enabled }">
       <!-- <Preview :show="mode === 'preview'" v-if="mode === 'preview'" /> -->
       <!-- -->
-      <OutputContainer :code="sourceCode"></OutputContainer>
-      <!-- <DeviceEmulation
-        :width="width"
-        :height="height"
+      <!-- <OutputContainer :code="sourceCode"></OutputContainer> -->
+      <!-- 设备仿真 -->
+      <DeviceEmulation
+        :width="deviceWidth"
+        :height="deviceHeight"
         :disable-scaling="enabled"
       >
-        
         <OutputContainer :code="sourceCode"></OutputContainer>
-      </DeviceEmulation> -->
+      </DeviceEmulation>
     </div>
   </div>
 </template>
@@ -114,7 +115,7 @@ export default {
     DropdownMenu,
     DropdownItem,
     OutputContainer,
-    // DeviceEmulation,
+    DeviceEmulation,
   },
   props: {
     sourceCode: { type: String },
@@ -123,58 +124,50 @@ export default {
     return {
       outputModes: ["preview"], //"preview", "css"
       mode: "preview",
-      svalue: "default1",
-      deviceSizes: sizes,
-      arrayOfObjects: [1, 2, 3, 4, 5],
-      object: {
-        name: "Object Name",
-      },
-      // "iPhone 6/7/8 Plus": [414, 736],
-      width: 414,
-      height: 736,
-      enabled: false,
+
       dockSides: {
         top: "mdi:dock-top",
         right: "mdi:dock-right",
         left: "mdi:dock-left",
       },
       dockSide: this.vcv.layoutName, // 默认"top",
+
       isShowCode: this.vcv.showCodeEditor,
+
+      deviceSizes: sizes,
+      deviceSizeSeleted: "Default",
     };
   },
   created() {
     console.log("output created", this.vcv.layoutName);
   },
-  //   const size = ref<keyof typeof sizes>('Default')
-  // const enabled = computed(() => size.value === 'Default')
-  // const width = computed(() => sizes[size.value][0])
-  // const height = computed(() => sizes[size.value][1])
   methods: {
-    methodToRunOnSelect(payload) {
-      this.object = payload;
-    },
     changeDockTo(cmd) {
       this.dockSide = cmd;
       this.$emit("dock", this.dockSide);
     },
+
     changeShowCodeState() {
       this.isShowCode = !this.isShowCode;
       this.$emit("codeshow", this.isShowCode);
-      console.log(
-        "changeShowCodeState",
-        this.vcv.showCodeEditor,
-        this.isShowCode
-      );
     },
-    handleCommand(command) {
-      console.log("click on item " + command);
-      this.svalue = command;
-      console.log(this.svalue);
+    changeDeviceSizes(cmd) {
+      this.deviceSizeSeleted = cmd;
+      console.log("changeDeviceSizes", this.deviceWidth, this.deviceHeight);
     },
   },
   computed: {
     isVertical() {
       return this.dockSide === "top";
+    },
+    enabled() {
+      return this.deviceSizeSeleted === "Default";
+    },
+    deviceWidth() {
+      return this.deviceSizes[this.deviceSizeSeleted][0];
+    },
+    deviceHeight() {
+      return this.deviceSizes[this.deviceSizeSeleted][1];
     },
   },
   watch: {
@@ -196,6 +189,10 @@ button {
   background-color: transparent;
 }
 
+.output-wrapper {
+  height: 100%;
+  position: relative;
+}
 .output-header {
   display: flex;
   align-items: center;
@@ -241,6 +238,7 @@ button.active {
   height: calc(100% - var(--header-height));
   overflow: hidden;
   position: relative;
+  background-color: var(--bg-device);
 }
 
 /* dropdown-btn 文字样式 */
@@ -262,5 +260,9 @@ span.more-text {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.padding-32 {
+  padding: 32px;
 }
 </style>

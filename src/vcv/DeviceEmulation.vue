@@ -1,7 +1,7 @@
 <template>
   <div
     ref="output"
-    class="test"
+    class="device-container"
     :style="{
       display: 'grid',
       placeItems: !disableScaling ? 'center' : 'unset',
@@ -36,28 +36,59 @@ export default {
   },
   mounted() {
     console.log(this.disableScaling);
-    if (this.disableScaling) {
-      this.scale = "scale(1)";
-    } else {
+    this.scale = this.calcScale();
+  },
+  methods: {
+    calcScale() {
+      console.log(this.disableScaling);
+      if (this.disableScaling) return "scale(1)";
+
       let el = this.$refs.output;
-      this.scale = `scale(${Math.min(
+      console.log(
+        "el-w/h",
+        el.offsetWidth,
+        el.offsetHeight,
+        "out-w/h",
+        this.width,
+        this.height,
+        el.offsetWidth / this.width,
+        el.offsetHeight / this.height,
+        this.scale
+      );
+      console.log(
+        Math.min(el.offsetWidth / this.width, el.offsetHeight / this.height)
+      );
+      return `scale(${Math.min(
         el.offsetWidth / this.width,
         el.offsetHeight / this.height
       )})`;
-
-      console.log(el.offsetWidth, el.offsetHeight, this.scale);
-    }
+    },
   },
-  computed: {},
-  methods: {},
+  watch: {
+    width() {
+      this.scale = this.calcScale();
+    },
+    height() {
+      this.scale = this.calcScale();
+    },
+    disableScaling() {
+      this.scale = this.calcScale();
+    },
+  },
 };
 </script>
 <style scoped>
-.test {
+.device-container {
+  height: 100%;
+  /* overflow: hidden; */
+  position: relative;
+  background-color: var(--bg-device);
+}
+/* .test {
   height: 600px;
   background-color: rgba(45, 45, 45, 0.1);
-}
-.test1 {
+} */
+/* .test1 {
   background-color: rgba(27, 27, 27, 1);
-}
+} */
 </style>
