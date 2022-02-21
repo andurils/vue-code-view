@@ -1,7 +1,7 @@
 {
   "name": "vue-code-view",
-  "version": "0.4.0",
-  "description": "A lightweight code interaction component based on `vue 2.x`, which can edit, run and preview the code effect display in real time on the web page.",
+  "version": "0.4.1",
+  "description": "A Vue 2 component like Vue SFC REPL `@vue/repl` : u can edit, run and preview the code effect display in real time on the web page.",
   "main": "lib/vue-code-viewer.common.js",
   "unpkg": "lib/vue-code-viewer.umd.js",
   "scripts": {

@@ -9,7 +9,6 @@ export default {
           title: "简单组件",
           desc: "无需安装任何环境，打开页面快速体验交互细节。",
           height: 300,
-          maxHeight: 500,
           layout: "right",
           source: `<template>
   <div id="app">
@@ -33,8 +32,7 @@ export default {
           title: "Style 样式支持",
           desc: "支持样式编辑，同时支持 CSS 预处理sass、less。",
           layout: "left",
-          height: 0,
-          maxHeight: 500,
+          height: 400,
           source: `<template>
   <div id="app">
     <img class="logo" src="https://cn.vuejs.org/images/logo.svg" />

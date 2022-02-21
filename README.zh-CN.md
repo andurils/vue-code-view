@@ -84,12 +84,10 @@ new Vue({
 
 | 参数          | 说明                         | 类型              | 默认值 | 版本 |
 | ------------- | ---------------------------- | ----------------- | ------ | ---- |
-| theme         | 代码编辑器theme mode,支持 light / dark | `light` \| `dark` | `dark` |      |
-| showCode      | 是否显示代码编辑器           | boolean           | false  |      |
+| themeMode      | 主题theme mode,默认`light`,支持 `dark` | `` \| `dark` | `` |      |
+| showCode      | 是否显示代码编辑器,只有在`layout`值为`top`生效           | boolean           | false  |      |
 | source        | 运行示例源码                 | string            | -      |      |
-| errorHandler  | 错误处理函数                 | function          | -      |      |
-| debounceDelay | 错误处理防抖延迟(ms)         | number            | 300    |      |
-| layout        | render 视图布局             |  `top` \| `right`  \| `left`  | `top` | `0.4.0`
+| layout        | render 视图布局             |  `top` \| `right`  \| `left`  | `top` | `0.4.0`|
 
 ## 更新日志
 

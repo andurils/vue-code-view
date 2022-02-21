@@ -1,8 +1,12 @@
 # Inspired By
 
-## Vue 3 SFC Playground
+## playground
 
-<https://sfc.vuejs.org/>
+<https://github.com/element-plus/element-plus-playground>  
+<https://play.vueuse.org/>  
+<https://sfc.vuejs.org/>  
+<https://github.com/vuejs/repl>  
+<https://github.com/wheatjs/vue-hako>  
 
 ## react-code-view
 
@@ -41,6 +45,8 @@
 ## sfc parser
 
 [vue-loader/sfc-parser](https://github.com/vuejs/vue/blob/dev/test/unit/modules/sfc/sfc-parser.spec.js)
+
+<https://github.com/vuejs/vue/blob/dev/src/sfc/parser.js>
 
 [vue-loader/styleInjection](https://github.com/vuejs/vue-loader/blob/master/lib/codegen/styleInjection.js)
 

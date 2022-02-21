@@ -22,6 +22,7 @@
   </div>
 </template>
 <script>
+import { debounce } from "throttle-debounce";
 export default {
   components: {},
   props: {
@@ -35,7 +36,14 @@ export default {
     };
   },
   mounted() {
-    console.log(this.disableScaling);
+    window.addEventListener(
+      "resize",
+      debounce(100, () => {
+        console.log("dev emulator autoResize");
+        this.scale = this.calcScale();
+      })
+    );
+
     this.scale = this.calcScale();
   },
   methods: {

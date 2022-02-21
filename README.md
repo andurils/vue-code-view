@@ -84,12 +84,10 @@ new Vue({
 
 | 参数          | 说明                         | 类型              | 默认值 | 版本 |
 | ------------- | ---------------------------- | ----------------- | ------ | ---- |
-| theme         | code editor theme mode  | `light` \| `dark` | `dark` |      |
-| showCode      | show the code editor           | boolean           | false  |      |
+| themeMode         | code editor theme mode,default `light`  | `` \| `dark` | `` |      |
+| showCode      | show the code editor ,  only  `layout` value is `top` takes effect          | boolean           | false  |      |
 | source        | source code               | string            | -      |      |
-| errorHandler  | error handling function                 | function          | -      |      |
-| debounceDelay | error handling debounce delay (ms)         | number            | 300    |      |
-| layout        | render view layout             |  `top` \| `right`  \| `left`  | `top` | `0.4.0`
+| layout        | render view layout             |  `top` \| `right`  \| `left`  | `top` | `0.4.0` |
 
 ## Changelog
 
