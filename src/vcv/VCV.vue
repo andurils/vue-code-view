@@ -6,8 +6,8 @@ import { toggleClass } from "../utils/DOMhelper";
 import { isEmpty, generateId } from "../utils/util";
 import { debounce } from "throttle-debounce";
 import Locale from "../mixins/locale";
-import OutputContainer from "./output-container.vue";
-import Toolbar from "./toolbar.vue";
+// import OutputContainer from "./output-container.vue";
+// import Toolbar from "./toolbar.vue";
 import SplitPane from "./SplitPane.vue";
 
 // 字体图标
@@ -34,13 +34,14 @@ export default {
   components: {
     CodeEditor,
     Output,
-    OutputContainer,
-    Toolbar,
+    // OutputContainer,
+    // Toolbar,
     SplitPane,
   },
   props: {
     source: { type: String },
     themeMode: { type: String }, // light||dark，默认 light
+    autoResize: { type: Boolean, default: true },
     showCode: { type: Boolean, default: false },
     // renderToolbar: { type: Function },
     errorHandler: { type: Function },
@@ -60,8 +61,12 @@ export default {
     height: {
       type: Number,
     },
-    maxHeight: {
+    // maxHeight: {
+    //   type: Number,
+    // },
+    minHeight: {
       type: Number,
+      default: 300, // PX
     },
   },
   data() {
@@ -69,9 +74,8 @@ export default {
       id: this._uid,
       viewId: `vcv-${generateId()}`,
       layoutName: "top",
-      minHeight: 200, // px
       code: ``,
-      className: ["code-view-root"],
+      rootNames: ["vue-repl"],
       showCodeEditor: this.showCode,
     };
   },
@@ -94,11 +98,11 @@ export default {
     },
     // 更新 code 内容
     handleCodeChange(val) {
+      console.log("code change!");
       this.code = val;
-      console.log("code change");
     },
 
-    // 组件代码编辑器展示
+    // 组件代码编辑器展示 废弃
     handleShowCode() {
       this.showCodeEditor = !this.showCodeEditor;
       console.log(!this.isVertical || this.showCodeEditor);
@@ -107,9 +111,15 @@ export default {
     handleChangeTransparent() {
       toggleClass(this.$refs.vcv, "vue-code-transparent");
     },
-
-    changView(e) {
+    // ---------------------
+    // 布局切换
+    onDockHandler(e) {
       this.layoutName = e;
+    },
+    // 组件代码编辑器展示
+    onCodeShowHandler(showState) {
+      this.showCodeEditor = showState;
+      console.log(!this.isVertical || this.showCodeEditor);
     },
   },
   computed: {
@@ -127,50 +137,47 @@ export default {
     outputSlot() {
       return this.viewLayout == "right" ? "right" : "left";
     },
-    viewHeight() {
-      return this.height <= this.minHeight ? this.minHeight : this.height;
-    },
     calcHeight() {
-      let heightSetting = `min-height:${this.minHeight}px;`;
-
-      // height 设置后，maxHeight 设置无效。
+      let heightSetting = ` `;
       if (!isEmpty(this.height) && this.height >= 0) {
-        let tmpHeight =
+        let vcvHeight =
           this.height <= this.minHeight ? this.minHeight : this.height;
-        heightSetting += ` height:${tmpHeight}px;`;
-      } else if (!isEmpty(this.maxHeight)) {
-        let tmpMaxheight =
-          this.maxHeight <= this.minHeight ? this.minHeight : this.maxHeight;
-        heightSetting += ` max-height:${tmpMaxheight}px;`;
+        heightSetting += ` height:${vcvHeight}px;`;
       }
       return heightSetting;
     },
   },
   render() {
-    const { viewId, className } = this;
+    const { viewId, rootNames } = this;
 
     return (
-      <div class={classNames(`${viewId}`, className, this.themeMode)} ref="vcv">
-        <SplitPane
-          class="vue-repl code-view-wrapper "
-          isVertical={this.isVertical}
-        >
-          {/*-- example render  --*/}
+      <div
+        ref="vcv"
+        class={classNames(rootNames, this.themeMode, `${viewId}`)}
+        style={this.calcHeight}
+      >
+        <SplitPane isVertical={this.isVertical}>
+          {/*-- output render  --*/}
           <template slot={this.outputSlot}>
-            <div class="code-view dSNpeq" style={this.calcHeight}>
-              <Output sourceCode={this.code}></Output>
-              {/*-- toolbar  
+            <Output
+              sourceCode={this.code}
+              style={this.calcHeight}
+              onDock={this.onDockHandler}
+              onCodeshow={this.onCodeShowHandler}
+            ></Output>
+
+            {/*-- toolbar
+               <div class="code-view dSNpeq"> </div>
               <Toolbar></Toolbar> --*/}
 
-              {/*-- result-box   
+            {/*-- result-box
               <OutputContainer code={this.code}></OutputContainer> --*/}
-            </div>
           </template>
 
           {/*-- code editor   --*/}
           <template slot={this.editorSlot}>
             {(!this.isVertical || this.showCodeEditor) && (
-              <div class="editor-container" style={this.calcHeight}>
+              <div class="editor-container">
                 <CodeEditor
                   line-numbers
                   value={this.code}
@@ -187,73 +194,25 @@ export default {
 </script>
 
 <style lang="scss">
-$code-view-wrapper-border-color: #f1f1f1;
-
-.code-view-wrapper {
-  // position: absolute;
-  // width: 100%;
-  // height: 100%;
-  // display: flex;
-  // margin: 18px 0;
-  // padding: 0;
-  border: 1px solid #ebebeb;
-  background-color: #ffffff;
-  border-radius: 4px;
-  transition: 0.3s linear border-color;
-
-  &:hover {
-    border: 1px dashed #3498ff;
-  }
-
-  // .code-view {
-  //   position: relative;
-  //   display: flex;
-  //   overflow: hidden;
-  // }
-  .code-view-error {
-    padding: 18px;
-    color: red;
-    max-height: 200px;
-  }
-
-  .code-view-toolbar {
-    padding: 8px;
-    border-color: $code-view-wrapper-border-color;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    background: #fafafa;
-    border-bottom: 1px solid #eaeefb;
-
-    > .icon {
-      font-size: 16px;
-    }
-  }
-}
-
 // 背景透明
-.vue-code-transparent .code-view {
-  background-image: linear-gradient(
-      45deg,
-      rgb(249, 249, 250) 25%,
-      transparent 25%
-    ),
-    linear-gradient(135deg, rgb(249, 249, 250) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgb(249, 249, 250) 75%),
-    linear-gradient(135deg, transparent 75%, rgb(249, 249, 250) 75%);
-  background-size: 20px 20px;
-  background-position: 0px 0px, 10px 0px, 10px -10px, 0px 10px;
-}
-
-.dSNpeq {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
+// .vue-code-transparent .code-view {
+//   background-image: linear-gradient(
+//       45deg,
+//       rgb(249, 249, 250) 25%,
+//       transparent 25%
+//     ),
+//     linear-gradient(135deg, rgb(249, 249, 250) 25%, transparent 25%),
+//     linear-gradient(45deg, transparent 75%, rgb(249, 249, 250) 75%),
+//     linear-gradient(135deg, transparent 75%, rgb(249, 249, 250) 75%);
+//   background-size: 20px 20px;
+//   background-position: 0px 0px, 10px 0px, 10px -10px, 0px 10px;
+// }
 
 .vue-repl {
   --bg: #fff;
   --bg-soft: #f8f8f8;
+  --bg-device: rgb(233, 236, 239);
+
   --border: #ddd;
   // --text-light: #888;
   --text-light: rgba(60, 60, 60, 1);
@@ -261,6 +220,8 @@ $code-view-wrapper-border-color: #f1f1f1;
   --color-branding: #42b883;
   --color-branding-dark: #416f9c;
   --header-height: 32px;
+  --border-hover: rgb(180, 180, 180);
+  --border-hover-shadow: rgba(180, 180, 180, 0.2);
 
   font-size: 13px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -270,20 +231,31 @@ $code-view-wrapper-border-color: #f1f1f1;
   background-color: var(--bg-soft);
 
   height: 100%;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  // transition: 0.3s linear border-color;
+  transition: box-shadow 0.2s ease-out;
 }
 
-.dark .vue-repl {
+.dark.vue-repl {
   --bg: #1a1a1a;
   --bg-soft: #242424;
+  --bg-device: rgb(45, 45, 45);
   --border: #383838;
   // --text-light: #aaa;
   --text-light: rgba(252, 252, 252, 1);
   --color-branding: #42d392;
   --color-branding-dark: #89ddff;
+  --border-hover: rgb(9, 96, 189);
+  --border-hover-shadow: rgb(9, 96, 189, 0.2);
+}
+
+.vue-repl:hover {
+  border: 1px solid var(--border-hover);
+  box-shadow: 0 0 0 2px var(--border-hover-shadow);
 }
 
 .editor-container {
-  // height: calc(100% - var(--header-height));
   height: 100%;
   overflow: hidden;
   position: relative;

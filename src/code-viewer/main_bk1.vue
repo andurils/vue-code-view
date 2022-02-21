@@ -1,10 +1,29 @@
+<template>
+  <div class="vue-vcv code-view-root">
+    <SplitPane class="code-view-wrapper" :is-vertical="isVertical">
+      <template v-slot:[outputSlot]>
+        <div class="code-view dSNpeq">
+          <Toolbar></Toolbar>
+          <OutputContainer :code="code"></OutputContainer>
+        </div>
+      </template>
+      <template v-slot:[editorSlot]>
+        <CodeEditor
+          line-numbers
+          :theme="`base16-${theme}`"
+          :value="code"
+          v-if="!isVertical || showCodeEditor"
+        />
+      </template>
+    </SplitPane>
+  </div>
+</template>
+
 <script>
 import classNames from "classnames";
-import CodeEditor from "@/codemirror/CodeMirror.vue";
-import Output from "@/output/Output.vue";
+import CodeEditor from "./code-editor.vue";
 import { toggleClass } from "../utils/DOMhelper";
 import { isEmpty, generateId } from "../utils/util";
-import { debounce } from "throttle-debounce";
 import Locale from "../mixins/locale";
 import OutputContainer from "./output-container.vue";
 import Toolbar from "./toolbar.vue";
@@ -19,32 +38,26 @@ export default {
   mixins: [Locale],
   provide: function () {
     return {
-      vcv: this, // 组件实例
       viewId: this.viewId,
       handleShowCode: this.handleShowCode,
       handleChangeTransparent: this.handleChangeTransparent,
-      code: this.code,
+      handleCodeChange: this.handleCodeChange,
       changView: this.changView,
       errorHandler: this.errorHandler,
-      showCode: !this.isVertical || this.showCodeEditor,
-      themeMode: this.themeMode,
-      // needAutoResize: this.needAutoResize,
     };
   },
   components: {
     CodeEditor,
-    Output,
     OutputContainer,
     Toolbar,
     SplitPane,
   },
   props: {
     source: { type: String },
-    themeMode: { type: String }, // light||dark，默认 light
+    theme: { type: String, default: "dark" }, // light||dark
     showCode: { type: Boolean, default: false },
     // renderToolbar: { type: Function },
     errorHandler: { type: Function },
-    // needAutoResize: { type: Boolean, default: true },
     debounceDelay: {
       type: Number,
       default: 300,
@@ -59,9 +72,7 @@ export default {
     },
     height: {
       type: Number,
-    },
-    maxHeight: {
-      type: Number,
+      default: 300,
     },
   },
   data() {
@@ -69,16 +80,14 @@ export default {
       id: this._uid,
       viewId: `vcv-${generateId()}`,
       layoutName: "top",
-      minHeight: 200, // px
+      minHeight: 125, // px
       code: ``,
       className: ["code-view-root"],
       showCodeEditor: this.showCode,
     };
   },
 
-  created() {
-    this.onChangeHandler = debounce(250, this.handleCodeChange);
-  },
+  created() {},
   mounted() {
     this.init();
   },
@@ -95,21 +104,21 @@ export default {
     // 更新 code 内容
     handleCodeChange(val) {
       this.code = val;
-      console.log("code change");
     },
 
     // 组件代码编辑器展示
     handleShowCode() {
       this.showCodeEditor = !this.showCodeEditor;
-      console.log(!this.isVertical || this.showCodeEditor);
     },
     // 组件演示背景透明切换
     handleChangeTransparent() {
-      toggleClass(this.$refs.vcv, "vue-code-transparent");
+      // toggleClass(this.$refs.codeViewer, "vue-code-transparent");
     },
 
     changView(e) {
       this.layoutName = e;
+      this.code += " 1 ";
+      console.log("main view", this.layoutName);
     },
   },
   computed: {
@@ -130,73 +139,31 @@ export default {
     viewHeight() {
       return this.height <= this.minHeight ? this.minHeight : this.height;
     },
-    calcHeight() {
-      let heightSetting = `min-height:${this.minHeight}px;`;
-
-      // height 设置后，maxHeight 设置无效。
-      if (!isEmpty(this.height) && this.height >= 0) {
-        let tmpHeight =
-          this.height <= this.minHeight ? this.minHeight : this.height;
-        heightSetting += ` height:${tmpHeight}px;`;
-      } else if (!isEmpty(this.maxHeight)) {
-        let tmpMaxheight =
-          this.maxHeight <= this.minHeight ? this.minHeight : this.maxHeight;
-        heightSetting += ` max-height:${tmpMaxheight}px;`;
+    layoutCls: function () {
+      let cls = [`${this.viewLayout}`];
+      if (this.viewLayout !== "layout-top") {
+        cls.push("layout-side");
       }
-      return heightSetting;
+      return cls;
     },
-  },
-  render() {
-    const { viewId, className } = this;
-
-    return (
-      <div class={classNames(`${viewId}`, className, this.themeMode)} ref="vcv">
-        <SplitPane
-          class="vue-repl code-view-wrapper "
-          isVertical={this.isVertical}
-        >
-          {/*-- example render  --*/}
-          <template slot={this.outputSlot}>
-            <div class="code-view dSNpeq" style={this.calcHeight}>
-              <Output sourceCode={this.code}></Output>
-              {/*-- toolbar  
-              <Toolbar></Toolbar> --*/}
-
-              {/*-- result-box   
-              <OutputContainer code={this.code}></OutputContainer> --*/}
-            </div>
-          </template>
-
-          {/*-- code editor   --*/}
-          <template slot={this.editorSlot}>
-            {(!this.isVertical || this.showCodeEditor) && (
-              <div class="editor-container" style={this.calcHeight}>
-                <CodeEditor
-                  line-numbers
-                  value={this.code}
-                  onChange={this.onChangeHandler}
-                />
-              </div>
-            )}
-          </template>
-        </SplitPane>
-      </div>
-    );
   },
 };
 </script>
 
 <style lang="scss">
 $code-view-wrapper-border-color: #f1f1f1;
+$code-view-wrapper-bg: #ffffff;
 
 .code-view-wrapper {
   // position: absolute;
-  // width: 100%;
-  // height: 100%;
-  // display: flex;
-  // margin: 18px 0;
-  // padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  margin: 18px 0;
+  padding: 0;
   border: 1px solid #ebebeb;
+
+  // border-color: $code-view-wrapper-border-color;
   background-color: #ffffff;
   border-radius: 4px;
   transition: 0.3s linear border-color;
@@ -205,11 +172,11 @@ $code-view-wrapper-border-color: #f1f1f1;
     border: 1px dashed #3498ff;
   }
 
-  // .code-view {
-  //   position: relative;
-  //   display: flex;
-  //   overflow: hidden;
-  // }
+  .code-view {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+  }
   .code-view-error {
     padding: 18px;
     color: red;
@@ -223,11 +190,33 @@ $code-view-wrapper-border-color: #f1f1f1;
     align-items: center;
     justify-content: flex-end;
     background: #fafafa;
-    border-bottom: 1px solid #eaeefb;
+    // border-bottom: 1px solid #eaeefb;
 
     > .icon {
       font-size: 16px;
     }
+  }
+
+  .code-editor {
+    // -webkit-box-flex: 1;
+    // -webkit-flex-grow: 1;
+    // -ms-flex-positive: 1;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    background: #060606;
+    padding-right: 6px;
+  }
+}
+
+// CodeMirror  default height  300px
+.CodeMirror {
+  text-align: left;
+  flex-grow: 1;
+  pre {
+    padding: 0 20px;
   }
 }
 
@@ -245,52 +234,71 @@ $code-view-wrapper-border-color: #f1f1f1;
   background-position: 0px 0px, 10px 0px, 10px -10px, 0px 10px;
 }
 
+// layout-left
+.layout-left {
+  .code-view {
+    // flex-grow: 1;
+    flex: 0 0 40%;
+    overflow: hidden;
+  }
+  .code-editor {
+    // -webkit-box-flex: 1;
+    // -webkit-flex-grow: 1;
+    // -ms-flex-positive: 1;
+    // flex-grow: 1;
+    position: relative;
+  }
+}
+
+// layout-right
+.layout-right {
+  .code-view {
+    flex-grow: 1;
+    flex-shrink: 1;
+    order: 1;
+  }
+
+  .code-editor {
+    flex: 0 0 60%;
+  }
+}
+
+// layout-top
+.layout-top {
+  .code-view-wrapper {
+    flex-direction: column;
+    .code-view-toolbar {
+      order: 1;
+    }
+  }
+
+  .code-view {
+    width: 100%;
+    // height: 350px;
+    min-height: 125px;
+    flex-shrink: 0;
+  }
+
+  .code-editor {
+    flex-grow: 1;
+    position: relative;
+  }
+}
+
 .dSNpeq {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.vue-repl {
-  --bg: #fff;
-  --bg-soft: #f8f8f8;
-  --border: #ddd;
-  // --text-light: #888;
-  --text-light: rgba(60, 60, 60, 1);
-  --font-code: Menlo, Monaco, Consolas, "Courier New", monospace;
-  --color-branding: #42b883;
-  --color-branding-dark: #416f9c;
-  --header-height: 32px;
-
-  font-size: 13px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  margin: 0;
-  overflow: hidden;
-  background-color: var(--bg-soft);
-
-  height: 100%;
-}
-
-.dark .vue-repl {
-  --bg: #1a1a1a;
-  --bg-soft: #242424;
-  --border: #383838;
-  // --text-light: #aaa;
-  --text-light: rgba(252, 252, 252, 1);
-  --color-branding: #42d392;
-  --color-branding-dark: #89ddff;
-}
-
-.editor-container {
-  // height: calc(100% - var(--header-height));
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-.vcv-icon {
-  font-size: 14px;
-  color: var(--text-light);
+.eqwZsr {
+  position: absolute;
+  left: 16px;
+  z-index: 99;
+  display: flex;
+  bottom: 44px;
+  opacity: 1;
+  transition-property: opacity, bottom;
+  transition-duration: 300ms;
 }
 </style>

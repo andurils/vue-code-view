@@ -1,7 +1,7 @@
 {
   "name": "vue-code-view",
-  "version": "0.4.0",
-  "description": "A code editor component based on Vue.js 2 : compile source code (SFC) and render it in real time 🖖",
+  "version": "0.4.1",
+  "description": "A Vue 2 component like Vue SFC REPL `@vue/repl` : u can edit, run and preview the code effect display in real time on the web page.",
   "main": "lib/vue-code-viewer.common.js",
   "unpkg": "lib/vue-code-viewer.umd.js",
   "scripts": {
@@ -23,6 +23,7 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "@iconify/vue2": "^1.1.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",

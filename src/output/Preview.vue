@@ -1,18 +1,18 @@
 <script>
 import { debounce } from "throttle-debounce";
-import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
-import { isEmpty, extend } from "../utils/util";
-import { addStylesClient } from "../utils/style-loader/addStylesClient";
-import Locale from "../mixins/locale";
 const compiler = require("vue-template-compiler");
+import { genStyleInjectionCode } from "@/utils/sfcParser/styleInjection";
+import { isEmpty, extend } from "@/utils/util";
+import { addStylesClient } from "@/utils/style-loader/addStylesClient";
+import Locale from "@/mixins/locale";
 
 export default {
   name: "OutputContainer",
   mixins: [Locale],
-  inject: ["viewId", "errorHandler"],
+  inject: ["viewId", "errorHandler", "code"],
   props: {
-    code: { type: String },
-    layout: { type: String },
+    // code: { type: String },
+    // layout: { type: String },
   },
   data() {
     return {
@@ -31,6 +31,7 @@ export default {
   },
   created() {
     // console.log("op created");
+    console.log("op code", this.code);
     this.debounceErrorHandler = debounce(this.debounceDelay, this.errorHandler);
     this.stylesUpdateHandler = addStylesClient(this.viewId, {});
   },
@@ -38,7 +39,7 @@ export default {
     if (!this.isCodeEmpty) {
       this.cprocess();
     }
-    // console.log("op mounted");
+    console.log("op code", this.code);
   },
   methods: {
     cprocess() {
@@ -54,15 +55,6 @@ export default {
       const demoComponent = {};
       const { template, script, styles, customBlocks, errors } =
         this.sfcDescriptor;
-
-      // errors
-      if (errors && errors.length) {
-        console.error(
-          `Error compiling template:\n\n` +
-            errors.map((e) => `  - ${e}`).join("\n") +
-            "\n\n"
-        );
-      }
 
       const templateCode = template ? template.content.trim() : ``;
       let scriptCode = script ? script.content.trim() : ``;
@@ -122,7 +114,6 @@ export default {
     // SFC Descriptor Object
     sfcDescriptor: function () {
       return compiler.parseComponent(this.code);
-      // return parseComponent(this.code);
     },
     // 代码是否为空
     isCodeEmpty: function () {
@@ -148,7 +139,7 @@ export default {
     const renderComponent = this.dynamicComponent.component;
 
     return (
-      <div class="output-container-ttt zoom-1">
+      <div class="output-container zoom-1">
         <div>
           <renderComponent></renderComponent>
         </div>
@@ -159,11 +150,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.output-container-ttt {
+.output-container {
   padding: 8px;
   height: 100%;
-
-  background-color: var(--bg);
 
   div {
     width: 100%;
@@ -190,22 +179,22 @@ export default {
   }
 }
 // codepen zoom
-// .zoom-1 div {
-//   width: 100% !important;
-//   height: 100% !important;
-// }
+.zoom-1 div {
+  width: 100% !important;
+  height: 100% !important;
+}
 
-// .zoom-05 div {
-//   width: 200% !important;
-//   height: 200% !important;
-//   -webkit-transform: scale(0.5);
-//   transform: scale(0.5);
-// }
+.zoom-05 div {
+  width: 200% !important;
+  height: 200% !important;
+  -webkit-transform: scale(0.5);
+  transform: scale(0.5);
+}
 
-// .zoom-025 div {
-//   width: 400% !important;
-//   height: 400% !important;
-//   -webkit-transform: scale(0.25);
-//   transform: scale(0.25);
-// }
+.zoom-025 div {
+  width: 400% !important;
+  height: 400% !important;
+  -webkit-transform: scale(0.25);
+  transform: scale(0.25);
+}
 </style>

@@ -1,4 +1,4 @@
-import Demo from "../views/demo.vue";
+import Demo from "../views/REPL.vue";
 import sideNavConfig from "./side-nav.config.json";
 
 const lang = "zh-CN";
@@ -63,18 +63,13 @@ let route = [
     component: () => import("@examples/pages/zh-CN/home.vue"),
   },
   {
-    path: "/demo",
-    name: "Demo",
+    path: "/repl",
+    name: "repl",
     component: Demo,
   },
-  // {
-  //   path: "/test",
-  //   name: "Test",
-  //   component: () => import("@examples/views/test.vue"),
-  // },
   {
     path: "/changelog",
-    name: "Changelog",
+    name: "changelog",
     component: (r) =>
       require.ensure([], () => r(require("../../CHANGELOG.zh-CN.md"))),
   },

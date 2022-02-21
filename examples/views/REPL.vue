@@ -3,7 +3,7 @@ const code_example_1 = `<template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
     <h1>Welcome to Vue.js {{version}} !</h1>
-    <div>element 2.x</div>   
+    <div>element 2.x</div>
     <el-row class="row">
       <el-button icon="el-icon-search" circle></el-button>
       <el-button type="primary" icon="el-icon-edit" circle></el-button>
@@ -12,22 +12,22 @@ const code_example_1 = `<template>
       <el-button type="warning" icon="el-icon-star-off" circle></el-button>
       <el-button type="danger" icon="el-icon-delete" circle></el-button>
     </el-row>
-    <div>Ant Design of Vue 1.x</div> 
-    <div class="row"> 
+    <div>Ant Design of Vue 1.x</div>
+    <div class="row">
       <a-button type="primary" :loading="loading" @mouseenter="enterLoading">
         mouseenter me!
       </a-button>
       <a-button type="primary" icon="poweroff" :loading="iconLoading" @click="enterIconLoading">
         延迟1s
-      </a-button> 
+      </a-button>
       <a-button type="primary" loading />
       <a-button type="primary" shape="circle" loading />
       <a-button type="danger" shape="round" loading />
     </div>
-    <div class="test" >scss support!</div> 
+    <div class="test" >scss support!</div>
     <div class="less-test" >less support!</div>
   </div>
-</template> 
+</template>
 <script>
 export default {
   data() {
@@ -46,26 +46,26 @@ export default {
     },
   },
 };
-<\/script> 
-<style> 
+<\/script>
+<style>
 .row {
   padding:12px;
-} 
-  
+}
+
 .logo {
   width:66px;
 }
-</style> 
- 
-<style lang='scss' > 
+</style>
+
+<style lang='scss' >
 $primary-color: red;
 
-.test{ 
+.test{
   color: $primary-color;
   font-size:32px;
 }
-</style> 
-<style lang='less' > 
+</style>
+<style lang='less' >
 @width: 10px;
 @height: @width + 10px;
 
@@ -114,7 +114,7 @@ export default {
   name: "demo",
   data() {
     return {
-      className: ["demo-container"], // page className
+      className: ["nav"], // page className
     };
   },
   mounted() {},
@@ -124,11 +124,12 @@ export default {
     const { className, style } = this;
 
     return (
-      <div class={className} style={style}>
+      <div class="repl-outer" style={style}>
         <code-viewer
+          class="vue-vcv"
           source={code_example_1}
           showCode
-          layout={"top"}
+          layout={"right"}
           errorHandler={(errorMsg) => {
             this.$notify.error({
               title: "Info",
@@ -148,7 +149,6 @@ export default {
             );
           }}
         ></code-viewer>
-        {/* */}
       </div>
     );
   },
@@ -156,10 +156,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.demo-container {
+.repl-outer {
+  position: relative;
+  height: calc(100vh - 64px);
+  --app-controls-h: 5.6rem;
+  --pane-controls-h: 4.2rem;
+  overflow: hidden;
+  padding: 12px 0 0 0;
   box-sizing: border-box;
-  min-width: 200px;
-  max-width: 980px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.vue-vcv {
+  height: calc(100% - 2px);
 }
 </style>

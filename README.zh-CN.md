@@ -1,4 +1,10 @@
-# Vue Code View
+<p align="center">
+  <a href="https://andurils.github.io/vue-code-view/">
+    <img width="200" src="https://iconfont.alicdn.com/t/5602941b-e109-4b22-99c5-21b0b041f234.png">
+  </a>
+</p>
+
+<h1 align="center">Vue Code View(VCV)</h1>
 
 [![Build Status](https://app.travis-ci.com/andurils/vue-code-view.svg?branch=dev)](https://app.travis-ci.com/andurils/vue-code-view)
 [![GitHub license](https://img.shields.io/github/license/andurils/vue-code-view)](https://github.com/andurils/vue-code-view/blob/main/LICENSE)
@@ -16,17 +22,13 @@
 
 特别感谢组件 [react-code-view](https://github.com/simonguo/react-code-view)，基于此编写了vue 版本的组件！使用此组件在 `vue` 页面还是 `markdown` 文档中的多示例代码，都可以实时编辑运行代码、预览效果。
 
-## 组件网站
-
-组件网站: <https://andurils.github.io/vue-code-view/>
-
-![首页][preview-ol-v01]  
-
 ## 在线预览
+
+![示例][preview-ol-v03]  
 
 在线预览: <https://andurils.github.io/vue-code-view/#/demo>
 
-![示例][preview-ol-v03]  
+`codesandbox` 示例: [vue-code-view-example](https://codesandbox.io/s/vue-code-view-example-forked-nivmw?fontsize=14&hidenavigation=1&theme=dark)
 
 ## ✨ 特性
 
@@ -82,12 +84,10 @@ new Vue({
 
 | 参数          | 说明                         | 类型              | 默认值 | 版本 |
 | ------------- | ---------------------------- | ----------------- | ------ | ---- |
-| theme         | 代码编辑器theme mode,支持 light / dark | `light` \| `dark` | `dark` |      |
-| showCode      | 是否显示代码编辑器           | boolean           | false  |      |
+| themeMode      | 主题theme mode,默认`light`,支持 `dark` | `` \| `dark` | `` |      |
+| showCode      | 是否显示代码编辑器,只有在`layout`值为`top`生效           | boolean           | false  |      |
 | source        | 运行示例源码                 | string            | -      |      |
-| errorHandler  | 错误处理函数                 | function          | -      |      |
-| debounceDelay | 错误处理防抖延迟(ms)         | number            | 300    |      |
-| layout        | render 视图布局             |  `top` \| `right`  \| `left`  | `top` | `0.4.0`
+| layout        | render 视图布局             |  `top` \| `right`  \| `left`  | `top` | `0.4.0`|
 
 ## 更新日志
 
@@ -95,11 +95,11 @@ Detailed changes for each release are documented in the [release notes](./CHANGE
 
 ## 💡 Inspired
 
-Inspired by [links](./inspired.zh-cn.md).
+[links](./INSPIRED.zh-CN.md).
 
 ## License
 
-[MIT](./license)
+VCV is licensed under the terms of the [MIT License](./LICENSE)
 
 Copyright (c) 2021-present Anduril
 

@@ -20,7 +20,7 @@
   margin: 24px 0;
 
   .source {
-    padding: 0 24px;
+    padding: 12px 24px;
   }
 
   .description {

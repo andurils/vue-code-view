@@ -1,0 +1,113 @@
+.me-dropdown {
+  display: inline-block;
+  position: relative;
+  color: var(--text-light);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.me-dropdown__icon {
+  font-size: 13px;
+  margin: 0 3px;
+}
+
+.me-dropdown-menu {
+  --bg: #fff;
+  --border: #ddd;
+  --text-light: rgba(60, 60, 60, 1);
+  --hover-bg: rgba(221, 225, 227, 1);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  padding: 6px 0;
+  margin: 5px 0;
+  background-color: var(--bg);
+  /* border: 1px solid var(--border); */
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.dark.me-dropdown-menu {
+  --bg: rgba(15, 15, 15, 1);
+  --border: #383838;
+  --text-light: rgba(252, 252, 252, 1);
+  --hover-bg: rgb(66, 66, 66);
+}
+
+.me-dropdown-menu__item {
+  list-style: none;
+  color: var(--text-light);
+  cursor: pointer;
+  outline: 0;
+  margin: 0;
+  line-height: 27px;
+  padding: 0 15px;
+  font-size: 13px;
+  /* iconify  vertical align */
+  display: flex;
+  align-items: center;
+}
+.me-dropdown-menu__item:focus,
+.me-dropdown-menu__item:not(.is-disabled):hover {
+  background-color: var(--hover-bg);
+  /* color: #66b1ff; */
+}
+.me-dropdown-menu__item i {
+  margin-right: 5px;
+}
+.me-dropdown-menu__item--divided {
+  position: relative;
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+}
+.me-dropdown-menu__item--divided:before {
+  content: "";
+  height: 4px;
+  display: block;
+  margin: 0 -15px;
+  background-color: var(--bg);
+}
+.me-dropdown-menu__item.is-disabled {
+  cursor: default;
+  color: #bbb;
+  pointer-events: none;
+}
+
+/* popper */
+
+.me-popper .popper__arrow,
+.me-popper .popper__arrow::after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.me-popper .popper__arrow {
+  border-width: 6px;
+  /* filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.03)); */
+}
+.me-popper .popper__arrow::after {
+  content: " ";
+  border-width: 6px;
+}
+
+.me-popper[x-placement^="bottom"] {
+  margin-top: 12px;
+}
+.me-popper[x-placement^="bottom"] .popper__arrow {
+  top: -6px;
+  left: 50%;
+  margin-right: 3px;
+  border-top-width: 0;
+  border-bottom-color: var(--border);
+}
+.me-popper[x-placement^="bottom"] .popper__arrow::after {
+  top: 1px;
+  margin-left: -6px;
+  border-top-width: 0;
+  border-bottom-color: var(--bg);
+}

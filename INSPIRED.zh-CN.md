@@ -1,5 +1,13 @@
 # Inspired By
 
+## playground
+
+<https://github.com/element-plus/element-plus-playground>  
+<https://play.vueuse.org/>  
+<https://sfc.vuejs.org/>  
+<https://github.com/vuejs/repl>  
+<https://github.com/wheatjs/vue-hako>  
+
 ## react-code-view
 
 [simonguo/react-code-view](https://github.com/simonguo/react-code-view)
@@ -38,6 +46,8 @@
 
 [vue-loader/sfc-parser](https://github.com/vuejs/vue/blob/dev/test/unit/modules/sfc/sfc-parser.spec.js)
 
+<https://github.com/vuejs/vue/blob/dev/src/sfc/parser.js>
+
 [vue-loader/styleInjection](https://github.com/vuejs/vue-loader/blob/master/lib/codegen/styleInjection.js)
 
 [vue-style-loader/addStylesClient](https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js)
@@ -68,18 +78,6 @@ cnpm i --save-dev markdown-it markdown-it-anchor markdown-it-chain markdown-it-c
 
 [stylus-lang](https://stylus-lang.com/)
 
-## split pane
-
-<https://raven78.github.io/vue-resize-split-pane/>
-
-<https://www.cnblogs.com/fqh123/p/13246027.html>
-
-<https://github.com/PanJiaChen/vue-split-pane>
-
-<http://panjiachen.github.io/split-pane/demo/index.html>
-
-<https://juejin.cn/post/6941785036173606926>
-
 ---
 
 # Tools
@@ -92,4 +90,5 @@ cnpm i --save-dev markdown-it markdown-it-anchor markdown-it-chain markdown-it-c
 
 ## logo svg
 
-[svg 编辑生成](http://www.zuohaotu.com/svg/)
+<https://svgporn.com/>
+<https://simpleicons.org/>

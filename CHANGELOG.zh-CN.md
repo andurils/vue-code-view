@@ -3,9 +3,22 @@
 ## Unreleased
 
 - `//TODO`
-  - 编辑器功能（主题切换、语言选择等） 
+  - 国际化
 
 ---
+
+## 0.4.1
+
+`2022-01-19`
+
+- ✨ feat
+  - 新的UI、交互，支持拖拽滑动，参考 [`sfc-playground`](https://sfc.vuejs.org//) 、[`vueuse-playground`](https://play.vueuse.org/) 。
+  - 新增设备仿真功能，参考 [vue-hako](https://github.com/wheatjs/vue-hako) 。
+- 🐞 fix
+  - 修复left 布局显示问题。([#5](https://github.com/andurils/vue-code-view/issues/5))([832621b](https://github.com/andurils/vue-code-view/commit/832621ba4e9579fc2c173743e376e3250559159b) | [6b59b7a](https://github.com/andurils/vue-code-view/commit/6b59b7a84916e94a47c1704e5b7c5d37f535f444))
+  - 博客指引内容更新最新API。([#6](https://github.com/andurils/vue-code-view/issues/6))
+- 🔧 build
+  - 使用 [`Iconify`](https://icon-sets.iconify.design/) 实现Icon图标组件   。
 
 ## 0.4.0
 
@@ -111,15 +124,15 @@
 - 🐞 fix: 修复[问题]
 - 🦄 refactor: 重构[代码功能]
 - 📃 docs: 修改[文档]
-- 🌈 style: 修改[代码样式]
+- 🌈 style: 其他修改（不在上述类型中的修改）
 - 🧪 test: 修改[测试用例]
-- 🔧 build: 构建项目
-- 🐳 chore: 添加
+- 🔧 build: 影响项目构建或依赖项修改
+- 🐳 chore: 其他修改（不在上述类型中的修改）
 - 🐎 ci: CI 配置
 - 🎈 perf: 优化[性能]
 - 🚀 deploy:部署
 - ⚰️ remove dead code
-
+- 🔖 Release / Version tags
 ---
 
 ## 参考

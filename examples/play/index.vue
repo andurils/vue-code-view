@@ -35,7 +35,7 @@ $font-stack:    Helvetica, sans-serif;
 $primary-color: red;
 
 .test{
-  font-size:66px; 
+  font-size:66px;
   font: 600 $font-stack;
   color: $primary-color;
 }
@@ -46,10 +46,20 @@ export default {
   data() {
     return {
       className: ["page-container"], // page className
+      themeMode: "light", // light or dark
     };
   },
   mounted() {},
-  methods: {},
+  methods: {
+    changelight() {
+      this.themeMode = "light";
+      console.log(this.themeMode);
+    },
+    changedark() {
+      this.themeMode = "dark";
+      console.log(this.themeMode);
+    },
+  },
 
   render() {
     const { className, style } = this;
@@ -57,11 +67,18 @@ export default {
     return (
       <div class={className} style={style}>
         <h2>demo play</h2>
+        <a-button type="primary" on-click={this.changelight}>
+          light
+        </a-button>
+        <a-button type="primary" on-click={this.changedark}>
+          dark
+        </a-button>
         <code-viewer
+          class="test"
           source={code_example_1}
           showCode={true}
-          height={200}
           layout={"left"}
+          themeMode={this.themeMode}
           errorHandler={(errorMsg) => {
             this.$notify.error({
               title: "Info",
@@ -101,5 +118,9 @@ export default {
   // display: flex;
   // flex-direction: column;
   padding: 16px;
+}
+.test {
+  height: 400px;
+  width: 1200px;
 }
 </style>

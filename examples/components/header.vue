@@ -1,5 +1,5 @@
 <script>
-import Logo from "@assets/images/element-logo.svg";
+import Logo from "@assets/images/vcv-logo.svg";
 // import LogoSmall from "@assets/images/element-logo-small.svg";
 export default {
   name: "Header",
@@ -29,9 +29,9 @@ export default {
           onClick={({ key }) => this.changeSelectedMenu(key)}
           selectedKeys={[this.isHome ? "" : this.selectedMenuKey]}
         >
-          <a-menu-item key="demo">
-            <router-link active-class="active" to={`/demo`}>
-              示例
+          <a-menu-item key="repl">
+            <router-link active-class="active" to={`/repl`}>
+              REPL
             </router-link>
           </a-menu-item>
           <a-menu-item key="component">
@@ -228,7 +228,7 @@ export default {
   text-decoration: none;
 
   img {
-    height: 32px;
+    height: 24px;
     margin-right: 12px;
   }
 }
