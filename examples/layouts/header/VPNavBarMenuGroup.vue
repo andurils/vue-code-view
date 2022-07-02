@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { NavItemWithChildren } from "@examples/types/config";
 import { useData } from "@examples/composables/config";
 import _VCVFlyout from "@examples/components/VCVFlyout.vue";

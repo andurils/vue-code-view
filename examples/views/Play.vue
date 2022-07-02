@@ -42,7 +42,7 @@ $primary-color: red;
 </style> `;
 
 export default {
-  name: "demo",
+  name: "PlayDemo",
   data() {
     return {
       className: ["page-container"], // page className

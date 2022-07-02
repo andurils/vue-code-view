@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent } from "vue";
 import { useConfig } from "@examples/composables/config";
 import _VCVSwitchAppearance from "@examples/components/VCVSwitchAppearance.vue";
 

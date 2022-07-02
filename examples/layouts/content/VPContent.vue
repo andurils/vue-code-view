@@ -1,11 +1,5 @@
 <script lang="ts">
-import {
-  defineComponent,
-  onMounted,
-  onUpdated,
-  ref,
-  watch,
-} from "@vue/composition-api";
+import { defineComponent, onMounted, onUpdated, ref, watch } from "vue";
 
 import { useData } from "@examples/composables/config";
 import { useSidebar } from "@examples/composables/sidebar";

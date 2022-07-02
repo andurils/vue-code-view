@@ -1,7 +1,7 @@
 <script>
 import classNames from "classnames";
 import CodeEditor from "@/codemirror/CodeMirror.vue";
-import Output from "@/output/Output.vue";
+import OutputDemo from "../output/Output.vue";
 import { toggleClass } from "../utils/DOMhelper";
 import { isEmpty, generateId } from "../utils/util";
 import { useDebounceFn } from "@vueuse/core";
@@ -28,7 +28,7 @@ export default {
   },
   components: {
     CodeEditor,
-    Output,
+    OutputDemo,
     SplitPane,
   },
   props: {
@@ -139,7 +139,6 @@ export default {
   },
   render() {
     const { viewId, rootNames } = this;
-
     return (
       <div
         ref="vcv"
@@ -149,12 +148,12 @@ export default {
         <SplitPane layout={this.isVertical}>
           {/*-- output render  --*/}
           <template slot={this.outputSlot}>
-            <Output
+            <OutputDemo
               sourceCode={this.code}
               style={this.calcHeight}
               onDock={this.onDockHandler}
               onCodeshow={this.onCodeShowHandler}
-            ></Output>
+            ></OutputDemo>
           </template>
 
           {/*-- code editor   --*/}

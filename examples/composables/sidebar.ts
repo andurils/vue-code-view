@@ -1,4 +1,4 @@
-import { ref, computed } from "@vue/composition-api";
+import { ref, computed } from "vue";
 import { getSidebar } from "../utils/sidebar";
 import { useConfig, useData } from "./config";
 import type { Route, RouteMeta } from "vue-router";

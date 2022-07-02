@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent } from "vue";
 import _VCVLink from "@examples/components/VCVLink.vue";
 import { useData } from "@examples/composables/config";
 

@@ -1,4 +1,4 @@
-import { Ref, ref, watch, readonly, onUnmounted } from "@vue/composition-api";
+import { Ref, ref, watch, readonly, onUnmounted } from "vue";
 
 interface FocusContainerOptions {
   elRef: Ref<HTMLElement | undefined>;

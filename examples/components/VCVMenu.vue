@@ -1,5 +1,5 @@
 <script lang="ts">
-import { PropType, defineComponent } from "@vue/composition-api";
+import { PropType, defineComponent } from "vue";
 import { MenuItem, MenuItemChild } from "../types/menu";
 import _VCVMenuLink from "./VCVMenuLink.vue";
 import _VCVMenuGroup from "./VCVMenuGroup.vue";

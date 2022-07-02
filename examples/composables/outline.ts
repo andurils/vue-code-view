@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted, onUpdated, Ref } from "@vue/composition-api";
+import { onMounted, onUnmounted, onUpdated, Ref } from "vue";
 import { useMediaQuery } from "@vueuse/core";
 import { MenuItemWithLink } from "@examples/types/menu";
 import { Header } from "types/shared";

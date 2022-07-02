@@ -31,13 +31,7 @@
   </div>
 </template>
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  inject,
-} from "@vue/composition-api";
+import { defineComponent, ref, reactive, computed, inject } from "vue";
 
 export default defineComponent({
   props: {

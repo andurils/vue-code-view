@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { NavItemWithLink } from "@examples/types/config";
 import { useData } from "@examples/composables/config";
 import _VCVLink from "@examples/components/VCVLink.vue";

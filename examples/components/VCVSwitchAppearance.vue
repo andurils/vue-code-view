@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent } from "vue";
 import VCVSwitch from "./VCVSwitch.vue";
 import VCVIconSun from "./icons/VCVIconSun.vue";
 import VCVIconMoon from "./icons/VCVIconMoon.vue";

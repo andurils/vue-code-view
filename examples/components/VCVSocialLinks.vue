@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { SocialLinkSize, SocialLink } from "../types/socialLink";
 import _VCVSocialLink from "./VCVSocialLink.vue";
 

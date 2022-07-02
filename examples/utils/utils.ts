@@ -1,4 +1,4 @@
-import { ref } from "@vue/composition-api";
+import { ref } from "vue";
 
 export const hashRE = /#.*$/;
 export const extRE = /(index)?\.(md|html)$/;

@@ -111,7 +111,7 @@ $primary-color: red;
 // `;
 
 export default {
-  name: "demo",
+  name: "REPL",
   data() {
     return {
       className: ["nav"], // page className

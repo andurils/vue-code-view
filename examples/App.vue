@@ -6,7 +6,7 @@ import {
   watchEffect,
   provide,
   onUnmounted,
-} from "@vue/composition-api";
+} from "vue";
 import { useSidebar } from "./composables/sidebar";
 
 export default defineComponent({

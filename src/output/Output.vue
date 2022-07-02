@@ -109,6 +109,7 @@ import DeviceEmulation from "../vcv/DeviceEmulation.vue";
 import VCVFlyout from "../components/VCVDropdown.vue";
 
 export default {
+  name: "OutputDemo",
   inject: [
     "vcv",
     // "handleShowCode",

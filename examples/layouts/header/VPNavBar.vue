@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "@vue/composition-api";
+import { defineComponent, onMounted, ref } from "vue";
 import VPNavBarTitle from "./VPNavBarTitle.vue";
 // import VPNavBarSearch from "./VPNavBarSearch.vue";
 import _VPNavBarMenu from "./VPNavBarMenu.vue";

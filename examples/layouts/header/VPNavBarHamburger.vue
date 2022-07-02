@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent } from "@vue/composition-api";
+import { computed, defineComponent } from "vue";
 import { useConfig } from "@examples/composables/config";
 import _VCVHamburger from "@examples/components/VCVHamburger.vue";
 

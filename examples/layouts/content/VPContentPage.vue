@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onUpdated, ref, watch } from "@vue/composition-api";
+import { defineComponent, onUpdated, ref, watch } from "vue";
 import { useData } from "@examples/composables/config";
 import _VPFooter from "./VPFooter.vue";
 import type { Route, RouteMeta } from "vue-router";

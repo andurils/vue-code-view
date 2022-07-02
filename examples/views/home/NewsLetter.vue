@@ -1,8 +1,8 @@
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent } from "vue";
 import _VCVLink from "@examples/components/VCVLink.vue";
 export default defineComponent({
-  name: "Home",
+  name: "NewsLetter",
   components: {
     VCVLink: _VCVLink as any,
   },

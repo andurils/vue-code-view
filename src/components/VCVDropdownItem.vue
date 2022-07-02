@@ -1,12 +1,12 @@
 <script lang="ts">
-import { defineComponent, PropType } from "@vue/composition-api";
+import { defineComponent, PropType } from "vue";
 import { Icon } from "@iconify/vue2";
 import { MenuItemWithLink } from "@examples/types/menu";
 import { DropdownItemWithLink, DropdownItemChild } from "types/vcv";
-import _VCVLink from "@examples/components/VCVLink.vue";
+// import _VCVLink from "@examples/components/VCVLink.vue";
 
 export default defineComponent({
-  components: { VCVLink: _VCVLink as any, Icon },
+  components: { Icon },
   props: {
     item: {
       type: Object as PropType<DropdownItemWithLink>,

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { provide, defineComponent } from "@vue/composition-api";
+import { provide, defineComponent } from "vue";
 import { useNav } from "@examples/composables/nav";
 import { useSidebar } from "@examples/composables/sidebar";
 import _VPNavBar from "./VPNavBar.vue";

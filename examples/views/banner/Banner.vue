@@ -1,37 +1,46 @@
-<script lang="ts" setup>
-import { ref } from "@vue/composition-api";
-/**
- * Adding a new banner:
- * 1. uncomment the banner slot in ../index.ts
- * 2. uncomment and update BANNER_ID in ../../inlined-scripts/restorePreferences.ts
- * 3. update --vt-banner-height if necessary
- */
+<script lang="ts">
+import { defineComponent, ref } from "vue";
 
-let open = ref(true); //$ref(true);
+export default defineComponent({
+  name: "BannerCom  ",
+  setup() {
+    /**
+     * Adding a new banner:
+     * 1. uncomment the banner slot in ../index.ts
+     * 2. uncomment and update BANNER_ID in ../../inlined-scripts/restorePreferences.ts
+     * 3. update --vt-banner-height if necessary
+     */
 
-// restorePreferences.ts
-// (() => {
-//   const restore = (key, cls, def = false) => {
-//     const saved = localStorage.getItem(key);
-//     if (saved ? saved !== "false" : def) {
-//       document.documentElement.classList.add(cls);
-//     }
-//   };
-//   restore("vue-docs-prefer-composition", "prefer-composition");
-//   restore("vue-docs-prefer-sfc", "prefer-sfc", true);
+    let open = ref(true); //$ref(true);
+    // restorePreferences.ts
+    // (() => {
+    //   const restore = (key, cls, def = false) => {
+    //     const saved = localStorage.getItem(key);
+    //     if (saved ? saved !== "false" : def) {
+    //       document.documentElement.classList.add(cls);
+    //     }
+    //   };
+    //   restore("vue-docs-prefer-composition", "prefer-composition");
+    //   restore("vue-docs-prefer-sfc", "prefer-sfc", true);
 
-//   window.__VUE_BANNER_ID__ = "wip";
-//   restore(`vue-docs-banner-${__VUE_BANNER_ID__}`, "banner-dismissed");
-// })();
+    //   window.__VUE_BANNER_ID__ = "wip";
+    //   restore(`vue-docs-banner-${__VUE_BANNER_ID__}`, "banner-dismissed");
+    // })();
 
-/**
- * Call this if the banner is dismissible
- */
-function dismiss() {
-  open.value = false;
-  document.documentElement.classList.add("banner-dismissed");
-  // localStorage.setItem(`vue-docs-banner-${__VUE_BANNER_ID__}`, "true");
-}
+    /**
+     * Call this if the banner is dismissible
+     */
+    function dismiss() {
+      open.value = false;
+      document.documentElement.classList.add("banner-dismissed");
+      // localStorage.setItem(`vue-docs-banner-${__VUE_BANNER_ID__}`, "true");
+    }
+    return {
+      open,
+      dismiss,
+    };
+  },
+});
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from "@vue/composition-api";
+import { defineComponent, computed } from "vue";
 import { useData } from "@examples/composables/config";
 import VCVIconChevronLeft from "@examples/components/icons/VCVIconChevronLeft.vue";
 import VCVIconChevronRight from "@examples/components/icons/VCVIconChevronRight.vue";

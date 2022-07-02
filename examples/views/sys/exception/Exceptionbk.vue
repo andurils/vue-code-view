@@ -7,7 +7,7 @@ import {
   computed,
   unref,
   PropType,
-} from "@vue/composition-api";
+} from "vue";
 
 import { ExceptionEnum } from "/@/enums/exceptionEnum";
 import notDataSvg from "/@/assets/svg/no-data.svg";

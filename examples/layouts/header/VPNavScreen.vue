@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref } from "@vue/composition-api";
+import { defineComponent, ref } from "vue";
 import { lock, unlock, clearBodyLocks } from "tua-body-scroll-lock";
 
 import _VPNavScreenMenu from "./VPNavScreenMenu.vue";

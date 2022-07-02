@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, inject } from "@vue/composition-api";
+import { defineComponent, ref, inject } from "vue";
 import _VCVLink from "@examples/components/VCVLink.vue";
 
 export default defineComponent({

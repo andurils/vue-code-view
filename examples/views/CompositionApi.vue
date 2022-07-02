@@ -10,12 +10,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  onBeforeMount,
-  onMounted,
-  ref,
-} from "@vue/composition-api";
+import { defineComponent, onBeforeMount, onMounted, ref } from "vue";
 import HW from "./Test2.vue";
 
 import { useDark, useToggle } from "@vueuse/core";

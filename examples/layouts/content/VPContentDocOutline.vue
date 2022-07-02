@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed, inject, ref } from "@vue/composition-api";
+import { defineComponent, computed, inject, ref } from "vue";
 import { useData } from "@examples/composables/config";
 import { resolveHeaders, useActiveAnchor } from "@examples/composables/outline";
 

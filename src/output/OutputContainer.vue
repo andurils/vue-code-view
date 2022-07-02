@@ -3,7 +3,8 @@ import { useDebounceFn } from "@vueuse/core";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
 import { isEmpty, extend } from "../utils/util";
 import { addStylesClient } from "../utils/style-loader/addStylesClient";
-const compiler = require("vue-template-compiler");
+// const compiler = require("vue-template-compiler");
+import { parse } from "@vue/compiler-sfc";
 
 export default {
   name: "OutputContainer",
@@ -119,7 +120,7 @@ export default {
   computed: {
     // SFC Descriptor Object
     sfcDescriptor: function () {
-      return compiler.parseComponent(this.code);
+      return parse(this.code);
       // return parseComponent(this.code);
     },
     // 代码是否为空

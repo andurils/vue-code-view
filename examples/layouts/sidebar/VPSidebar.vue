@@ -1,10 +1,5 @@
 <script lang="ts">
-import {
-  defineComponent,
-  nextTick,
-  ref,
-  watchPostEffect,
-} from "@vue/composition-api";
+import { defineComponent, nextTick, ref, watchPostEffect } from "vue";
 import { useSidebar } from "@examples/composables/sidebar";
 import _VPSidebarGroup from "./VPSidebarGroup.vue";
 

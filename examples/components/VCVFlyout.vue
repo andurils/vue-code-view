@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ref, PropType, defineComponent } from "@vue/composition-api";
+import { ref, PropType, defineComponent } from "vue";
 import { MenuItem, MenuItemChild } from "../types/menu";
 import { useFocusContainer } from "../composables/focusContainer";
 import VCVIconChevronDown from "./icons/VCVIconChevronDown.vue";

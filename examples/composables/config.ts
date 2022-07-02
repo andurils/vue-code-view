@@ -9,7 +9,7 @@ import {
   InjectionKey,
   provide,
   Ref,
-} from "@vue/composition-api";
+} from "vue";
 
 export function useConfig() {
   return {

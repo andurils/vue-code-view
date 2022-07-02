@@ -86,7 +86,7 @@
   </div>
 </template>
 <script>
-import { reactive, watch, ref } from "@vue/composition-api";
+import { reactive, watch, ref } from "vue";
 import {
   useFullscreen,
   useActiveElement,

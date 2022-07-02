@@ -14,7 +14,7 @@ const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 // unplugin
-const ScriptSetup = require("unplugin-vue2-script-setup/webpack").default;
+// const ScriptSetup = require("unplugin-vue2-script-setup/webpack").default;
 // const Icons = require("unplugin-icons/webpack");
 // const IconsResolver = require("unplugin-icons/resolver");
 // const Components = require("unplugin-vue-components/webpack");
@@ -35,18 +35,18 @@ module.exports = {
         : "./examples/main.ts";
     config.resolveLoader.modules = ["node_modules", "./build/"]; // 自定义loader
 
-    // const plugins = [];
-    const plugins = [
-      ScriptSetup({
-        reactivityTransform: true,
-      }),
-      // new Icons({
-      //   compiler: "vue2",
-      // }),
-      // Components({
-      //   transformer: "vue2",
-      // }),
-    ];
+    const plugins = [];
+    // const plugins = [
+    //   ScriptSetup({
+    //     reactivityTransform: true,
+    //   }),
+    //   // new Icons({
+    //   //   compiler: "vue2",
+    //   // }),
+    //   // Components({
+    //   //   transformer: "vue2",
+    //   // }),
+    // ];
 
     // 生产环境相关配置
     if (IS_PROD && process.env.VUE_APP_ENV === "pub") {

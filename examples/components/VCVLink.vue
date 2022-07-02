@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, computed } from "@vue/composition-api";
+import { defineComponent, computed } from "vue";
 import VCVIconExternalLink from "./icons/VCVIconExternalLink.vue";
 
 export default defineComponent({

@@ -3,13 +3,7 @@
 </template>
 
 <script lang="ts">
-import {
-  ref,
-  onMounted,
-  watchEffect,
-  inject,
-  defineComponent,
-} from "@vue/composition-api";
+import { ref, onMounted, watchEffect, inject, defineComponent } from "vue";
 import { useDebounceFn } from "@vueuse/core";
 import CodeMirror from "./codemirror";
 

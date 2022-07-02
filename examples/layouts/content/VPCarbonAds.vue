@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted, watch } from "@vue/composition-api";
+import { defineComponent, ref, onMounted, watch } from "vue";
 import { useMediaQuery } from "@vueuse/core";
 import { useData } from "@examples/composables/config";
 

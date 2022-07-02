@@ -1,12 +1,12 @@
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent } from "vue";
 import _HomeHero from "./HomeHero.vue";
 import _HomeFeatures from "./HomeFeatures.vue";
 import _NewsLetter from "./NewsLetter.vue";
 import HomeExamples from "./HomeExamples.vue";
 
 export default defineComponent({
-  name: "Home",
+  name: "HomeMain",
   components: {
     HomeHero: _HomeHero as any,
     HomeFeatures: _HomeFeatures as any,
