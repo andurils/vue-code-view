@@ -70,7 +70,7 @@ export default {
 
       // script
       if (!isEmpty(scriptCode)) {
-        const componentScript = {};
+        let componentScript = {};
         scriptCode = scriptCode.replace(
           /export\s+default/,
           "componentScript ="
