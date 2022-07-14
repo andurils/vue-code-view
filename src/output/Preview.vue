@@ -1,6 +1,6 @@
 <script>
 import { debounce } from "throttle-debounce";
-const compiler = require("vue-template-compiler");
+const compiler = require("@vue/compiler-sfc");
 import { genStyleInjectionCode } from "@/utils/sfcParser/styleInjection";
 import { isEmpty, extend } from "@/utils/util";
 import { addStylesClient } from "@/utils/style-loader/addStylesClient";

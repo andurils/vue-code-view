@@ -4,7 +4,8 @@ import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
 import { isEmpty, extend } from "../utils/util";
 import { addStylesClient } from "../utils/style-loader/addStylesClient";
 import Locale from "../mixins/locale";
-const compiler = require("vue-template-compiler");
+// const compiler = require("@vue/compiler-sfc");
+import * as compiler from "@vue/compiler-sfc";
 
 export default {
   name: "OutputContainer",
@@ -121,8 +122,10 @@ export default {
   computed: {
     // SFC Descriptor Object
     sfcDescriptor: function () {
-      return compiler.parseComponent(this.code);
-      // return parseComponent(this.code);
+      const { descriptor, errors } = compiler.parse(this.code);
+      console.log("SFC Descriptor", descriptor);
+      // return compiler.parseComponent(this.code);
+      return descriptor;
     },
     // 代码是否为空
     isCodeEmpty: function () {

@@ -12,9 +12,9 @@ import CodeViewer from "@/index";
 // 国际化语言
 import locale from "@/locale/lang/en";
 
-// UI组件库引入
-import Antd from "ant-design-vue";
-import ElementUI from "element-ui";
+// // UI组件库引入
+// import Antd from "ant-design-vue";
+// import ElementUI from "element-ui";
 // 语法高亮
 import hljs from "highlight.js";
 
@@ -24,11 +24,11 @@ import MainHeader from "./components/header";
 import FooterNav from "./components/footer-nav";
 import demoBlock from "./components/demo-block";
 
-// UI组件库样式引入
-import "ant-design-vue/dist/antd.css";
-import "element-ui/lib/theme-chalk/index.css";
-// 响应式布局断点的隐藏
-import "element-ui/lib/theme-chalk/display.css";
+// // UI组件库样式引入
+// import "ant-design-vue/dist/antd.css";
+// import "element-ui/lib/theme-chalk/index.css";
+// // 响应式布局断点的隐藏
+// import "element-ui/lib/theme-chalk/display.css";
 
 // 公共样式
 import "@assets/styles/index.scss";
@@ -40,10 +40,10 @@ Vue.use(VueRouter);
 
 Vue.use(CodeViewer, { locale }); // 国际化配置
 
-// 引入组件 element 2.x
-Vue.use(ElementUI);
-// 引入组件 antd vue 1.x
-Vue.use(Antd);
+// // 引入组件 element 2.x
+// Vue.use(ElementUI);
+// // 引入组件 antd vue 1.x
+// Vue.use(Antd);
 
 Vue.component("demo-block", demoBlock);
 Vue.component("main-footer", MainFooter);
