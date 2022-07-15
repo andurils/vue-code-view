@@ -16,64 +16,22 @@
           <Icon icon="ic:round-code-off" class="vcv-icon" v-if="isShowCode" />
           <Icon icon="ic:round-code" class="vcv-icon" v-if="!isShowCode" />
         </button>
-        <!-- <button class="item">
-          <Icon icon="radix-icons:transparency-grid" class="vcv-icon" />
-        </button> -->
-
         <!-- docker side -->
-        <Dropdown class="item" @command="changeDockTo">
-          <span class="dropdown-btn">
-            <Icon :icon="dockSides[dockSide]" class="vcv-icon" />
-            <span class="more-text"> {{ dockSide }} </span>
-            <!-- <Icon icon="ic:round-keyboard-arrow-down" class="vcv-icon" /> -->
-          </span>
-          <DropdownMenu slot="dropdown">
-            <DropdownItem
-              v-for="(_, index) in dockSides"
-              :icon="_"
-              :key="index"
-              :value="index"
-              :command="index"
-            >
-              {{ index }}
-              <Icon
-                icon="carbon:checkmark"
-                width="13"
-                height="13"
-                style="margin-left: 6px"
-                v-if="index === dockSide"
-              />
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <VCVFlyout
+          class="item"
+          :button="dockSide"
+          :items="dockSides"
+          @click-item="changeDockTo"
+        />
         <!-- 设备模拟 -->
-        <Dropdown class="item" @command="changeDeviceSizes">
-          <span class="dropdown-btn">
-            <Icon icon="ic:round-devices" class="vcv-icon" />
-            <span class="more-text"> {{ deviceSizeSeleted }} </span>
-            <Icon icon="ic:round-keyboard-arrow-down" class="vcv-icon" />
-          </span>
-          <DropdownMenu slot="dropdown">
-            <DropdownItem
-              v-for="(_, index) in deviceSizes"
-              :key="index"
-              :value="index"
-              :command="index"
-            >
-              {{ index }}
-              <Icon
-                icon="carbon:checkmark"
-                width="13"
-                height="13"
-                style="margin-left: 6px"
-                v-if="index === deviceSizeSeleted"
-              />
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <VCVFlyout
+          class="item"
+          :button="deviceSizeSeleted"
+          :items="screenSizes"
+          @click-item="changeDeviceSizes"
+        />
       </div>
     </div>
-
     <div class="output-container" :class="{ 'padding-32': !enabled }">
       <!-- <Preview :show="mode === 'preview'" v-if="mode === 'preview'" /> -->
       <!-- -->
@@ -91,16 +49,14 @@
 </template>
 <script>
 import { Icon } from "@iconify/vue2";
-import Preview from "./Preview.vue";
-import sizes from "../settings/screen-sizes.json";
-import OutputContainer from "../code-viewer/output-container.vue";
-import Dropdown from "../dropdown/Dropdown.vue";
-import DropdownMenu from "../dropdown/DropdownMenu.vue";
-import DropdownItem from "../dropdown/DropdownItem.vue";
+// import Preview from "./Preview.vue";
+import { screenSizes, dockSides } from "../settings/sysSetting";
+import OutputContainer from "./OutputContainer.vue";
 import DeviceEmulation from "../vcv/DeviceEmulation.vue";
-import "../dropdown/dropdown.css";
+import VCVFlyout from "../components/VCVDropdown.vue";
 
 export default {
+  name: "OutputDemo",
   inject: [
     "vcv",
     // "handleShowCode",
@@ -111,11 +67,9 @@ export default {
   components: {
     // Preview,
     Icon,
-    Dropdown,
-    DropdownMenu,
-    DropdownItem,
     OutputContainer,
     DeviceEmulation,
+    VCVFlyout,
   },
   props: {
     sourceCode: { type: String },
@@ -124,26 +78,27 @@ export default {
     return {
       outputModes: ["preview"], //"preview", "css"
       mode: "preview",
-
-      dockSides: {
-        top: "mdi:dock-top",
-        right: "mdi:dock-right",
-        left: "mdi:dock-left",
-      },
+      // dockSides: {
+      //   top: "mdi:dock-top",
+      //   right: "mdi:dock-right",
+      //   left: "mdi:dock-left",
+      //   bottom: "mdi:dock-bottom",
+      // },
       dockSide: this.vcv.layoutName, // 默认"top",
-
       isShowCode: this.vcv.showCodeEditor,
-
-      deviceSizes: sizes,
+      screenSizes: screenSizes,
+      dockSides: dockSides,
       deviceSizeSeleted: "Default",
+      deviceWidth: 0,
+      deviceHeight: 0,
     };
   },
   created() {
-    console.log("output created", this.vcv.layoutName);
+    // console.log("output created", this.vcv.layoutName);
   },
   methods: {
-    changeDockTo(cmd) {
-      this.dockSide = cmd;
+    changeDockTo(item) {
+      this.dockSide = item.key;
       this.$emit("dock", this.dockSide);
     },
 
@@ -151,9 +106,11 @@ export default {
       this.isShowCode = !this.isShowCode;
       this.$emit("codeshow", this.isShowCode);
     },
-    changeDeviceSizes(cmd) {
-      this.deviceSizeSeleted = cmd;
-      console.log("changeDeviceSizes", this.deviceWidth, this.deviceHeight);
+    changeDeviceSizes(item) {
+      this.deviceSizeSeleted = item.label;
+      this.deviceWidth = item.key[0];
+      this.deviceHeight = item.key[1];
+      // console.log("changeDeviceSizes", this.deviceWidth, this.deviceHeight);
     },
   },
   computed: {
@@ -162,12 +119,6 @@ export default {
     },
     enabled() {
       return this.deviceSizeSeleted === "Default";
-    },
-    deviceWidth() {
-      return this.deviceSizes[this.deviceSizeSeleted][0];
-    },
-    deviceHeight() {
-      return this.deviceSizes[this.deviceSizeSeleted][1];
     },
   },
   watch: {
@@ -201,9 +152,10 @@ button {
   border-bottom: 1px solid var(--border);
   background-color: var(--bg);
   height: var(--header-height);
-  overflow: hidden;
+  /* overflow: hidden; */
   white-space: nowrap;
   position: relative;
+  z-index: 5;
 }
 .tab-buttons button {
   padding: 0;
@@ -225,8 +177,9 @@ button.active {
 
 .toolbar-navs {
   padding-left: 30px;
-  flex: 0 1 auto;
-  overflow: hidden;
+  display: flex;
+  /* flex: 0 1 auto; */
+  /* overflow: hidden; */
 }
 
 .toolbar-navs .item {

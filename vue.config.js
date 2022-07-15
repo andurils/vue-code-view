@@ -25,8 +25,8 @@ module.exports = {
   configureWebpack: (config) => {
     config.entry.app =
       process.env.VUE_APP_ENV === "play"
-        ? "./examples/play.js"
-        : "./examples/main.js";
+        ? "./examples/play.ts"
+        : "./examples/main.ts";
     config.resolveLoader.modules = ["node_modules", "./build/"]; // 自定义loader
 
     const plugins = [];

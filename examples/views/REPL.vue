@@ -3,27 +3,7 @@ const code_example_1 = `<template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
     <h1>Welcome to Vue.js {{version}} !</h1>
-    <div>element 2.x</div>
-    <el-row class="row">
-      <el-button icon="el-icon-search" circle></el-button>
-      <el-button type="primary" icon="el-icon-edit" circle></el-button>
-      <el-button type="success" icon="el-icon-check" circle></el-button>
-      <el-button type="info" icon="el-icon-message" circle></el-button>
-      <el-button type="warning" icon="el-icon-star-off" circle></el-button>
-      <el-button type="danger" icon="el-icon-delete" circle></el-button>
-    </el-row>
-    <div>Ant Design of Vue 1.x</div>
-    <div class="row">
-      <a-button type="primary" :loading="loading" @mouseenter="enterLoading">
-        mouseenter me!
-      </a-button>
-      <a-button type="primary" icon="poweroff" :loading="iconLoading" @click="enterIconLoading">
-        延迟1s
-      </a-button>
-      <a-button type="primary" loading />
-      <a-button type="primary" shape="circle" loading />
-      <a-button type="danger" shape="round" loading />
-    </div>
+    <div>element 2.x</div> 
     <div class="test" >scss support!</div>
     <div class="less-test" >less support!</div>
   </div>
@@ -111,7 +91,7 @@ $primary-color: red;
 // `;
 
 export default {
-  name: "demo",
+  name: "REPLDemo",
   data() {
     return {
       className: ["nav"], // page className

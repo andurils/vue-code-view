@@ -42,7 +42,7 @@ $primary-color: red;
 </style> `;
 
 export default {
-  name: "demo",
+  name: "PlayDemo",
   data() {
     return {
       className: ["page-container"], // page className
@@ -53,11 +53,11 @@ export default {
   methods: {
     changelight() {
       this.themeMode = "light";
-      console.log(this.themeMode);
+      // console.log(this.themeMode);
     },
     changedark() {
       this.themeMode = "dark";
-      console.log(this.themeMode);
+      // console.log(this.themeMode);
     },
   },
 
@@ -67,12 +67,7 @@ export default {
     return (
       <div class={className} style={style}>
         <h2>demo play</h2>
-        <a-button type="primary" on-click={this.changelight}>
-          light
-        </a-button>
-        <a-button type="primary" on-click={this.changedark}>
-          dark
-        </a-button>
+
         <code-viewer
           class="test"
           source={code_example_1}

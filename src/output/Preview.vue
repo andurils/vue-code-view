@@ -7,7 +7,7 @@ import { addStylesClient } from "@/utils/style-loader/addStylesClient";
 import Locale from "@/mixins/locale";
 
 export default {
-  name: "OutputContainer",
+  name: "PreviewDemo",
   mixins: [Locale],
   inject: ["viewId", "errorHandler", "code"],
   props: {
@@ -31,7 +31,7 @@ export default {
   },
   created() {
     // console.log("op created");
-    console.log("op code", this.code);
+    // console.log("op code", this.code);
     this.debounceErrorHandler = debounce(this.debounceDelay, this.errorHandler);
     this.stylesUpdateHandler = addStylesClient(this.viewId, {});
   },
@@ -39,7 +39,7 @@ export default {
     if (!this.isCodeEmpty) {
       this.cprocess();
     }
-    console.log("op code", this.code);
+    // console.log("op code", this.code);
   },
   methods: {
     cprocess() {
@@ -52,7 +52,7 @@ export default {
       if (!this.hasError) this.genComponent();
     },
     async genComponent() {
-      const demoComponent = {};
+      let demoComponent = {};
       const { template, script, styles, customBlocks, errors } =
         this.sfcDescriptor;
 

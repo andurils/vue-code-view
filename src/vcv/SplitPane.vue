@@ -1,61 +1,9 @@
-<script>
-export default {
-  name: "SplitPane",
-  props: {
-    // layout: { type: String, default: "vertical" },
-    isVertical: { type: Boolean, default: true },
-  },
-  data() {
-    return {
-      dragging: false,
-      split: 50,
-      startPosition: 0,
-      startSplit: 0,
-      // isVertical: true,
-      showOutput: true,
-    };
-  },
-  created() {},
-  mounted() {},
-  computed: {
-    boundSplit() {
-      return this.split < 20 ? 20 : this.split > 80 ? 80 : this.split;
-    },
-    // isVertical() {
-    //   return this.layout === "vertical";
-    // },
-  },
-  methods: {
-    dragStart(e) {
-      this.dragging = true;
-      this.startPosition = this.isVertical ? e.pageY : e.pageX;
-      this.startSplit = this.boundSplit;
-    },
-
-    dragMove(e) {
-      if (this.dragging) {
-        const position = this.isVertical ? e.pageY : e.pageX;
-        const totalSize = this.isVertical
-          ? this.$refs.container.offsetHeight
-          : this.$refs.container.offsetWidth;
-        const dp = position - this.startPosition;
-        this.split = this.startSplit + ~~((dp / totalSize) * 100);
-      }
-    },
-
-    dragEnd() {
-      this.dragging = false;
-    },
-  },
-};
-</script>
-
 <template>
   <div
     ref="container"
     class="split-pane"
     :class="{
-      dragging: dragging,
+      dragging: state.dragging,
       'show-output': showOutput,
       vertical: isVertical,
     }"
@@ -67,14 +15,14 @@ export default {
       class="left"
       :style="{ [isVertical ? 'height' : 'width']: boundSplit + '%' }"
     >
-      <slot name="left" />
-      <div class="dragger" @mousedown.prevent="dragStart" />
+      <slot name="left"></slot>
+      <div class="dragger" @mousedown.prevent="dragStart"></div>
     </div>
     <div
       class="right"
       :style="{ [isVertical ? 'height' : 'width']: 100 - boundSplit + '%' }"
     >
-      <slot name="right" />
+      <slot name="right"></slot>
     </div>
 
     <!-- <button class="toggler" @click="showOutput = !showOutput">
@@ -82,6 +30,70 @@ export default {
     </button> -->
   </div>
 </template>
+<script lang="ts">
+import { defineComponent, ref, reactive, computed, inject } from "vue";
+
+export default defineComponent({
+  props: {
+    // TODO
+    layout: { type: Boolean, default: true },
+  },
+  setup(props, context) {
+    // TODO
+    const isVertical = computed(() => props.layout === true);
+    const container = ref();
+    // TODO
+    // mobile only
+    // const store = inject("store") as Store;
+    // const showOutput = ref(store.initialShowOutput);
+    const showOutput = ref(false);
+
+    const state = reactive({
+      dragging: false,
+      split: 50,
+    });
+
+    const boundSplit = computed(() => {
+      const { split } = state;
+      return split < 20 ? 20 : split > 80 ? 80 : split;
+    });
+
+    let startPosition = 0;
+    let startSplit = 0;
+
+    function dragStart(e: MouseEvent) {
+      state.dragging = true;
+      startPosition = isVertical.value ? e.pageY : e.pageX;
+      startSplit = boundSplit.value;
+    }
+
+    function dragMove(e: MouseEvent) {
+      if (state.dragging) {
+        const position = isVertical.value ? e.pageY : e.pageX;
+        const totalSize = isVertical.value
+          ? container.value.offsetHeight
+          : container.value.offsetWidth;
+        const dp = position - startPosition;
+        state.split = startSplit + ~~((dp / totalSize) * 100);
+      }
+    }
+
+    function dragEnd() {
+      state.dragging = false;
+    }
+    return {
+      state,
+      showOutput,
+      container,
+      isVertical,
+      boundSplit,
+      dragStart,
+      dragMove,
+      dragEnd,
+    };
+  },
+});
+</script>
 
 <style scoped>
 .split-pane {

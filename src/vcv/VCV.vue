@@ -1,22 +1,17 @@
 <script>
 import classNames from "classnames";
 import CodeEditor from "@/codemirror/CodeMirror.vue";
-import Output from "@/output/Output.vue";
+import OutputDemo from "../output/Output.vue";
 import { toggleClass } from "../utils/DOMhelper";
 import { isEmpty, generateId } from "../utils/util";
-import { debounce } from "throttle-debounce";
-import Locale from "../mixins/locale";
-// import OutputContainer from "./output-container.vue";
-// import Toolbar from "./toolbar.vue";
+import { useDebounceFn } from "@vueuse/core";
 import SplitPane from "./SplitPane.vue";
 
-// 字体图标
-import "../fonts/iconfont.css";
-import "../styles/tooltip.css";
+import "normalize.css";
+import "@examples/styles/index.css";
 
 export default {
   name: "CodeViewer",
-  mixins: [Locale],
   provide: function () {
     return {
       vcv: this, // 组件实例
@@ -28,24 +23,22 @@ export default {
       errorHandler: this.errorHandler,
       showCode: !this.isVertical || this.showCodeEditor,
       themeMode: this.themeMode,
-      // needAutoResize: this.needAutoResize,
+      needAutoResize: this.needAutoResize,
     };
   },
   components: {
     CodeEditor,
-    Output,
-    // OutputContainer,
-    // Toolbar,
+    OutputDemo,
     SplitPane,
   },
   props: {
     source: { type: String },
     themeMode: { type: String }, // light||dark，默认 light
-    autoResize: { type: Boolean, default: true },
+    // autoResize: { type: Boolean, default: true },
     showCode: { type: Boolean, default: false },
     // renderToolbar: { type: Function },
     errorHandler: { type: Function },
-    // needAutoResize: { type: Boolean, default: true },
+    needAutoResize: { type: Boolean, default: true },
     debounceDelay: {
       type: Number,
       default: 300,
@@ -81,7 +74,7 @@ export default {
   },
 
   created() {
-    this.onChangeHandler = debounce(250, this.handleCodeChange);
+    this.onChangeHandler = useDebounceFn(this.handleCodeChange, 250);
   },
   mounted() {
     this.init();
@@ -98,20 +91,18 @@ export default {
     },
     // 更新 code 内容
     handleCodeChange(val) {
-      console.log("code change!");
+      // console.log("code change!");
       this.code = val;
     },
 
     // 组件代码编辑器展示 废弃
     handleShowCode() {
       this.showCodeEditor = !this.showCodeEditor;
-      console.log(!this.isVertical || this.showCodeEditor);
     },
     // 组件演示背景透明切换
     handleChangeTransparent() {
       toggleClass(this.$refs.vcv, "vue-code-transparent");
     },
-    // ---------------------
     // 布局切换
     onDockHandler(e) {
       this.layoutName = e;
@@ -119,7 +110,6 @@ export default {
     // 组件代码编辑器展示
     onCodeShowHandler(showState) {
       this.showCodeEditor = showState;
-      console.log(!this.isVertical || this.showCodeEditor);
     },
   },
   computed: {
@@ -149,29 +139,21 @@ export default {
   },
   render() {
     const { viewId, rootNames } = this;
-
     return (
       <div
         ref="vcv"
         class={classNames(rootNames, this.themeMode, `${viewId}`)}
         style={this.calcHeight}
       >
-        <SplitPane isVertical={this.isVertical}>
+        <SplitPane layout={this.isVertical}>
           {/*-- output render  --*/}
           <template slot={this.outputSlot}>
-            <Output
+            <OutputDemo
               sourceCode={this.code}
               style={this.calcHeight}
               onDock={this.onDockHandler}
               onCodeshow={this.onCodeShowHandler}
-            ></Output>
-
-            {/*-- toolbar
-               <div class="code-view dSNpeq"> </div>
-              <Toolbar></Toolbar> --*/}
-
-            {/*-- result-box
-              <OutputContainer code={this.code}></OutputContainer> --*/}
+            ></OutputDemo>
           </template>
 
           {/*-- code editor   --*/}
@@ -193,28 +175,14 @@ export default {
 };
 </script>
 
-<style lang="scss">
-// 背景透明
-// .vue-code-transparent .code-view {
-//   background-image: linear-gradient(
-//       45deg,
-//       rgb(249, 249, 250) 25%,
-//       transparent 25%
-//     ),
-//     linear-gradient(135deg, rgb(249, 249, 250) 25%, transparent 25%),
-//     linear-gradient(45deg, transparent 75%, rgb(249, 249, 250) 75%),
-//     linear-gradient(135deg, transparent 75%, rgb(249, 249, 250) 75%);
-//   background-size: 20px 20px;
-//   background-position: 0px 0px, 10px 0px, 10px -10px, 0px 10px;
-// }
-
+<style>
 .vue-repl {
   --bg: #fff;
   --bg-soft: #f8f8f8;
   --bg-device: rgb(233, 236, 239);
 
   --border: #ddd;
-  // --text-light: #888;
+  /* --text-light: #888; */
   --text-light: rgba(60, 60, 60, 1);
   --font-code: Menlo, Monaco, Consolas, "Courier New", monospace;
   --color-branding: #42b883;
@@ -233,16 +201,16 @@ export default {
   height: 100%;
   border: 1px solid var(--border);
   border-radius: 4px;
-  // transition: 0.3s linear border-color;
+  /* transition: 0.3s linear border-color; */
   transition: box-shadow 0.2s ease-out;
 }
 
-.dark.vue-repl {
+.dark .vue-repl {
   --bg: #1a1a1a;
   --bg-soft: #242424;
   --bg-device: rgb(45, 45, 45);
   --border: #383838;
-  // --text-light: #aaa;
+  /* --text-light: #aaa; */
   --text-light: rgba(252, 252, 252, 1);
   --color-branding: #42d392;
   --color-branding-dark: #89ddff;
