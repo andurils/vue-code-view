@@ -1,19 +1,21 @@
-// const logger = require("./logger");
+// Modified from @vuepress/shared-utils
+
+const logger = require("./logger");
 // const slugify = require("./slugify");
 // const parseHeaders = require("./parseHeaders");
 // const normalizeConfig = require("./normalizeConfig");
 
-// const chalk = require("chalk");
+const chalk = require("chalk"); // v5.x 不支持 require
 const escapeHtml = require("escape-html");
-const fs = require("fs-extra");
+// const fs = require("fs-extra");
 // const path = require("path"); // upath
 
 module.exports = {
-  // chalk,
+  chalk,
   // path,
-  fs,
+  // fs,
   escapeHtml,
-  // logger,
+  logger,
   // normalizeConfig,
   // slugify,
   // parseHeaders,

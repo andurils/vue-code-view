@@ -17,7 +17,7 @@ specifiers:
   '@vue/eslint-config-prettier': ^6.0.0
   '@vue/eslint-config-typescript': ^7.0.0
   '@vueuse/core': ^8.7.5
-  babel-eslint: ^10.1.0
+  chalk: 4.1.2
   classnames: ^2.3.1
   codemirror: ^5.62.2
   compression-webpack-plugin: ^6.1.1
@@ -27,12 +27,11 @@ specifiers:
   eslint: ^6.7.2
   eslint-plugin-prettier: ^3.3.1
   eslint-plugin-vue: ^9.2.0
-  fs-extra: ^10.1.0
-  highlight.js: ^11.3.1
   less: ^4.1.2
-  markdown-it: ^12.2.0
+  markdown-it: ^8.4.1
   markdown-it-chain: ^1.3.0
   markdown-it-container: ^3.0.0
+  markdown-it-emoji: ^1.4.0
   normalize.css: ^8.0.1
   prettier: ^2.2.1
   prismjs: ^1.28.0
@@ -72,7 +71,7 @@ devDependencies:
   '@vue/eslint-config-prettier': 6.0.0_d7db5d54a0ffb7fa3bb52bc7d98c8d11
   '@vue/eslint-config-typescript': 7.0.0_805a0e4baeb7f7250c88ffb82481f578
   '@vueuse/core': 8.9.3_vue@2.7.5
-  babel-eslint: 10.1.0_eslint@6.8.0
+  chalk: 4.1.2
   classnames: 2.3.1
   compression-webpack-plugin: 6.1.1
   core-js: 3.23.4
@@ -80,12 +79,11 @@ devDependencies:
   eslint: 6.8.0
   eslint-plugin-prettier: 3.4.1_eslint@6.8.0+prettier@2.7.1
   eslint-plugin-vue: 9.2.0_eslint@6.8.0
-  fs-extra: 10.1.0
-  highlight.js: 11.6.0
   less: 4.1.3
-  markdown-it: 12.3.2
-  markdown-it-chain: 1.3.0_markdown-it@12.3.2
+  markdown-it: 8.4.2
+  markdown-it-chain: 1.3.0_markdown-it@8.4.2
   markdown-it-container: 3.0.0
+  markdown-it-emoji: 1.4.0
   normalize.css: 8.0.1
   prettier: 2.7.1
   prismjs: 1.28.0
@@ -2589,10 +2587,6 @@ packages:
       sprintf-js: 1.0.3
     dev: true
 
-  /argparse/2.0.1:
-    resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
-    dev: true
-
   /arr-diff/4.0.0:
     resolution: {integrity: sha512-YVIQ82gZPGBebQV/a8dar4AitzCQs0jjXwMPZllpXMaGjXPYVUawSxQrRsjhjupyVxEvbHgUmIhKVlND+j02kA==}
     engines: {node: '>=0.10.0'}
@@ -2743,24 +2737,6 @@ packages:
       chalk: 1.1.3
       esutils: 2.0.3
       js-tokens: 3.0.2
-    dev: true
-
-  /babel-eslint/10.1.0_eslint@6.8.0:
-    resolution: {integrity: sha512-ifWaTHQ0ce+448CYop8AdrQiBsGrnC+bMgfyKFdi6EsPLTAWG+QfyDeM6OH+FmWnKvEq5NnBMLvlBUPKQZoDSg==}
-    engines: {node: '>=6'}
-    deprecated: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
-    peerDependencies:
-      eslint: '>= 4.12.1'
-    dependencies:
-      '@babel/code-frame': 7.18.6
-      '@babel/parser': 7.18.8
-      '@babel/traverse': 7.18.8
-      '@babel/types': 7.18.8
-      eslint: 6.8.0
-      eslint-visitor-keys: 1.3.0
-      resolve: 1.22.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /babel-loader/8.2.5_b8829b6f2922a61bbc3fc4404310c37a:
@@ -4327,8 +4303,8 @@ packages:
       tapable: 1.1.3
     dev: true
 
-  /entities/2.1.0:
-    resolution: {integrity: sha512-hCx1oky9PFrJ611mf0ifBLBRW8lUUVRlFolb5gWRfIELabBlbp9xZvrqZLZAs+NxFnbfQoeGd8wDkygjg7U85w==}
+  /entities/1.1.2:
+    resolution: {integrity: sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==}
     dev: true
 
   /entities/2.2.0:
@@ -5078,15 +5054,6 @@ packages:
       readable-stream: 2.3.7
     dev: true
 
-  /fs-extra/10.1.0:
-    resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
-    engines: {node: '>=12'}
-    dependencies:
-      graceful-fs: 4.2.10
-      jsonfile: 6.1.0
-      universalify: 2.0.0
-    dev: true
-
   /fs-extra/7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
     engines: {node: '>=6 <7 || >=8'}
@@ -5467,11 +5434,6 @@ packages:
 
   /highlight.js/10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
-    dev: true
-
-  /highlight.js/11.6.0:
-    resolution: {integrity: sha512-ig1eqDzJaB0pqEvlPVIpSSyMaO92bH1N2rJpLMN/nX396wTpDA4Eq0uK+7I/2XG17pFaaKE0kjV/XPeGt7Evjw==}
-    engines: {node: '>=12.0.0'}
     dev: true
 
   /hmac-drbg/1.0.1:
@@ -6280,6 +6242,7 @@ packages:
     optionalDependencies:
       graceful-fs: 4.2.10
     dev: true
+    optional: true
 
   /jsprim/1.4.2:
     resolution: {integrity: sha512-P2bSOMAc/ciLz6DzgjVlGJP9+BrJWu5UDGK70C2iweC5QBIeFf0ZXRvGjEj2uYgrY2MkAAhsSWHDWlFtEroZWw==}
@@ -6362,8 +6325,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /linkify-it/3.0.3:
-    resolution: {integrity: sha512-ynTsyrFSdE5oZ/O9GEf00kPngmOfVwazR5GKDq6EYfhlpFug3J2zybX56a2PRRpc9P+FuSoGNAwjlbDs9jJBPQ==}
+  /linkify-it/2.2.0:
+    resolution: {integrity: sha512-GnAl/knGn+i1U/wjBz3akz2stz+HrHLsxMwHQGofCDfPvlf+gDKN58UtfmUquTY4/MXeE2x7k19KQmeoZi94Iw==}
     dependencies:
       uc.micro: 1.0.6
     dev: true
@@ -6523,13 +6486,13 @@ packages:
       object-visit: 1.0.1
     dev: true
 
-  /markdown-it-chain/1.3.0_markdown-it@12.3.2:
+  /markdown-it-chain/1.3.0_markdown-it@8.4.2:
     resolution: {integrity: sha512-XClV8I1TKy8L2qsT9iX3qiV+50ZtcInGXI80CA+DP62sMs7hXlyV/RM3hfwy5O3Ad0sJm9xIwQELgANfESo8mQ==}
     engines: {node: '>=6.9'}
     peerDependencies:
       markdown-it: '>=5.0.0'
     dependencies:
-      markdown-it: 12.3.2
+      markdown-it: 8.4.2
       webpack-chain: 4.12.1
     dev: true
 
@@ -6537,13 +6500,17 @@ packages:
     resolution: {integrity: sha512-y6oKTq4BB9OQuY/KLfk/O3ysFhB3IMYoIWhGJEidXt1NQFocFK2sA2t0NYZAMyMShAGL6x5OPIbrmXPIqaN9rw==}
     dev: true
 
-  /markdown-it/12.3.2:
-    resolution: {integrity: sha512-TchMembfxfNVpHkbtriWltGWc+m3xszaRD0CZup7GFFhzIgQqxIfn3eGj1yZpfuflzPvfkt611B2Q/Bsk1YnGg==}
+  /markdown-it-emoji/1.4.0:
+    resolution: {integrity: sha512-QCz3Hkd+r5gDYtS2xsFXmBYrgw6KuWcJZLCEkdfAuwzZbShCmCfta+hwAMq4NX/4xPzkSHduMKgMkkPUJxSXNg==}
+    dev: true
+
+  /markdown-it/8.4.2:
+    resolution: {integrity: sha512-GcRz3AWTqSUphY3vsUqQSFMbgR38a4Lh3GWlHRh/7MRwz8mcu9n2IO7HOh+bXHrR9kOPDl5RNCaEsrneb+xhHQ==}
     hasBin: true
     dependencies:
-      argparse: 2.0.1
-      entities: 2.1.0
-      linkify-it: 3.0.3
+      argparse: 1.0.10
+      entities: 1.1.2
+      linkify-it: 2.2.0
       mdurl: 1.0.1
       uc.micro: 1.0.6
     dev: true
@@ -9467,6 +9434,7 @@ packages:
     resolution: {integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==}
     engines: {node: '>= 10.0.0'}
     dev: true
+    optional: true
 
   /unpipe/1.0.0:
     resolution: {integrity: sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==}

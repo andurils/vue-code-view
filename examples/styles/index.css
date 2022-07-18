@@ -4,7 +4,7 @@
 @import "./vt-backdrop.css";
 @import "./vt-code-group.css";
 @import "./vt-doc-base.css";
-@import "./vt-doc-code.css";
+/* @import "./vt-doc-code.css"; */
 @import "./vt-doc-custom-blocks.css";
 @import "./vt-flyout.css";
 @import "./vt-hamburger.css";
@@ -19,3 +19,4 @@
 @import "./vt-box.css";
 @import "./vt-badge.css";
 @import "./vcv-code.css";
+@import "./vcv-markdown.css";

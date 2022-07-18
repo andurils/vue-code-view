@@ -11,7 +11,8 @@ import DemoBlock from "@examples/components/DemoBlock.vue";
 
 import "normalize.css";
 import "@examples/styles/index.css";
-import "prismjs/themes/prism-tomorrow.css";
+import "@examples/styles/github-markdown/index.scss";
+import "prismjs/themes/prism-tomorrow.css"; // 代码语法高亮主题样式
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);

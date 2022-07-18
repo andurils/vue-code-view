@@ -1,8 +1,6 @@
 const prism = require('prismjs')
 const loadLanguages = require('prismjs/components/index')
-const {
-  // logger,
-  chalk, escapeHtml } = require('../utils')
+const { logger, chalk, escapeHtml } = require('../utils')
 
 // required to make embedded highlighting work...
 loadLanguages(['markup', 'css', 'javascript'])
@@ -45,7 +43,7 @@ module.exports = (str, lang) => {
     try {
       loadLanguages([lang])
     } catch (e) {
-      // logger.warn(chalk.yellow(`[vuepress] Syntax highlight for language "${lang}" is not supported.`))
+      logger.warn(chalk.yellow(`[VCV] Syntax highlight for language "${lang}" is not supported.`))
     }
   }
   if (prism.languages[lang]) {
