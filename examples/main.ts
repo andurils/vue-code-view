@@ -9,14 +9,9 @@ import CodeViewer from "@/index";
 // 网站页面 模板页面组件
 import DemoBlock from "@examples/components/DemoBlock.vue";
 
-// 语法高亮
-import hljs from "highlight.js";
-
-// highlight主题
-import "highlight.js/styles/a11y-dark.css";
-
 import "normalize.css";
 import "@examples/styles/index.css";
+import "prismjs/themes/prism-tomorrow.css";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -29,15 +24,6 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   // base: __dirname,
   routes,
-});
-
-router.afterEach((route) => {
-  Vue.nextTick(() => {
-    const blocks = document.querySelectorAll("pre code");
-    blocks.forEach((block) => {
-      hljs.highlightElement(block as HTMLElement);
-    });
-  });
 });
 
 new Vue({

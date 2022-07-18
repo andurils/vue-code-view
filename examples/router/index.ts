@@ -3,7 +3,7 @@ import type { RouteConfig } from "vue-router";
 import tutorial from "@examples/router/routes/tutorial";
 import guide from "@examples/router/routes/guide";
 
-import Demo from "../views/REPL.vue";
+import Demo from "../views/repl/REPL.vue";
 
 const RootRoute: RouteConfig = {
   path: "/",

@@ -1,5 +1,5 @@
 import Vue from "vue";
-import App from "@examples/play/index.vue";
+import App from "@examples/views/play/index.vue";
 import CodeViewer from "@/index";
 
 Vue.config.productionTip = false;

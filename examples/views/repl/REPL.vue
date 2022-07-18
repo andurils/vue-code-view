@@ -138,11 +138,14 @@ export default {
 <style lang="scss" scoped>
 .repl-outer {
   position: relative;
-  height: calc(100vh - 64px);
+  margin: 0 auto;
+  max-width: var(--vp-screen-max-width);
+  height: calc(100vh - var(--vt-nav-height) - var(--vt-banner-height, 0px));
   --app-controls-h: 5.6rem;
   --pane-controls-h: 4.2rem;
   overflow: hidden;
-  padding: 12px 0 0 0;
+  // padding: 12px 0 0 0;
+  padding: 4px 2px 2px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

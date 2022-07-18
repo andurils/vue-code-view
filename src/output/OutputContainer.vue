@@ -150,7 +150,7 @@ export default {
     const renderComponent = this.dynamicComponent.component;
 
     return (
-      <div class="output-container-ttt zoom-1">
+      <div class="output-container">
         <div>
           <renderComponent></renderComponent>
         </div>
@@ -161,7 +161,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.output-container-ttt {
+.output-container {
   padding: 8px;
   height: 100%;
 
@@ -191,23 +191,4 @@ export default {
     background: 0 0;
   }
 }
-// codepen zoom
-// .zoom-1 div {
-//   width: 100% !important;
-//   height: 100% !important;
-// }
-
-// .zoom-05 div {
-//   width: 200% !important;
-//   height: 200% !important;
-//   -webkit-transform: scale(0.5);
-//   transform: scale(0.5);
-// }
-
-// .zoom-025 div {
-//   width: 400% !important;
-//   height: 400% !important;
-//   -webkit-transform: scale(0.25);
-//   transform: scale(0.25);
-// }
 </style>
