@@ -1,5 +1,5 @@
 exports.PLUGINS = {
-  COMPONENT: 'component',
+  // COMPONENT: 'component',
   HIGHLIGHT_LINES: 'highlight-lines',
   PRE_WRAPPER: 'pre-wrapper',
   SNIPPET: 'snippet',
@@ -11,7 +11,7 @@ exports.PLUGINS = {
   LINE_NUMBERS: 'line-numbers'
 }
 
-// exports.REQUIRED_PLUGINS = [
-//   exports.PLUGINS.COMPONENT,
-//   exports.PLUGINS.ANCHOR
-// ]
+exports.REQUIRED_PLUGINS = [
+  // exports.PLUGINS.COMPONENT,
+  exports.PLUGINS.ANCHOR
+]

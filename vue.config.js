@@ -93,8 +93,8 @@ module.exports = {
       .loader("vue-loader")
       .end()
       // 自定义loader
-      .use("md-loader")
-      .loader("md-loader")
+      .use("markdown-loader")
+      .loader("markdown-loader")
       .end();
 
     if (IS_PROD && process.env.VUE_APP_ENV === "pub") {

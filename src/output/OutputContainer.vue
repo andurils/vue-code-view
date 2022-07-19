@@ -105,7 +105,7 @@ export default {
 
       // 校验代码是否存在<template>
       const { template } = this.sfcDescriptor;
-      console.log("codeLint", this.sfcDescriptor, template);
+      // console.log("codeLint", this.sfcDescriptor, template);
       const templateCode =
         template && template.content ? template.content.trim() : ``;
       const isTemplateEmpty = isEmpty(templateCode);
@@ -150,7 +150,7 @@ export default {
     const renderComponent = this.dynamicComponent.component;
 
     return (
-      <div class="output-container">
+      <div class="output-container-preview">
         <div>
           <renderComponent></renderComponent>
         </div>
@@ -161,7 +161,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.output-container {
+.output-container-preview {
   padding: 8px;
   height: 100%;
 

@@ -1,8 +1,8 @@
 const { escapeBackticks } = require("./util");
-const md = require("./config");
+const md = require("../markdown");
 
 module.exports = function (source) {
-  const content = md.render(source);
+  const content = md().render(source);
   const startTag = "<!--vcv-demo:";
   const startTagLen = startTag.length;
   const endTag = ":vcv-demo-->";

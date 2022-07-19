@@ -1,17 +1,17 @@
 <p align="center">
   <a href="https://andurils.github.io/vue-code-view/">
-    <img width="200" src="https://iconfont.alicdn.com/t/5602941b-e109-4b22-99c5-21b0b041f234.png">
+    <img width="200" src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ec142092a1ee4aa08f1f96c28598bc5d~tplv-k3u1fbpfcp-watermark.image"> 
   </a>
 </p>
 
 <h1 align="center">Vue Code View(VCV)</h1>
-
-[![Build Status](https://app.travis-ci.com/andurils/vue-code-view.svg?branch=dev)](https://app.travis-ci.com/andurils/vue-code-view)
-[![GitHub license](https://img.shields.io/github/license/andurils/vue-code-view)](https://github.com/andurils/vue-code-view/blob/main/LICENSE)
-[![npm](https://img.shields.io/npm/v/vue-code-view)](https://img.shields.io/npm/v/vue-code-view)
-[![npm bundle size](https://img.shields.io/bundlephobia/min/vue-code-view)](https://img.shields.io/bundlephobia/min/vue-code-view)
-[![npm](https://img.shields.io/npm/dt/vue-code-view?label=npm%20downloads)](https://img.shields.io/npm/dt/vue-code-view?label=npm%20downloads)
-
+ 
+![Build Status](https://app.travis-ci.com/andurils/vue-code-view.svg?branch=dev)
+![GitHub license](https://img.shields.io/github/license/andurils/vue-code-view)
+![npm](https://img.shields.io/npm/v/vue-code-view)
+![npm bundle size](https://img.shields.io/bundlephobia/min/vue-code-view)
+![npm](https://img.shields.io/npm/dt/vue-code-view?label=npm%20downloads)
+ 
  一个基于 `vue 2.x`的轻量代码交互组件，在网页中可以编辑、运行并实时预览代码效果展示。
 
 当阅读包含大量代码的文档时，很多项目文档通过 `markdown loader` 实现了示例代码的 `render` 展示，但它是静态的。当我们想调试代码时，一般需要打开本地IDE或者打开 `codepen`， `codesandbox`等在线编辑器网站，也会受制于电脑是否安装开发环境或者网络连接是否顺畅。
@@ -54,7 +54,7 @@ module.exports = {
 
 入口文件 `main.js` 中引入组件,不需要手动引入样式。
 
-```javascript
+```js
 import Vue from "vue";
 import App from "./App.vue";
 import CodeView from "vue-code-view";

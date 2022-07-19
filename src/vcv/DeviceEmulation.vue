@@ -15,7 +15,6 @@
         transform: scale,
         transformOrigin: 'center center',
       }"
-      class="test1"
     >
       <slot :width="width" :height="height" :scale="scale" />
     </div>
@@ -32,9 +31,8 @@ export default defineComponent({
     disableScaling: { type: Boolean },
   },
   setup(props, context) {
-    const output = ref<HTMLElement | null>(null);
+    const output = ref<HTMLElement>();
     const size = useElementSize(output);
-
     const scale = computed(() => {
       if (props.disableScaling) return "scale(1)";
       return `scale(${Math.min(

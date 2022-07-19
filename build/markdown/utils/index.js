@@ -1,8 +1,8 @@
 // Modified from @vuepress/shared-utils
 
 const logger = require("./logger");
-// const slugify = require("./slugify");
-// const parseHeaders = require("./parseHeaders");
+const slugify = require("./slugify");
+const parseHeaders = require("./parseHeaders");
 // const normalizeConfig = require("./normalizeConfig");
 
 const chalk = require("chalk"); // v5.x 不支持 require
@@ -17,6 +17,6 @@ module.exports = {
   escapeHtml,
   logger,
   // normalizeConfig,
-  // slugify,
-  // parseHeaders,
+  slugify,
+  parseHeaders,
 };
