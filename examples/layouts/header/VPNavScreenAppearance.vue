@@ -1,23 +1,25 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useConfig } from "@examples/composables/config";
+// import { useConfig } from "@examples/composables/config";
 import _VCVSwitchAppearance from "@examples/components/VCVSwitchAppearance.vue";
+import { appearance } from "@examples/settings/projectSetting";
 
 export default defineComponent({
   components: {
     VCVSwitchAppearance: _VCVSwitchAppearance,
   },
   setup(props) {
-    const { config } = useConfig();
+    // const { config } = useConfig();
     return {
-      config,
+      // config,
+      appearance,
     };
   },
 });
 </script>
 
 <template>
-  <div v-if="config.appearance" class="VPNavScreenAppearance">
+  <div v-if="appearance" class="VPNavScreenAppearance">
     <p class="text">Appearance</p>
     <VCVSwitchAppearance />
   </div>

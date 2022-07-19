@@ -22,7 +22,7 @@ Vue.component("demo-block", DemoBlock);
 Vue.component("OutboundLink", OutboundLink);
 
 const router = new VueRouter({
-  mode: "history", // 'hash' | 'history'
+  mode: "hash", // 'hash' | 'history'
   base: process.env.BASE_URL,
   // base: __dirname,
   routes,

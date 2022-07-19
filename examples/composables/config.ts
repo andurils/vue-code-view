@@ -20,27 +20,29 @@ export function useConfig() {
           icon: "github",
           link: "https://github.com/andurils/vue-code-view",
         },
-        {
-          icon: "languages",
-          link: "https://staging-cn.vuejs.org/guide/typescript/options-api.html#typing-component-props",
-        },
+        // {
+        //   icon: "languages",
+        //   link: "https://staging-cn.vuejs.org/guide/typescript/options-api.html#typing-component-props",
+        // },
       ] as SocialLink[],
+      // NavScreenMenu
       nav: [
         {
           text: "REPL",
-          link: "/#/repl",
+          link: "/repl",
           activeMatch: "repl",
         },
         {
           text: "文档",
+          activeMatch: "guide",
           items: [
             {
               text: "指南",
-              link: "/#/guide",
+              link: "/guide",
             },
             {
               text: "更新日志",
-              link: "/#/changelog",
+              link: "/changelog",
             },
           ],
         },

@@ -17,7 +17,7 @@ export default defineComponent({ name: "HomeHero" });
     </p>
 
     <p class="actions">
-      <a class="get-started" href="/doc/overview">
+      <router-link to="/guide/introduction" class="get-started">
         快速开始
         <svg
           class="icon"
@@ -30,9 +30,9 @@ export default defineComponent({ name: "HomeHero" });
             d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"
           />
         </svg>
-      </a>
-      <a class="demo" href="/repl"
-        >在线示例
+      </router-link>
+      <router-link to="/repl" class="demo">
+        在线示例
         <svg
           class="icon"
           xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@ export default defineComponent({ name: "HomeHero" });
             points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"
           />
         </svg>
-      </a>
+      </router-link>
     </p>
   </div>
 </template>

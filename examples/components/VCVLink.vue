@@ -9,10 +9,14 @@ export default defineComponent({
     noIcon: Boolean,
   },
   setup(props) {
-    const isExternal = computed(
-      () => props.href && /^[a-z]+:/i.test(props.href)
-    );
+    // const isExternal = computed(
+    //   () => props.href && /^[a-z]+:/i.test(props.href)
+    // );
 
+    const isExternal = computed(
+      () => props.href && /^https?:/.test(props.href)
+    );
+    console.log(props.href, isExternal.value);
     return {
       isExternal,
     };
@@ -21,15 +25,19 @@ export default defineComponent({
 </script>
 
 <template>
-  <component
-    :is="href ? 'a' : 'span'"
-    class="vt-link"
-    :class="{ link: href }"
-    :href="href"
-    :target="isExternal ? '_blank' : undefined"
-    :rel="isExternal ? 'noopener noreferrer' : undefined"
-  >
-    <slot />
-    <VCVIconExternalLink v-if="isExternal && !noIcon" class="vt-link-icon" />
-  </component>
+  <span>
+    <router-link :to="href" v-if="!isExternal"><slot /></router-link>
+    <component
+      :is="href ? 'a' : 'span'"
+      class="vt-link"
+      :class="{ link: href }"
+      :href="href"
+      :target="isExternal ? '_blank' : undefined"
+      :rel="isExternal ? 'noopener noreferrer' : undefined"
+      v-else
+    >
+      <slot />
+      <VCVIconExternalLink v-if="isExternal && !noIcon" class="vt-link-icon" />
+    </component>
+  </span>
 </template>

@@ -1,4 +1,5 @@
 import { NavItem, SidebarConfig } from "@examples/types/config";
+import { SocialLink } from "@examples/types/socialLink";
 
 export const nav: NavItem[] = [
   {
@@ -92,3 +93,16 @@ export const sidebarConfig: SidebarConfig = {
     // },
   ],
 };
+
+export const socialLinks: SocialLink[] = [
+  {
+    icon: "github",
+    link: "https://github.com/andurils/vue-code-view",
+  },
+  // {
+  //   icon: "languages",
+  //   link: "https://staging-cn.vuejs.org/guide/typescript/options-api.html#typing-component-props",
+  // },
+];
+
+export const appearance = true;

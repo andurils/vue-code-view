@@ -61,19 +61,19 @@ export default defineComponent({
 <template>
   <footer v-if="links.prev || links.next" class="VPContentDocFooter">
     <!-- :href="normalizeLink(links.prev.link)" -->
-    <a v-if="links.prev" class="prev-link" :href="links.prev.link">
+    <router-link v-if="links.prev" class="prev-link" :to="links.prev.link">
       <span class="desc"
         ><VCVIconChevronLeft class="vt-link-icon" /> Previous</span
       >
       <span class="title">{{ links.prev.text }} </span>
-    </a>
+    </router-link>
     <!-- :href="normalizeLink(links.next.link)" -->
-    <a v-if="links.next" class="next-link" :href="links.next.link">
+    <router-link v-if="links.next" class="next-link" :to="links.next.link">
       <span class="desc"
         >Next <VCVIconChevronRight class="vt-link-icon"
       /></span>
       <span class="title">{{ links.next.text }}</span>
-    </a>
+    </router-link>
   </footer>
 </template>
 

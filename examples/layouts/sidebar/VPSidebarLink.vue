@@ -28,13 +28,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <a
+  <router-link
+    :to="item.link"
     :class="{ link: true, active: isActive(page.path.slice(1), item.link) }"
-    :href="item.link"
     @click="closeSideBar"
   >
     <p class="link-text">{{ item.text }}</p>
-  </a>
+  </router-link>
 </template>
 
 <style scoped>

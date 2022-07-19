@@ -1,5 +1,5 @@
 <template>
-  <a class="VPNavBarTitle" href="/">
+  <router-link to="/" class="VPNavBarTitle">
     <slot name="navbar-title">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@
 
       <!-- <span class="text">vcv.js</span> -->
     </slot>
-  </a>
+  </router-link>
 </template>
 
 <style scoped>

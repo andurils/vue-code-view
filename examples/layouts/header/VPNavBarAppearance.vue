@@ -1,22 +1,24 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import VCVSwitchAppearance from "@examples/components/VCVSwitchAppearance.vue";
-import { useConfig } from "@examples/composables/config";
+// import { useConfig } from "@examples/composables/config";
+import { appearance } from "@examples/settings/projectSetting";
 
 export default defineComponent({
   components: { VCVSwitchAppearance },
   setup() {
-    const { config } = useConfig();
+    // const { config } = useConfig();
 
     return {
-      config,
+      // config,
+      appearance,
     };
   },
 });
 </script>
 
 <template>
-  <div v-if="config.appearance" class="VPNavBarAppearance">
+  <div v-if="appearance" class="VPNavBarAppearance">
     <VCVSwitchAppearance />
   </div>
 </template>

@@ -2,7 +2,6 @@ import type { RouteConfig } from "vue-router";
 
 import tutorial from "@examples/router/routes/tutorial";
 import guide from "@examples/router/routes/guide";
-
 import Demo from "../views/repl/REPL.vue";
 
 const RootRoute: RouteConfig = {
@@ -23,7 +22,7 @@ const HomeRoute: RouteConfig = {
 };
 const ReplRoute: RouteConfig = {
   path: "/repl",
-  name: "repl",
+  name: "REPL",
   meta: {
     hasFooter: false, // 隐藏 footer
     hasSidebar: false, // 没有 Siderbar
@@ -31,18 +30,54 @@ const ReplRoute: RouteConfig = {
   component: Demo,
 };
 
+const ChangelogRoute: RouteConfig = {
+  path: "/changelog",
+  name: "Changelog",
+  component: (r) =>
+    require.ensure([], () => r(require("../../CHANGELOG.zh-CN.md"))),
+};
+
 const route: Array<RouteConfig> = [
   RootRoute,
   HomeRoute,
   ReplRoute,
-  {
-    path: "/changelog",
-    name: "changelog",
-    component: (r) =>
-      require.ensure([], () => r(require("../../CHANGELOG.zh-CN.md"))),
-  },
+  ChangelogRoute,
   guide,
   tutorial,
+  {
+    path: "/guide/introduction",
+    name: "Introduction",
+    meta: {
+      hasSidebar: true, // 是否有侧边栏
+    },
+    // component: () => import("@examples/views/home/Home.vue"),
+    component: (r) =>
+      require.ensure([], () => r(require("@examples/docs/guides/overview.md"))),
+  },
+  {
+    path: "/guide/project-intro",
+    name: "ProjectIntro",
+    meta: {
+      hasSidebar: true, // 是否有侧边栏
+      title: "项目工程化简介",
+    },
+    component: (r) =>
+      require.ensure([], () =>
+        r(require("@examples/docs/guides/project-intro.md"))
+      ),
+  },
+  {
+    path: "/guide/code-logic-intro",
+    name: "CodeLogicIntro",
+    meta: {
+      hasSidebar: true, // 是否有侧边栏
+      title: "代码逻辑简介",
+    },
+    component: (r) =>
+      require.ensure([], () =>
+        r(require("@examples/docs/guides/code-logic-intro.md"))
+      ),
+  },
 ];
 
 // // const sideRoutes: Array<RouteConfig> = registerRoute(sideNavConfig);
