@@ -92,3 +92,9 @@ cnpm i --save-dev markdown-it markdown-it-anchor markdown-it-chain markdown-it-c
 
 <https://svgporn.com/>
 <https://simpleicons.org/>
+
+# vue2.7
+
+<https://blog.vuejs.org/posts/vue-2-7-naruto.html>
+
+<https://juejin.cn/post/7075874786110341133>

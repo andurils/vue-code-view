@@ -25,8 +25,8 @@ module.exports = {
   configureWebpack: (config) => {
     config.entry.app =
       process.env.VUE_APP_ENV === "play"
-        ? "./examples/play.js"
-        : "./examples/main.js";
+        ? "./examples/play.ts"
+        : "./examples/main.ts";
     config.resolveLoader.modules = ["node_modules", "./build/"]; // 自定义loader
 
     const plugins = [];
@@ -93,8 +93,8 @@ module.exports = {
       .loader("vue-loader")
       .end()
       // 自定义loader
-      .use("md-loader")
-      .loader("md-loader")
+      .use("markdown-loader")
+      .loader("markdown-loader")
       .end();
 
     if (IS_PROD && process.env.VUE_APP_ENV === "pub") {

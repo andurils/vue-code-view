@@ -1,3 +1,4 @@
+// 使用了 core-js
 // string hash
 // https://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
 export function hashCode(content) {

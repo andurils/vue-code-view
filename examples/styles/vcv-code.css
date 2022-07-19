@@ -1,0 +1,112 @@
+div[class*="language-"] {
+  position: relative;
+  background-color: #282c34;
+  border-radius: 6px;
+}
+div[class*="language-"] .highlight-lines {
+  user-select: none;
+  padding-top: 1.3rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  line-height: 1.4;
+}
+div[class*="language-"] .highlight-lines .highlighted {
+  background-color: rgba(0, 0, 0, 0.66);
+}
+div[class*="language-"] pre,
+div[class*="language-"] pre[class*="language-"] {
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+div[class*="language-"]::before {
+  position: absolute;
+  z-index: 3;
+  top: 0.8em;
+  right: 1em;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+div[class*="language-"]:not(.line-numbers-mode) .line-numbers-wrapper {
+  display: none;
+}
+div[class*="language-"].line-numbers-mode .highlight-lines .highlighted {
+  position: relative;
+}
+div[class*="language-"].line-numbers-mode .highlight-lines .highlighted:before {
+  content: " ";
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  top: 0;
+  display: block;
+  width: 3.5rem;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.66);
+}
+div[class*="language-"].line-numbers-mode pre {
+  padding-left: 3.5rem + 1rem;
+  vertical-align: middle;
+}
+div[class*="language-"].line-numbers-mode .line-numbers-wrapper {
+  position: absolute;
+  top: 0;
+  width: 3.5rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3);
+  padding: 1.25rem 0;
+  line-height: 1.4;
+}
+div[class*="language-"].line-numbers-mode .line-numbers-wrapper br {
+  user-select: none;
+}
+div[class*="language-"].line-numbers-mode .line-numbers-wrapper .line-number {
+  position: relative;
+  z-index: 4;
+  user-select: none;
+  font-size: 0.85em;
+}
+div[class*="language-"].line-numbers-mode::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 3.5rem;
+  height: 100%;
+  border-radius: 6px 0 0 6px;
+  border-right: 1px solid rgba(0, 0, 0, 0.66);
+  background-color: #282c34;
+}
+div[class~="language-$codeLang"]:before {
+  content: "$codeLang";
+}
+div[class~="language-javascript"]:before {
+  content: "js";
+}
+div[class~="language-typescript"]:before {
+  content: "ts";
+}
+div[class~="language-markup"]:before {
+  content: "html";
+}
+div[class~="language-markdown"]:before {
+  content: "md";
+}
+div[class~="language-json"]:before {
+  content: "json";
+}
+div[class~="language-ruby"]:before {
+  content: "rb";
+}
+div[class~="language-python"]:before {
+  content: "py";
+}
+div[class~="language-bash"]:before {
+  content: "sh";
+}
+div[class~="language-php"]:before {
+  content: "php";
+}

@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://andurils.github.io/vue-code-view/">
-    <img width="200" src="https://iconfont.alicdn.com/t/5602941b-e109-4b22-99c5-21b0b041f234.png">
+    <img width="200" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/adee625fddf74e8db0225890aee88059~tplv-k3u1fbpfcp-watermark.image"> 
   </a>
 </p>
 
