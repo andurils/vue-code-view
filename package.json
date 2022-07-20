@@ -18,8 +18,7 @@
   "dependencies": {
     "codemirror": "^5.62.2",
     "deepmerge": "^4.2.2",
-    "throttle-debounce": "^3.0.1",
-    "tiny-sass-compiler": "^0.12.2"
+    "throttle-debounce": "^3.0.1"
   },
   "peerDependencies": {
     "vue": "^2.7.0"
@@ -39,14 +38,15 @@
     "@vue/cli-service": "~4.5.18",
     "@vue/compiler-sfc": "^3.2.37",
     "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/eslint-config-typescript": "^7.0.0",
+    "@vue/eslint-config-typescript": "^11.0.0",
     "@vueuse/core": "^8.9.4",
     "chalk": "4.1.2",
     "classnames": "^2.3.1",
     "compression-webpack-plugin": "^6.1.1",
     "core-js": "^3.23.4",
+    "css-loader": "^5.2.7",
     "escape-html": "^1.0.3",
-    "eslint": "^6.7.2",
+    "eslint": "^6.8.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^9.2.0",
     "less": "^4.1.2",
@@ -68,7 +68,8 @@
     "vue": "^2.7.0",
     "vue-loader": "^15.10.0",
     "vue-router": "^3.2.0",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "webpack": "^4.36.0"
   },
   "keywords": [
     "vue",

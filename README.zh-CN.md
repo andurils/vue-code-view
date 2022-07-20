@@ -22,7 +22,7 @@
 
 特别感谢组件 [react-code-view](https://github.com/simonguo/react-code-view)，基于此编写了vue 版本的组件！使用此组件在 `vue` 页面还是 `markdown` 文档中的多示例代码，都可以实时编辑运行代码、预览效果。
 
-## 在线预览
+## ⚡ 在线预览
 
 ![示例][preview-ol-v03]  
 
@@ -78,28 +78,30 @@ new Vue({
 }).$mount("#app");
 ```
 
-## API
+## 📚 API
 
-### Attributes
+### Props
 
-| 参数          | 说明                         | 类型              | 默认值 | 版本 |
-| ------------- | ---------------------------- | ----------------- | ------ | ---- |
+| 参数  | 说明   | 类型     | 默认值 | 版本 |
+| --- | ----- | ---- | ----- | ---- |
 | themeMode      | 主题theme mode,默认`light`,支持 `dark` | `` \| `dark` | `` |      |
 | showCode      | 是否显示代码编辑器,只有在`layout`值为`top`生效           | boolean           | false  |      |
 | source        | 运行示例源码                 | string            | -      |      |
 | layout        | render 视图布局             |  `top` \| `right`  \| `left`  | `top` | `0.4.0`|
 
-## 更新日志
+<!-- ### Events -->
 
-Detailed changes for each release are documented in the [release notes](./CHANGELOG.zh-CN.md).
+## 📋 更新日志
 
-## 💡 Inspired
+每个版本的详细更改记录在 [发行说明](./CHANGELOG.zh-CN.md).
 
-[links](./INSPIRED.zh-CN.md).
+## 💡 灵感
 
-## License
+灵感来自源于以下[分享链接](./INSPIRED.zh-CN.md).
 
-VCV is licensed under the terms of the [MIT License](./LICENSE)
+## 💳 License
+
+VCV is licensed under the terms of the [MIT License](./LICENSE).
 
 Copyright (c) 2021-present Anduril
 

@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://andurils.github.io/vue-code-view/">
-    <img width="200" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/adee625fddf74e8db0225890aee88059~tplv-k3u1fbpfcp-watermark.image"> 
+    <img width="200" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/adee625fddf74e8db0225890aee88059~tplv-k3u1fbpfcp-watermark.image">
   </a>
 </p>
 
@@ -22,7 +22,7 @@ So can there be such a component that can support editing code in the page, edit
 
 Special thanks to the component [react-code-view](https://github.com/simonguo/react-code-view), based on which the vue version of the component was written! Using this component, you can edit the running code and preview the effect in real time by using the multi-sample code in the `vue` page or the `markdown` document.
 
-## Online Demo
+## ⚡ Online Demo
 
 ![示例][preview-ol-v03]  
 
@@ -78,28 +78,30 @@ new Vue({
 }).$mount("#app");
 ```
 
-## API
+## 📚 API
 
 ### Attributes
 
-| 参数          | 说明                         | 类型              | 默认值 | 版本 |
-| ------------- | ---------------------------- | ----------------- | ------ | ---- |
-| themeMode         | code editor theme mode,default `light`  | `` \| `dark` | `` |      |
+| Property | Description  | Type | Default | Version |
+| --- | ----- | ---- | ----- | ---- |
+| themeMode   | code editor theme mode,default `light`  | `` \| `dark` | `` |      |
 | showCode      | show the code editor ,  only  `layout` value is `top` takes effect          | boolean           | false  |      |
 | source        | source code               | string            | -      |      |
-| layout        | render view layout             |  `top` \| `right`  \| `left`  | `top` | `0.4.0` |
+| layout        | render view layout             |  `top` \| `right`  \| `left`  | `top` | `0.4.0+` |
 
-## Changelog
+<!-- ### Events -->
+
+## 📋 Changelog
 
 Detailed changes for each release are documented in the [release notes](./CHANGELOG.zh-CN.md).
 
 ## 💡 Inspired
 
-[links](./INSPIRED.zh-CN.md).
+Inspired by [shared links](./INSPIRED.zh-CN.md).
 
-## License
+## 💳 License
 
-VCV is licensed under the terms of the [MIT License](./LICENSE)
+VCV is licensed under the terms of the [MIT License](./LICENSE).
 
 Copyright (c) 2021-present Anduril
 
