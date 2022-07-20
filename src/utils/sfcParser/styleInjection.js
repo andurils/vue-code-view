@@ -1,6 +1,7 @@
-import { compile } from "tiny-sass-compiler";
+// import { compile } from "tiny-sass-compiler";
 import { isEmpty } from "../util";
 import lessLoader from "../style-loader/lessLoader";
+import sassLoader from "../style-loader/sassLoader";
 
 /* styles
   SFCBlock {
@@ -33,13 +34,13 @@ export async function genStyleInjectionCode(styles, parentId) {
     }
     // scss compiler
     else if (style.lang === "scss" || style.lang === "sass") {
-      const result = sassCompiler(style.content.trim());
-      style.css = rootParentIdMixIn(result.code, parentId);
+      const result = sassLoader(style.content.trim());
+      style.css = rootParentIdMixIn(result.css, parentId);
       styleCodes.push(style);
     }
     // less compiler
     else if (style.lang === "less") {
-      var data = await lessLoader(style.content.trim());
+      let data = await lessLoader(style.content.trim());
       style.css = rootParentIdMixIn(data.css, parentId);
       styleCodes.push(style);
     }
@@ -74,12 +75,12 @@ function rootParentIdMixIn(cssText, parentId) {
 `;
   // 使用 sass 进行处理 格式化
   const result = sassCompiler(rootMixin);
-  return result.code;
+  return result.css;
 }
 
 function sassCompiler(template) {
   try {
-    const result = compile(template);
+    const result = sassLoader(template);
     return result;
   } catch (error) {
     console.log(
@@ -87,7 +88,7 @@ function sassCompiler(template) {
       "color: #FFFFFF; background: #f5222d; font-size: 13px;",
       error
     );
-    return { code: "" };
+    return { css: "" };
   }
 }
 
