@@ -2,27 +2,36 @@
 const code_example_1 = `<template>
   <div id="app">
     <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
-    <h1>Welcome to Vue.js {{version}} !</h1>
-    <div>element 2.x</div> 
+    <h1>Welcome to Vue.js {{version}} !</h1> 
     <div class="test" >scss support!</div>
     <div class="less-test" >less support!</div>
+    <div class="stylus-wrapper stylus-test" >stylus test</div> 
+
+     
+    <button type="button" @click="enterIconLoading">
+      {{ btnText }} {{ lazyLoading ? "延迟执行等待中(3s)" : "" }}
+    </button>
   </div>
 </template>
 <script>
 export default {
   data() {
-    return {
-      loading: false,
-      iconLoading: false,
+    return { 
+      lazyLoading: false,
+      btnText: "Click Me!",
       version: '2.x'
     };
   },
-  methods: {
-    enterLoading() {
-      this.loading = true;
-    },
-    enterIconLoading() {
-      this.iconLoading = { delay: 1000 };
+  methods: { 
+    enterIconLoading() { 
+      
+      this.btnText = "";
+      this.lazyLoading = true;
+
+      setTimeout(() => {
+        this.lazyLoading = false; 
+        this.btnText = "Click Me!";
+      }, 3000);
     },
   },
 };
@@ -34,7 +43,7 @@ export default {
 
 .logo {
   width:66px;
-}
+} 
 </style>
 
 <style lang='scss' >
@@ -46,7 +55,7 @@ $primary-color: red;
 }
 </style>
 <style lang='less' >
-@width: 10px;
+@width: 80px;
 @height: @width + 10px;
 
 .less-test {
@@ -54,15 +63,57 @@ $primary-color: red;
   height: @height;
   font-size:32px;
 }
-</style> `;
-// <style lang='stylus' >
-// .stylus-test
-//   width 80%
-//   text-align center
-//   padding 10px
-//   margin 0 auto
-//   box-shadow 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 8px 0 rgba(0, 0, 0, 0.19)
-// </style>
+</style>
+<style scoped lang="stylus">
+box-shadow()
+  -webkit-box-shadow arguments
+  -moz-box-shadow arguments
+  box-shadow arguments
+  html.ie8 &,
+  html.ie7 &,
+  html.ie6 &
+  	border 2px solid arguments[length(arguments) - 1]
+
+.stylus-wrapper 
+  background-color #3b8eed42 
+  box-shadow 1px 1px 3px black 
+
+.stylus-test
+  width 80%
+  text-align center
+  padding 10px
+  margin 0 auto
+  
+</style>
+
+<style> 
+button {
+  margin-top:12px;
+  line-height: 1.5715;
+  position: relative;
+  display: inline-block;
+  font-weight: 400;
+  white-space: nowrap;
+  text-align: center;
+  background-image: none;
+  border: 1px solid transparent; 
+  cursor: pointer;
+  transition: all .3s cubic-bezier(.645,.045,.355,1); 
+  user-select: none;
+  touch-action: manipulation;
+  height: 32px;
+  padding: 4px 15px;
+  font-size: 14px;
+  border-radius: 2px; 
+  border-color: #d9d9d9; 
+
+  color: #fff; 
+  background: #1890ff;
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  box-shadow: 0 2px #0000000b;
+}
+</style>
+`;
 
 // const code_test = `
 // <template>

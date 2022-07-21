@@ -93,15 +93,15 @@ new Vue({
 
 ## 📋 更新日志
 
-每个版本的详细更改记录在 [发行说明](./CHANGELOG.zh-CN.md).
+每个版本的详细更改记录在[发行说明](./CHANGELOG.zh-CN.md)。
 
 ## 💡 灵感
 
-灵感来自源于以下[分享链接](./INSPIRED.zh-CN.md).
+灵感来自源于以下[分享](./INSPIRED.zh-CN.md)。
 
 ## 💳 License
 
-VCV is licensed under the terms of the [MIT License](./LICENSE).
+`VCV` is licensed under the terms of the [MIT License](./LICENSE) .
 
 Copyright (c) 2021-present Anduril
 

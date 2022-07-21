@@ -2,6 +2,7 @@
 import { isEmpty } from "../util";
 import lessLoader from "../style-loader/lessLoader";
 import sassLoader from "../style-loader/sassLoader";
+import stylusLoader from "../style-loader/stylusLoader";
 
 /* styles
   SFCBlock {
@@ -46,7 +47,9 @@ export async function genStyleInjectionCode(styles, parentId) {
     }
     // stylus compiler
     else if (style.lang === "stylus") {
-      console.log(`the stylus is unsupported !`);
+      let css = stylusLoader(style.content.trim());
+      style.css = rootParentIdMixIn(css, parentId);
+      styleCodes.push(style);
     }
     // 更多预处理格式 暂不支持
     else if (style.lang != null) {

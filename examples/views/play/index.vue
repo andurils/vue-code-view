@@ -6,6 +6,7 @@ const code_example_1 = `<template>
     <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
     <h1>Welcome to Vue.js {{version}} !</h1>
     <div class="test" >scss test</div>
+    <div class="stylus-wrapper" >stylus test</div>
   </div>
 </template>
 <script>
@@ -39,7 +40,24 @@ $primary-color: red;
   font: 600 $font-stack;
   color: $primary-color;
 }
-</style> `;
+</style>
+<style scoped lang="stylus">
+box-shadow()
+  -webkit-box-shadow arguments
+  -moz-box-shadow arguments
+  box-shadow arguments
+  html.ie8 &,
+  html.ie7 &,
+  html.ie6 &
+  	border 2px solid arguments[length(arguments) - 1]
+
+.stylus-wrapper
+  margin-top 36px
+  background-color #3b8eed42 
+  box-shadow 1px 1px 3px black 
+</style>
+
+`;
 
 export default {
   name: "PlayDemo",

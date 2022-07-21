@@ -80,7 +80,7 @@ new Vue({
 
 ## 📚 API
 
-### Attributes
+### Props
 
 | Property | Description  | Type | Default | Version |
 | --- | ----- | ---- | ----- | ---- |
