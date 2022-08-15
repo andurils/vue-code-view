@@ -92,7 +92,7 @@ new Vue({
 ```html
 <template>
   <div id="app">
-    <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
+    <img alt="Vue logo" class="logo" src="https://sfc.vuejs.org/logo.svg" />
     <h1>Welcome to Vue.js {{version}} !</h1> 
   </div>
 </template>
@@ -213,7 +213,7 @@ export default {
         code_example: ` 
 <template>
   <div id="app">
-    <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
+    <img alt="Vue logo" class="logo" src="https://sfc.vuejs.org/logo.svg" />
     <h1>Welcome to Vue.js {{version}} !</h1> 
   </div>
 </template>
@@ -250,7 +250,7 @@ export default {
 <script>
 const code_example = `<template>
   <div id="app">
-    <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
+    <img alt="Vue logo" class="logo" src="https://sfc.vuejs.org/logo.svg" />
     <h1>Welcome to Vue.js  !</h1>
   </div>
 </template> `;

@@ -11,7 +11,6 @@ specifiers:
   '@vue/cli-plugin-eslint': ~4.5.18
   '@vue/cli-plugin-router': ~4.5.18
   '@vue/cli-plugin-typescript': ~4.5.18
-  '@vue/cli-plugin-vuex': ~4.5.18
   '@vue/cli-service': ~4.5.18
   '@vue/compiler-sfc': ^3.2.37
   '@vue/eslint-config-prettier': ^6.0.0
@@ -38,6 +37,8 @@ specifiers:
   markdown-it-emoji: ^1.4.0
   markdown-it-table-of-contents: ^0.4.4
   normalize.css: ^8.0.1
+  pinia: ^2.0.18
+  pinia-plugin-persistedstate: ^2.1.1
   prettier: ^2.2.1
   prismjs: ^1.28.0
   rimraf: ^3.0.2
@@ -51,12 +52,13 @@ specifiers:
   vue: ^2.7.0
   vue-loader: ^15.10.0
   vue-router: ^3.2.0
-  vuex: ^3.4.0
   webpack: ^4.36.0
 
 dependencies:
   codemirror: 5.65.6
   deepmerge: 4.2.2
+  pinia: 2.0.18_typescript@4.7.4+vue@2.7.5
+  pinia-plugin-persistedstate: 2.1.1_pinia@2.0.18
   throttle-debounce: 3.0.1
 
 devDependencies:
@@ -70,7 +72,6 @@ devDependencies:
   '@vue/cli-plugin-eslint': 4.5.19_291eed2a4b15311c68aabdde8b2cf70f
   '@vue/cli-plugin-router': 4.5.19_@vue+cli-service@4.5.19
   '@vue/cli-plugin-typescript': 4.5.19_aca2e99bfecde245cc26e832652b46fa
-  '@vue/cli-plugin-vuex': 4.5.19_@vue+cli-service@4.5.19
   '@vue/cli-service': 4.5.19_e685054ecb8511fc2a01578d7b798e4a
   '@vue/compiler-sfc': 3.2.37
   '@vue/eslint-config-prettier': 6.0.0_d7db5d54a0ffb7fa3bb52bc7d98c8d11
@@ -107,7 +108,6 @@ devDependencies:
   vue: 2.7.5
   vue-loader: 15.10.0_css-loader@5.2.7+webpack@4.46.0
   vue-router: 3.5.4
-  vuex: 3.6.2_vue@2.7.5
   webpack: 4.46.0
 
 packages:
@@ -2286,6 +2286,10 @@ packages:
     optionalDependencies:
       prettier: 2.7.1
     dev: true
+
+  /@vue/devtools-api/6.2.1:
+    resolution: {integrity: sha512-OEgAMeQXvCoJ+1x8WyQuVZzFo0wcyCmUR3baRVLmKBo1LmYZWMlRiXlux5jd0fqVJu6PfDbOrZItVqUEzLobeQ==}
+    dev: false
 
   /@vue/eslint-config-prettier/6.0.0_d7db5d54a0ffb7fa3bb52bc7d98c8d11:
     resolution: {integrity: sha512-wFQmv45c3ige5EA+ngijq40YpVcIkAy0Lihupnsnd1Dao5CBbPyfCzqtejFLZX1EwH/kCJdpz3t6s+5wd3+KxQ==}
@@ -7850,6 +7854,35 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /pinia-plugin-persistedstate/2.1.1_pinia@2.0.18:
+    resolution: {integrity: sha512-HUgsU5IRtM75eAQiIqzT3p1oPEuYH1/B2ipTMU++yE+FV0LkHaBswdKXs0RMWYCmugO8s62oxLTh/N1dLNp+5A==}
+    peerDependencies:
+      pinia: ^2.0.0
+    peerDependenciesMeta:
+      pinia:
+        optional: true
+    dependencies:
+      pinia: 2.0.18_typescript@4.7.4+vue@2.7.5
+    dev: false
+
+  /pinia/2.0.18_typescript@4.7.4+vue@2.7.5:
+    resolution: {integrity: sha512-I5MW05UVX6a5Djka136oH3VzYFiZUgeOApBwFjMx6pL91eHtGVlE3adjNUKLgtwGnrxiBRuJ8+4R3LKJKwnyZg==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': 6.2.1
+      typescript: 4.7.4
+      vue: 2.7.5
+      vue-demi: 0.13.4_vue@2.7.5
+    dev: false
+
   /pinkie-promise/2.0.1:
     resolution: {integrity: sha512-0Gni6D4UcLTbv9c57DfxDGdr41XfgUjqWZu492f0cIGr16zDU06BWP/RAEvOuo7CQ0CNjHaLlM59YJJFm3NWlw==}
     engines: {node: '>=0.10.0'}
@@ -10193,7 +10226,6 @@ packages:
         optional: true
     dependencies:
       vue: 2.7.5
-    dev: true
 
   /vue-eslint-parser/9.0.3_eslint@6.8.0:
     resolution: {integrity: sha512-yL+ZDb+9T0ELG4VIFo/2anAOz8SvBdlqEnQnvJ3M7Scq56DvtjY0VY88bByRZB0D4J0u8olBcfrXTVONXsh4og==}
@@ -10295,14 +10327,6 @@ packages:
     dependencies:
       '@vue/compiler-sfc': 2.7.5
       csstype: 3.1.0
-    dev: true
-
-  /vuex/3.6.2_vue@2.7.5:
-    resolution: {integrity: sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==}
-    peerDependencies:
-      vue: ^2.0.0
-    dependencies:
-      vue: 2.7.5
     dev: true
 
   /watchpack-chokidar2/2.0.1:

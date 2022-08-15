@@ -16,7 +16,7 @@ export default defineComponent({
     const isExternal = computed(
       () => props.href && /^https?:/.test(props.href)
     );
-    console.log(props.href, isExternal.value);
+    // console.log(props.href, isExternal.value);
     return {
       isExternal,
     };

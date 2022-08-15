@@ -1,7 +1,7 @@
 <script>
 const code_example_1 = `<template>
   <div id="app">
-    <img alt="Vue logo" class="logo" src="https://cn.vuejs.org/images/logo.svg" />
+    <img alt="Vue logo" class="logo" src="https://sfc.vuejs.org/logo.svg" />
     <h1>Welcome to Vue.js {{version}} !</h1> 
     <div class="test" >scss support!</div>
     <div class="less-test" >less support!</div>

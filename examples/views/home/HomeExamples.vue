@@ -14,13 +14,19 @@ export default {
   <div id="app">
     <img :src="src" style="width:60px;" />
     <h1>Welcome to Vue.js {{version}} !</h1>
+
+    
+    <svg class="logo" viewBox="0 0 128 128" width="60" height="60">
+      <path fill="#42b883" d="M78.8,10L64,35.4L49.2,10H0l64,110l64-110C128,10,78.8,10,78.8,10z"></path>
+      <path fill="#35495e" d="M78.8,10L64,35.4L49.2,10H25.6L64,76l38.4-66H78.8z"></path>
+    </svg>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      src:'https://cn.vuejs.org/images/logo.svg',
+      src:'https://sfc.vuejs.org/logo.svg',
       version: '2.x'
     };
   },
@@ -35,7 +41,7 @@ export default {
           height: 400,
           source: `<template>
   <div id="app">
-    <img class="logo" src="https://cn.vuejs.org/images/logo.svg" />
+    <img class="logo" src="https://sfc.vuejs.org/logo.svg" />
     <div class="test" >scss support!</div>
     <div class="less-test" >less support!</div>
   </div>

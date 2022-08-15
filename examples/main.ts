@@ -1,23 +1,24 @@
 import Vue from "vue";
 import App from "@examples/App.vue";
-import store from "@examples/store";
+import { PiniaVuePlugin } from "pinia";
 import VueRouter from "vue-router";
-// 路由配置
 import routes from "@examples/router";
-// 组件引入
-import CodeViewer from "@/index";
-// 网站页面 模板页面组件
-import DemoBlock from "@examples/components/DemoBlock.vue";
-import OutboundLink from "@examples/components/icons/VCVIconOutboundLink.vue";
+import { store } from "@examples/store";
 
+import CodeViewer from "@/index"; // 组件引入
+import DemoBlock from "@examples/components/DemoBlock.vue"; // 网站页面 模板页面组件
+import OutboundLink from "@examples/components/icons/VCVIconOutboundLink.vue"; // Markdown link
+
+// 样式
 import "normalize.css";
 import "@examples/styles/index.css";
 import "prismjs/themes/prism-tomorrow.css"; // 代码语法高亮
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
-
+Vue.use(PiniaVuePlugin);
 Vue.use(CodeViewer);
+// 全局组件注册
 Vue.component("demo-block", DemoBlock);
 Vue.component("OutboundLink", OutboundLink);
 
@@ -30,6 +31,6 @@ const router = new VueRouter({
 
 new Vue({
   router,
-  store,
+  pinia: store,
   render: (h) => h(App),
 }).$mount("#app");
