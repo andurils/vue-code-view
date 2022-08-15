@@ -12,6 +12,7 @@ import { isActive, normalizeLink } from "@examples/utils/utils";
 import { MenuItemWithLink } from "@examples/types/menu";
 import { SidebarGroup } from "@examples/types/config";
 import { sidebarConfig } from "@examples/settings/projectSetting";
+import { useSidebarStore } from "@examples/store/modules/sidebar";
 
 export default defineComponent({
   components: {
@@ -19,18 +20,17 @@ export default defineComponent({
     VCVIconChevronRight,
   },
   setup() {
-    const route = useRoute();
-    const page = route.value;
     const { theme } = useData();
+    const sidebarStore = useSidebarStore();
+    // const route = useRoute();
+    // const page = route.value;
 
     const links = computed(() => {
-      const sidebar = getSidebar(sidebarConfig, page.path);
-
+      const sidebar = sidebarStore.getSidebar;
       const candidates = getFlatSideBarLinks(sidebar);
-
       // console.log("VPContentDocFooter", candidates, sidebar);
       const index = candidates.findIndex((link) =>
-        isActive(page.path.slice(1), link.link)
+        isActive(sidebarStore.getCurrentRoutePath.slice(1), link.link)
       );
       return {
         prev: candidates[index - 1],
@@ -48,7 +48,7 @@ export default defineComponent({
       return links;
     }
     return {
-      page,
+      // page,
       theme,
       links,
       isActive,

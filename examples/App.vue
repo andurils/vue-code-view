@@ -6,9 +6,11 @@ import {
   watchEffect,
   provide,
   onUnmounted,
+  watch,
 } from "vue";
 import { useSidebar } from "@examples/composables/sidebar";
 import { useRoute } from "@examples/composables/router";
+import { useSidebarStore } from "./store/modules/sidebar";
 
 export default {
   name: "App",
@@ -24,24 +26,24 @@ export default {
 
   setup() {
     const router = useRoute();
-    // 解构
-    const {
-      isOpen: isSidebarOpen,
-      open: openSidebar,
-      close: closeSidebar,
-    } = useSidebar(router.value);
+    const sidebarStore = useSidebarStore();
+    sidebarStore.setCurrentRoute(router.value);
+
+    watch(router, (newValue, oldValue) => {
+      sidebarStore.setCurrentRoute(newValue);
+    });
 
     // https://stackoverflow.com/questions/53126710/how-to-get-current-name-of-route-in-vue
     let triggerElement: HTMLButtonElement | undefined;
     watchEffect(() => {
-      triggerElement = isSidebarOpen.value
+      triggerElement = sidebarStore.getSidebarOpen
         ? (document.activeElement as HTMLButtonElement)
         : undefined;
     });
 
     const onEsacpe = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isSidebarOpen.value) {
-        closeSidebar();
+      if (e.key === "Escape" && sidebarStore.getSidebarOpen) {
+        sidebarStore.setSidebarClose();
         triggerElement?.focus();
       }
     };
@@ -54,7 +56,7 @@ export default {
       window.removeEventListener("keyup", onEsacpe);
     });
 
-    provide("close-sidebar", closeSidebar);
+    provide("close-sidebar", sidebarStore.setSidebarClose);
 
     const isComponent = computed(
       () =>
@@ -76,10 +78,10 @@ export default {
       isRepl,
       isChangelog,
       isHome,
-      // Sidebar
-      isSidebarOpen,
-      openSidebar,
-      closeSidebar,
+
+      sidebarStore,
+      openSidebar: sidebarStore.setSidebarOpen,
+      closeSidebar: sidebarStore.setSidebarClose,
     };
   },
 };
@@ -87,11 +89,16 @@ export default {
 <template>
   <div id="app" class="VPApp" :class="{ 'is-component': isComponent }">
     <!-- <VPSkipLink /> -->
-    <VCVBackdrop class="backdrop" :show="isSidebarOpen" @click="closeSidebar" />
+    <VCVBackdrop
+      class="backdrop"
+      :show="sidebarStore.getSidebarOpen"
+      @click.native="closeSidebar"
+    />
     <Banner />
     <VPNav />
-    <VPLocalNav :open="isSidebarOpen" @open-menu="openSidebar" />
-    <VPSidebar :open="isSidebarOpen">
+    <!-- 左侧导航隐藏后显示 -->
+    <VPLocalNav :open="sidebarStore.getSidebarOpen" @open-menu="openSidebar" />
+    <VPSidebar :open="sidebarStore.getSidebarOpen">
       <template #top> </template>
       <template #bottom> </template>
     </VPSidebar>

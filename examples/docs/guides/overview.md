@@ -4,13 +4,7 @@
   </a>
 </p>
 
-<h1 align="center">Vue Code View(VCV)</h1>
- 
-![Build Status](https://app.travis-ci.com/andurils/vue-code-view.svg?branch=dev)
-![GitHub license](https://img.shields.io/github/license/andurils/vue-code-view)
-![npm](https://img.shields.io/npm/v/vue-code-view)
-![npm bundle size](https://img.shields.io/bundlephobia/min/vue-code-view)
-![npm](https://img.shields.io/npm/dt/vue-code-view?label=npm%20downloads)
+<h1 align="center">Vue Code View(VCV)</h1> 
  
  一个基于 `vue 2.x`的轻量代码交互组件，在网页中可以编辑、运行并实时预览代码效果展示。
 

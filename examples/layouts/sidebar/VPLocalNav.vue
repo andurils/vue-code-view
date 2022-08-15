@@ -1,9 +1,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useSidebar } from "@examples/composables/sidebar";
 import { useData } from "@examples/composables/config";
 import VCVIconAlignLeft from "@examples/components/icons/VCVIconAlignLeft.vue";
-import { useRoute } from "@examples/composables/router";
+import { useSidebarStore } from "@examples/store/modules/sidebar";
 
 export default defineComponent({
   components: {
@@ -14,15 +13,14 @@ export default defineComponent({
     open: Boolean,
   },
   setup(props) {
-    const router = useRoute();
-    const { hasSidebar } = useSidebar(router.value);
+    const sidebarStore = useSidebarStore();
     const { frontmatter } = useData();
     const scrollToTop = () => {
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     };
 
     return {
-      hasSidebar,
+      sidebarStore,
       frontmatter,
       scrollToTop,
     };
@@ -31,7 +29,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div v-if="hasSidebar" class="VPLocalNav">
+  <div v-if="sidebarStore.getHasSidebar" class="VPLocalNav">
     <button
       class="menu"
       :aria-expanded="open"

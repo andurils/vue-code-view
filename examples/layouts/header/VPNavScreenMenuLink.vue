@@ -20,7 +20,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <VCVLink class="VPNavScreenMenuLink" :href="link" @click="closeScreen">
+  <VCVLink class="VPNavScreenMenuLink" :href="link" @click.native="closeScreen">
     {{ text }}
   </VCVLink>
 </template>

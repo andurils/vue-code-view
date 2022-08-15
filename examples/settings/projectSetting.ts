@@ -75,9 +75,9 @@ export const sidebarConfig: SidebarConfig = {
     {
       text: "组件原理",
       items: [
-        { text: "项目工程化简介", link: "/guide/project-intro" },
+        { text: "项目概述", link: "/guide/project-intro" },
         {
-          text: "代码逻辑简介",
+          text: "源码概述",
           link: "/guide/code-logic-intro",
         },
       ],

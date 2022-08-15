@@ -49,12 +49,12 @@ export default defineComponent({
     </button>
 
     <div :id="groupId" class="items">
-      <template v-for="item in items">
+      <template v-for="(item, index) in items">
         <div v-if="'link' in item" :key="item.text" class="item">
           <VPNavScreenMenuGroupLink :text="item.text" :link="item.link" />
         </div>
 
-        <div v-else class="group" :key="item.text + ''">
+        <div v-else class="group" :key="item.text || index + '_g'">
           <VPNavScreenMenuGroupSection :text="item.text" :items="item.items" />
         </div>
       </template>

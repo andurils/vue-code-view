@@ -1,5 +1,4 @@
-
-# 0x00 前言
+# 项目概述
 
 本文将从结构、功能等方面讲解下项目 `vue-code-view` 的搭建过程，您可以了解以下内容：
 
@@ -9,138 +8,9 @@
 - 项目NPM包发布。
 - 项目组件的自定义 `Markdown` 解析 `loader`。
 
-本文算是 [📚Element 2 源码学习系列](https://juejin.cn/column/6961321064110489631) 的拓展篇内容，通过之前的文章了解了开源组件库的结构原理后，自己也搭建个组件项目怎么办？接下来就是实践的过程，算是"**知行合一**"了吧！ 耐心读完，相信会对您有所帮助!
+## 项目构建
 
----
-
-# 0x01 项目概述
-
-## 创建项目
-
-本项目使用 `Vue CLI 4.x` 进行项目创建。
-
-```bash
-// 安装环境 
-npm install -g @vue/cli 
-// 创建项目 
-vue create vue-code-view
-```
-
-在终端中输入命令后，按照以下步骤操作创建项目：
-
-1. 选择手动选择功能 `Manually select features`。
-2. 选中 `Babel`, `Router`, `CSS Pre-processors`,`Linter / Formatter`等功能 。
-3. 选择 `vue` 版本 `2.X`
-4. 选择路由是否使用`history`模式，默认 `yes`。
-5. 选择CSS 预处理器`Sass/SCSS(with node-sass)`。
-6. 选择代码风格、格式校验 `linter / formatter`配置`ESLint + Prettier`。
-7. 选择校验时机保存时检测`Lint on save`  
-8. 选择 `Babel`, `ESLint`等配置文件存放在专用配置文件中  `In dedicated config files`。
-
-## 配置多环境变量
-
-在项目根目录中新建 `.env`, `.env.deploy`,`.env.production`等文件。
-
-以 `VUE_APP` 开头的变量会被 `webpack.DefinePlugin` 静态嵌入到客户端侧的包中，代码中可以通过 `process.env.VUE_APP[xxx]` 访问。
-
-> `NODE_ENV` 和 `BASE_URL` 是两个特殊变量，在代码中始终可用。
-
-**.env**\
-`vue-cli-service serve` 默认的本地开发环境配置
-
-```bash
-NODE_ENV = development
-VUE_APP_PUBLIC_PATH = /
-```
-
-**.env.production**\
-`vue-cli-service build` 默认的环境配置（正式服务器）
-
-```bash
-NODE_ENV = production 
-VUE_APP_PUBLIC_PATH = /
-VUE_APP_ENV = pub
-```
-
-**.env.deploy**\
-用于 github pages 构建部署的环境配置。`VUE_APP_PUBLIC_PATH` 设置 `/vue-code-view` 用于虚拟目录。
-
-```bash
-NODE_ENV = production 
-VUE_APP_PUBLIC_PATH = /vue-code-view
-VUE_APP_ENV = deploy
-```
-
-## 目录结构调整
-
-默认的 `src` 目录下存放项目源码及需要引用的资源文件。根目录下新建 `examples` 文件夹用于项目示例网站，将`src` 目录下文件移至 `examples` 文件 。`src` 目录存放项目组件源码。
-
-调整后根目录文件结构如下：
-
-```bash
-├── examples   // 项目示例网站
-|  ├── App.vue
-|  ├── assets
-|  ├── components
-|  ├── main.js
-|  ├── router
-|  └── views 
-├── src       // 项目组件源码 
-|  ├── fonts
-|  ├── index.js
-|  ├── locale
-|  ├── mixins
-|  ├── src
-|  ├── styles
-|  └── utils
-├── public
-├── package.json
-```
-
-## 配置基础 vue.config.js
-
-项目默认入口`./src/main.js`,配置如下：
-
-```js
-{
-  entry: {
-    app: [
-      './src/main.js'
-    ]
-  }
-} 
-```
-
-在根目录下创建 `vue.config.js` 修改默认配置。
-
-```js
-const path = require("path");
-const resolve = (dir) => path.join(__dirname, dir);
-
-module.exports = {
-  configureWebpack: (config) => {
-    // 项目入口
-    config.entry.app = "./examples/main.js";
-  },
-  chainWebpack: (config) => {
-    // 添加别名
-    config.resolve.alias
-      .set("vue$", "vue/dist/vue.esm.js")
-      .set("@", resolve("examples"))
-      .set("@assets", resolve("examples/assets"))
-      .set("@src", resolve("src"))
-      .set("@views", resolve("examples/views"))
-      .set("@router", resolve("examples/router"))
-      .set("@store", resolve("examples/store")); 
-  },
-}; 
-```
-
-运行 `npm run serve` ， 项目网站正常运行。
-
-# 0x02 项目构建
-
-## npm scripts 配置
+### npm scripts 配置
 
 调整 `package.json` 里的 `scripts` 配置脚本,并添加 `--mode xxx` 来选择不同环境配置。
 
@@ -155,7 +25,7 @@ module.exports = {
 }
 ```
 
-## 组件构建  
+### 组件构建  
 
 组件库构建通过指定入口文件`src/index.js`、设定参数选项。
 
@@ -176,7 +46,7 @@ module.exports = {
 - `lib/vue-code-viewer.umd.min.js`：压缩后的 UMD 构建版本。
 - `lib/vue-code-viewer.css`：提取出来的 CSS 文件。
 
-## 组件NPM包发布  
+### 组件NPM包发布  
 
 配置 `package.json` 文件中属性值用于npm 发布。
 
@@ -248,7 +118,7 @@ deploy/
 
 ![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c96d56ee6144485f93913b688f664e68~tplv-k3u1fbpfcp-watermark.image?)
 
-## 项目示例网站构建  
+### 项目示例网站构建  
 
 更新 `vue.config.js`，运行 `npm run deploy:build` 构建项目示例网站输出至 `deploy` 目录下。
 
@@ -270,7 +140,7 @@ module.exports = {
 
 ```
 
-## 持续集成
+### 持续集成
 
 使用 `Travis CI`的持续集成服务自动构建项目示例网站并部署至 `gh-pages` 分支 。
 
@@ -305,7 +175,7 @@ after_script:
 
 ![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dbfeedcb19854b06acb0af1ec87e415e~tplv-k3u1fbpfcp-watermark.image?)
 
-## 开启构建压缩
+### 开启构建压缩
 
 安装相关插件。
 
@@ -370,7 +240,7 @@ module.exports = {
 
 ```
 
-## 组件说明文档
+### 组件说明文档
 
 参考`element 2`的实现，自定义 `build/md-loder`对 `Markdown` 文件进行解析渲染，将 `examples\docs\zh-CN\example.md` 编译为 HTML。已在前文 [04.封装组件封装、编写说明文档](https://juejin.cn/post/6953614014546968589#heading-5) 中详细说明,不再过多赘述。
 
@@ -410,5 +280,3 @@ const routes = [
   },
 ];
 ```
-
----

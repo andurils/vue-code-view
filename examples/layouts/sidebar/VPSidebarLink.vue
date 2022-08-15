@@ -4,6 +4,7 @@ import { MenuItemWithLink } from "@examples/types/menu";
 import { useData } from "@examples/composables/config";
 import { isActive } from "@examples/utils/utils";
 import { useRoute } from "@examples/composables/router";
+import { useSidebarStore } from "@examples/store/modules/sidebar";
 
 export default defineComponent({
   props: {
@@ -14,14 +15,13 @@ export default defineComponent({
   },
 
   setup() {
-    const router = useRoute();
-    const page = router.value;
+    const sidebarStore = useSidebarStore();
     const closeSideBar = inject("close-sidebar") as () => void;
 
     return {
       isActive,
-      page,
       closeSideBar,
+      sidebarStore,
     };
   },
 });
@@ -30,7 +30,10 @@ export default defineComponent({
 <template>
   <router-link
     :to="item.link"
-    :class="{ link: true, active: isActive(page.path.slice(1), item.link) }"
+    :class="{
+      link: true,
+      active: isActive(sidebarStore.getCurrentRoutePath.slice(1), item.link),
+    }"
     @click="closeSideBar"
   >
     <p class="link-text">{{ item.text }}</p>

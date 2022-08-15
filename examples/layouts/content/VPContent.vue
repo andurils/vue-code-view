@@ -71,6 +71,7 @@ export default defineComponent({
 
     <!-- <VPNotFound v-if="route.path === 'VPNotFound'" /> -->
     <!-- <VPContentPage v-else-if="!!frontmatter.page"> -->
+    <!-- 文档展示 存在侧边/底部 -->
     <VPContentDoc v-if="!!hasSidebar" :class="{ 'has-sidebar': !!hasSidebar }">
       <template #content-top><slot name="content-top" /></template>
       <template #content-bottom><slot name="content-bottom" /></template>

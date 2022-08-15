@@ -1,8 +1,16 @@
 <script lang="ts">
-import { defineComponent, nextTick, ref, watchPostEffect } from "vue";
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  ref,
+  watch,
+  watchPostEffect,
+} from "vue";
 import { useSidebar } from "@examples/composables/sidebar";
 import _VPSidebarGroup from "./VPSidebarGroup.vue";
 import { useRoute } from "@examples/composables/router";
+import { useSidebarStore } from "@examples/store/modules/sidebar";
 
 export default defineComponent({
   components: {
@@ -24,12 +32,13 @@ export default defineComponent({
         navEl.value?.focus();
       }
     });
-    const router = useRoute();
-    const { sidebar, hasSidebar } = useSidebar(router.value);
+    // const router = useRoute();
+    const sidebarStore = useSidebarStore();
 
     return {
-      sidebar,
-      hasSidebar,
+      // sidebar,
+      // hasSidebar,
+      sidebarStore,
     };
   },
 });
@@ -37,7 +46,7 @@ export default defineComponent({
 
 <template>
   <aside
-    v-if="hasSidebar"
+    v-if="sidebarStore.getHasSidebar"
     ref="navEl"
     class="VPSidebar"
     :class="{ open }"
@@ -48,7 +57,11 @@ export default defineComponent({
       <span id="sidebar-aria-label" class="visually-hidden"
         >Sidebar Navigation</span
       >
-      <div v-for="group in sidebar" :key="group.text" class="group">
+      <div
+        v-for="group in sidebarStore.getSidebar"
+        :key="group.text"
+        class="group"
+      >
         <VPSidebarGroup :text="group.text" :items="group.items" />
       </div>
       <slot name="bottom" />

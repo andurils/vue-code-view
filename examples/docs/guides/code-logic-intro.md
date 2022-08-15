@@ -1,5 +1,4 @@
-
-# 0x00 前言
+# 源码概述
 
 书接上文，本文将从源码功能方面讲解下 `vue-code-view` 组件核心逻辑，您可以了解以下内容：
 
@@ -7,7 +6,7 @@
 - `codeMirror`插件的使用。
 - 单文件组件(SFC,single-file component) Parser。
 
-# 0x01 CodeEditor组件
+## CodeEditor组件
 
 项目使用功能丰富的`codeMirror`实现在线代码展示编辑功能。  
 
@@ -150,7 +149,7 @@ this.codeEditor.setValue(this.value);
 this.codeEditor.on("change", (item) => { this.codeHandler(item.getValue()); });
 ```
 
-# 0x02 SFC Parser
+## SFC Parser
 
 组件的功能场景是用于简单示例代码运行展示，将源码视为 单文件组件(SFC,single-file component)的简单实例。
 
@@ -183,7 +182,7 @@ export interface SFCBlock {
 `SFCDescriptor` 包含 `template`、`script`、`styles`、`customBlocks` 四个部分，将用于示例组件的动态构建。 其中 `styles`是数组，可以包含多个代码块并解析； `template`和`script` 若存在多个代码块只能解析最后一个。
 `customBlocks`是没在`template`的HTML代码，处理逻辑暂未包含此内容。
 
-# 0x03 组件动态样式
+## 组件动态样式
 
 文件`src\utils\style-loader\addStylesClient.js` 移植 `vue-style-loader` 源码 [addStylesClient](https://github.com/vuejs/vue-style-loader/blob/master/lib/addStylesClient.js) 方法,用于在页面DOM中动态创建组件样式。
 
@@ -191,7 +190,7 @@ export interface SFCBlock {
 
 根据 `SFCDescriptor` 中的 `styles`和组件编号，在DOM中添加对应样式内容，若新增删除 `<style>`，页面DOM中对应创建或移除该样式内容。若更新  `<style>`内容，DOM节点只更新对应块的内容，优化页面性能。
 
-# 0x04 CodeViewer 组件
+## CodeViewer 组件
 
 使用 `JSX` 语法实现组件核心代码。
 
@@ -378,6 +377,6 @@ computed: {
 
 ---
 
-# 完结
+## 完结
 
-此组件编写是个人对于 [📚Element 2 源码学习系列](https://juejin.cn/column/6961321064110489631 "https://juejin.cn/column/6961321064110489631") 学习实践的总结,希望会对您有所帮助!
+此组件编写是个人对于 [📚Element 2 源码学习系列](https://juejin.cn/column/6961321064110489631) 学习实践的总结,希望会对您有所帮助!
