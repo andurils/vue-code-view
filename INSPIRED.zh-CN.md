@@ -1,4 +1,6 @@
-# Inspired By
+# 💡 灵感
+
+> 感谢以下以下开源项目、技术分享！
 
 ## playground
 
@@ -7,6 +9,12 @@
 <https://sfc.vuejs.org/>  
 <https://github.com/vuejs/repl>  
 <https://github.com/wheatjs/vue-hako>  
+
+## vue2.7
+
+<https://blog.vuejs.org/posts/vue-2-7-naruto.html>
+
+<https://juejin.cn/post/7075874786110341133>
 
 ## react-code-view
 
@@ -38,7 +46,7 @@
 
 [vue-cli3开发组件库](https://blog.csdn.net/u010622874/article/details/103312051)
 
-[vue-cli4 全面配置](https://github.com/andurils/vue-cli4-config)
+[vue-cli4 全面配置](https://github.com/staven630/vue-cli4-config)
 
 [vue-cli css 预处理器](https://cli.vuejs.org/zh/guide/css.html#预处理器)
 
@@ -68,19 +76,22 @@ cnpm i --save-dev markdown-it markdown-it-anchor markdown-it-chain markdown-it-c
 
 ## css 预处理器
 
-[sassmeister](https://www.sassmeister.com/)
+[sass-loader](https://github.com/webpack-contrib/sass-loader/blob/master/src/index.js)
 
-[tiny-sass-compiler](https://github.com/wizardpisces/tiny-sass-compiler)
+[less-loader](https://github.com/webpack-contrib/less-loader/blob/master/src/index.js)
 
-[tiny-sass-compiler demo](https://wizardpisces.github.io/sass)
-
-[webpack-contrib/less-loader](https://github.com/webpack-contrib/less-loader/blob/master/src/index.js)
+[stylus-loader](https://github.com/webpack-contrib/stylus-loader/blob/master/src/index.js)
 
 [stylus-lang](https://stylus-lang.com/)
 
----
+[sassmeister](https://www.sassmeister.com/)
 
-# Tools
+## commit lint
+
+<https://commitlint.js.org/>
+[Commitizen](https://zj-git-guide.readthedocs.io/zh_CN/latest/message/%5BCommitizen%5D%E4%BF%A1%E6%81%AF%E4%BA%A4%E4%BA%92%E5%B7%A5%E5%85%B7/)
+
+
 
 ## badge
 
@@ -92,3 +103,5 @@ cnpm i --save-dev markdown-it markdown-it-anchor markdown-it-chain markdown-it-c
 
 <https://svgporn.com/>
 <https://simpleicons.org/>
+
+

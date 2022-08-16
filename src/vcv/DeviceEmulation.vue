@@ -15,88 +15,47 @@
         transform: scale,
         transformOrigin: 'center center',
       }"
-      class="test1"
     >
       <slot :width="width" :height="height" :scale="scale" />
     </div>
   </div>
 </template>
-<script>
-import { debounce } from "throttle-debounce";
-export default {
-  components: {},
+<script lang="ts">
+import { defineComponent, ref, computed } from "vue";
+import { useElementSize } from "@vueuse/core";
+
+export default defineComponent({
   props: {
-    width: { type: Number },
-    height: { type: Number },
+    width: { type: Number, required: true },
+    height: { type: Number, required: true },
     disableScaling: { type: Boolean },
   },
-  data() {
+  setup(props, context) {
+    const output = ref<HTMLElement>();
+    const size = useElementSize(output);
+    const scale = computed(() => {
+      if (props.disableScaling) return "scale(1)";
+      return `scale(${Math.min(
+        size.width.value / props.width,
+        size.height.value / props.height
+      )})`;
+    });
+
     return {
-      scale: "scale(1)",
+      output,
+      scale,
     };
   },
-  mounted() {
-    window.addEventListener(
-      "resize",
-      debounce(100, () => {
-        console.log("dev emulator autoResize");
-        this.scale = this.calcScale();
-      })
-    );
-
-    this.scale = this.calcScale();
-  },
-  methods: {
-    calcScale() {
-      console.log(this.disableScaling);
-      if (this.disableScaling) return "scale(1)";
-
-      let el = this.$refs.output;
-      console.log(
-        "el-w/h",
-        el.offsetWidth,
-        el.offsetHeight,
-        "out-w/h",
-        this.width,
-        this.height,
-        el.offsetWidth / this.width,
-        el.offsetHeight / this.height,
-        this.scale
-      );
-      console.log(
-        Math.min(el.offsetWidth / this.width, el.offsetHeight / this.height)
-      );
-      return `scale(${Math.min(
-        el.offsetWidth / this.width,
-        el.offsetHeight / this.height
-      )})`;
-    },
-  },
-  watch: {
-    width() {
-      this.scale = this.calcScale();
-    },
-    height() {
-      this.scale = this.calcScale();
-    },
-    disableScaling() {
-      this.scale = this.calcScale();
-    },
-  },
-};
+});
 </script>
 <style scoped>
 .device-container {
   height: 100%;
   /* overflow: hidden; */
   position: relative;
-  background-color: var(--bg-device);
+  /* background-color: var(--bg-device); */
+  /* background-color: rgba(255, 255, 255, 0); */
+  background-image: url(grid.svg);
+  /* mask-image: linear-gradient(180deg, white, rgba(255, 255, 255, 0)); */
 }
-/* .test {
-  height: 600px;
-  background-color: rgba(45, 45, 45, 0.1);
-} */
-/* .test1 {
-  background-color: rgba(27, 27, 27, 1);
-} */
 </style>
