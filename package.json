@@ -1,6 +1,6 @@
 {
   "name": "vue-code-view",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "packageManager": "pnpm@7.1.0",
   "description": "A Vue 2 component like Vue SFC REPL `@vue/repl` : u can edit, run and preview the code effect display in real time on the web page.",
   "main": "lib/vue-code-viewer.common.js",
@@ -11,7 +11,7 @@
     "clean": "rimraf node_modules",
     "dev": "vue-cli-service serve ",
     "dev:play": "vue-cli-service serve --mode play",
-    "dist": "vue-cli-service build  --mode production --target lib --name vue-code-viewer --dest lib src/index.js",
+    "dist": "rimraf node_modules && pnpm install &&  vue-cli-service build  --mode production --target lib --name vue-code-viewer --dest lib src/index.ts",
     "deploy:build": "vue-cli-service build --mode deploy",
     "lint": "vue-cli-service lint",
     "commit": "cz"
@@ -69,7 +69,6 @@
     "stylus": "^0.58.1",
     "tua-body-scroll-lock": "^1.2.1",
     "typescript": "^4.7.3",
-    "uglifyjs-webpack-plugin": "^2.2.0",
     "vue": "^2.7.0",
     "vue-loader": "^15.10.0",
     "vue-router": "^3.2.0",

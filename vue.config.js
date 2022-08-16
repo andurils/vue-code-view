@@ -1,17 +1,12 @@
 const path = require("path");
 const webpack = require("webpack");
-
 const resolve = (dir) => path.join(__dirname, dir);
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
-
 // gzip压缩  webpack 4.x 对应 6.x版本 cnpm i compression-webpack-plugin@6.1.1 --save-dev
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
-// 代码压缩
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
   // runtimeCompiler: true, // 是否使用包含运行时编译器的 Vue 构建版本
@@ -40,26 +35,6 @@ module.exports = {
           minRatio: 0.99,
           test: productionGzipExtensions,
           deleteOriginalAssets: false,
-        })
-      );
-      plugins.push(
-        new UglifyJsPlugin({
-          uglifyOptions: {
-            // 删除注释
-            output: {
-              comments: false,
-            },
-            // 删除console debugger
-            compress: {
-              drop_debugger: true,
-              drop_console: true, // console
-              pure_funcs: ["console.log"], // 移除console
-            },
-            // 删除警告
-            warnings: false,
-          },
-          sourceMap: false,
-          parallel: true, //使用多进程并行运行来提高构建速度。默认并发运行数：os.cpus().length - 1。
         })
       );
     }
@@ -100,10 +75,31 @@ module.exports = {
     if (IS_PROD && process.env.VUE_APP_ENV === "pub") {
       // config.optimization.delete("splitChunks");
 
+      config.optimization.minimizer("terser").tap((args) => {
+        // 删除console debugger
+        args[0].terserOptions.compress.drop_console = true;
+        args[0].terserOptions.compress.drop_debugger = true;
+        args[0].terserOptions.compress.pure_funcs = ["console.log"];
+        // 删除注释
+        args[0].terserOptions.output = {
+          comments: false,
+        };
+        return args;
+      });
+
       // 打包分析
       config.plugin("webpack-report").use(BundleAnalyzerPlugin, [
         {
-          analyzerMode: "static",
+          analyzerMode: "server", // 'server': 启动端口服务；'static': 生成 report.html；'disabled': 配合 generateStatsFile 使用；
+          generateStatsFile: false, // 是否生成stats.json文件
+          // analyzerHost: "127.0.0.1",
+          analyzerPort: "auto",
+          reportFilename: "report.html",
+          defaultSizes: "parsed",
+          openAnalyzer: true,
+          statsFilename: "stats.json",
+          // statsOptions: null,
+          // excludeAssets: null,
         },
       ]);
     }
