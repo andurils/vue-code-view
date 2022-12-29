@@ -1,8 +1,10 @@
 const { escapeBackticks } = require("./util");
 const md = require("../markdown");
+const { Base64 } = require("js-base64");
 
 module.exports = function (source) {
-  const content = md().render(source);
+  const env = {};
+  const content = md().render(source, env);
   const startTag = "<!--vcv-demo:";
   const startTagLen = startTag.length;
   const endTag = ":vcv-demo-->";
@@ -22,9 +24,13 @@ module.exports = function (source) {
       commentEnd
     );
     const demoComponentName = `vcv${id}`;
-    // output.push(
-    //   `<template slot="source"><code-viewer :source="${demoComponentName}"></code-viewer></template>`
-    // ); // 使用slot插槽 运行组件
+    // 隐藏传值菜单
+    output.push(
+      `<input id="page-toc" name="page-toc" value="${Base64.encode(
+        JSON.stringify(env)
+      )}" />`
+    );
+
     output.push(
       `<template slot="source"><code-viewer :source="${demoComponentName}"></code-viewer></template>`
     ); // 使用slot插槽 运行组件
@@ -61,6 +67,9 @@ module.exports = function (source) {
   return `
     <template>
       <section class="markdown-body">
+        <input type="hidden" id="page-toc" name="page-toc" value="${Base64.encode(
+          JSON.stringify(env)
+        )}" />
         ${output.join("")}
       </section>
     </template>

@@ -1,12 +1,16 @@
 <script lang="ts">
-import { defineComponent, computed, inject, ref } from "vue";
+import { defineComponent, computed, inject, ref, onMounted } from "vue";
 import { useData } from "@examples/composables/config";
+import { Header } from "@examples/types/config";
 import { resolveHeaders, useActiveAnchor } from "@examples/composables/outline";
+import { Base64 } from "js-base64";
+import $ from "jquery";
 
 export default defineComponent({
   setup() {
     const { page, frontmatter } = useData();
     const container = ref();
+    const headersStr = ref('');
     const marker = ref();
     useActiveAnchor(container, marker);
 
@@ -19,6 +23,11 @@ export default defineComponent({
       //         : Object.assign({}, h, { hidden: true });
       //     })
       //   : page.headers;
+      if (headersStr.value) {
+        const menuArray = JSON.parse(Base64.decode(headersStr.value));
+        console.log("page menu loaded !", menuArray);
+        return menuArray.headers;
+      }
       return page.headers;
     });
 
@@ -27,6 +36,10 @@ export default defineComponent({
       const heading = document.querySelector(id) as HTMLAnchorElement;
       heading?.focus();
     };
+
+    onMounted(() => {
+      headersStr.value = $("#page-toc").val() as string;
+    });
 
     return {
       frontmatter,
@@ -47,32 +60,17 @@ export default defineComponent({
     <div class="outline-marker" ref="marker" />
     <div class="outline-title">On this page</div>
     <nav aria-labelledby="doc-outline-aria-label">
-      <span id="doc-outline-aria-label" class="visually-hidden"
-        >Table of Contents for current page</span
-      >
+      <span id="doc-outline-aria-label" class="visually-hidden">Table of Contents for current page</span>
       <ul class="root">
-        <li
-          v-for="{ text, link, children, hidden } in resolveHeaders(
-            filteredHeaders
-          )"
-          v-show="!hidden"
-          :key="link"
-        >
+        <li v-for="{ text, link, children, hidden } in resolveHeaders(
+          filteredHeaders
+        )" v-show="!hidden" :key="link">
           <a class="outline-link" :href="link" @click="handleClick">{{
-            text
+              text
           }}</a>
           <ul v-if="children && frontmatter.outline === 'deep'">
-            <li
-              v-for="{ text, link, hidden } in children"
-              v-show="!hidden"
-              :key="link"
-            >
-              <a
-                class="outline-link nested"
-                :href="link"
-                @click="handleClick"
-                >{{ text }}</a
-              >
+            <li v-for="{ text, link, hidden } in children" v-show="!hidden" :key="link">
+              <a class="outline-link nested" :href="link" @click="handleClick">{{ text }}</a>
             </li>
           </ul>
         </li>

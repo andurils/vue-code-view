@@ -14,6 +14,10 @@ const snippetPlugin = require("./lib/snippet");
 const emojiPlugin = require("markdown-it-emoji");
 const anchorPlugin = require("markdown-it-anchor");
 const tocPlugin = require("markdown-it-table-of-contents");
+
+const overWriteHeadersRule = require("./lib/headers");
+
+
 // const tocPlugin = require("markdown-it-toc-done-right");
 
 const {
@@ -124,6 +128,7 @@ module.exports = (markdown = {}) => {
 
   const md = config.toMd(require("markdown-it"), markdown);
   overWriteFenceRule(md);
+  overWriteHeadersRule(md);
 
   // const pluginsConfig = normalizeConfig(plugins || []);
   // pluginsConfig.forEach(([pluginRaw, pluginOptions]) => {

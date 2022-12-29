@@ -1,6 +1,8 @@
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, onMounted, ref } from "vue";
 import { useData } from "@examples/composables/config";
+import $ from "jquery";
+import { Base64 } from 'js-base64';
 
 import _VPContentDocOutline from "./VPContentDocOutline.vue";
 import _VPContentDocFooter from "./VPContentDocFooter.vue";
@@ -15,6 +17,7 @@ export default defineComponent({
     // VCVIconChevronRight,
   },
   setup() {
+    const headers = ref();
     // const { page, frontmatter, theme } = useData<Config>();
     const { page, frontmatter, theme } = useData();
 
@@ -23,21 +26,27 @@ export default defineComponent({
       return relativePath.slice(0, relativePath.indexOf("/"));
     });
 
+    onMounted(() => {
+      const menuBase64 = $("#page-toc").val() as string;
+      const menuArray = JSON.parse(Base64.decode(menuBase64));
+      console.log("page menu loaded !", menuArray);
+      // page.headers = menuArray.headers;
+      headers.value = menuArray.headers;
+    });
+
     return {
       page,
       frontmatter,
       theme,
       pageClass,
+      headers
     };
   },
 });
 </script>
 
 <template>
-  <div
-    class="VPContentDoc"
-    :class="{ 'has-aside': frontmatter.aside !== false }"
-  >
+  <div class="VPContentDoc" :class="{ 'has-aside': frontmatter.aside !== false }">
     <div class="container">
       <div class="aside" v-if="frontmatter.aside !== false">
         <div class="aside-container">
@@ -46,7 +55,7 @@ export default defineComponent({
           <!-- <VPContentDocOutline
             v-if="page.headers && frontmatter.outline !== false"
           /> -->
-          <VPContentDocOutline v-if="page.headers" />
+          <VPContentDocOutline v-if="headers" />
           <slot name="aside-mid" />
           <VPCarbonAds v-if="theme.carbonAds && frontmatter.ads !== false" />
           <slot name="aside-bottom" />
@@ -137,23 +146,29 @@ export default defineComponent({
   .VPContentDoc {
     padding: 64px 0 96px 64px;
   }
+
   .VPContentDoc:not(.has-sidebar.has-aside) {
     padding-left: calc((100vw - 688px) / 2);
   }
+
   .VPContentDoc.has-aside:not(.has-sidebar) {
     padding-left: calc((100vw - 688px - 320px) / 2);
   }
+
   .container {
     display: flex;
   }
+
   .content {
     min-width: 620px;
     margin: 0;
     order: 1;
   }
+
   .VPContentDoc:not(.has-aside) .content {
     min-width: 688px;
   }
+
   .aside {
     display: block;
     order: 2;
@@ -164,6 +179,7 @@ export default defineComponent({
   .VPContentDoc {
     padding: 64px 0 96px 96px;
   }
+
   .aside {
     padding-left: 96px;
   }
