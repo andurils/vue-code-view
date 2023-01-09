@@ -7,7 +7,6 @@ import { isEmpty, generateId } from "../utils/util";
 import { useDebounceFn } from "@vueuse/core";
 import SplitPane from "./SplitPane.vue";
 
-import "normalize.css";
 import "@examples/styles/index.css";
 
 export default {

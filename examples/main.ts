@@ -11,6 +11,7 @@ import OutboundLink from "@examples/components/icons/VCVIconOutboundLink.vue"; /
 
 // 样式
 import "normalize.css";
+import "@examples/styles/normalize.css";
 import "@examples/styles/index.css";
 import "prismjs/themes/prism-tomorrow.css"; // 代码语法高亮
 
