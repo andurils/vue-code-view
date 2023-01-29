@@ -126,6 +126,9 @@ export default defineComponent({
   /* height: var(--vt-nav-height); */
   color: var(--vt-c-text-1);
   transition: color 0.5s;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
 }
 
 .vcv-dropdown-button-text {
