@@ -25,6 +25,7 @@
         />
         <!-- 设备模拟 -->
         <VCVFlyout
+          v-if="showDevice"
           class="item"
           :button="deviceSizeSeleted"
           :items="screenSizes"
@@ -73,6 +74,7 @@ export default {
   },
   props: {
     sourceCode: { type: String },
+    showDevice: { type: Boolean },
   },
   data() {
     return {

@@ -78,6 +78,7 @@ export default {
         );
         eval(scriptCode);
         // update component's content
+        console.info(demoComponent, componentScript)
         extend(demoComponent, componentScript);
       }
 

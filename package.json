@@ -11,7 +11,7 @@
     "clean": "rimraf node_modules",
     "dev": "vue-cli-service serve ",
     "dev:play": "vue-cli-service serve --mode play",
-    "dist": "rimraf node_modules && pnpm install &&  vue-cli-service build  --mode production --target lib --name vue-code-viewer --dest lib src/index.ts",
+    "dist": "pnpm clean && pnpm install &&  vue-cli-service build  --mode production --target lib --name vue-code-viewer --dest lib src/index.ts",
     "deploy:build": "vue-cli-service build --mode deploy",
     "lint": "vue-cli-service lint",
     "commit": "cz"

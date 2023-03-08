@@ -33,6 +33,7 @@ export default {
   },
   props: {
     source: { type: String },
+    showDevice: { type: Boolean },
     themeMode: { type: String }, // light||dark，默认 light
     // autoResize: { type: Boolean, default: true },
     showCode: { type: Boolean, default: false },
@@ -150,6 +151,7 @@ export default {
           <template slot={this.outputSlot}>
             <OutputDemo
               sourceCode={this.code}
+              showDevice={this.showDevice}
               style={this.calcHeight}
               onDock={this.onDockHandler}
               onCodeshow={this.onCodeShowHandler}

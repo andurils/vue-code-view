@@ -89,6 +89,7 @@ export default {
         <code-viewer
           class="test"
           source={code_example_1}
+          showDevice={false}
           showCode={true}
           layout={"left"}
           themeMode={this.themeMode}

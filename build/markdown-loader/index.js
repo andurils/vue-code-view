@@ -43,12 +43,12 @@ module.exports = function (source) {
   if (componenetsString) {
     pageScript = `<script>
       export default {
-        name: 'component-doc', 
+        name: 'component-doc',
         data() {
           return {
             ${componenetsString}
           };
-        }, 
+        },
       }
     </script>`;
   } else if (content.indexOf("<script>") === 0) {
