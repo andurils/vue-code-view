@@ -4,7 +4,7 @@
       <div class="tab-buttons">
         <button
           v-for="(m, index) of outputModes"
-          :class="{ active: mode === m }"
+          :class="['is-button', { active: mode === m }]"
           @click="mode = m"
           :key="index"
         >
@@ -12,7 +12,7 @@
         </button>
       </div>
       <div class="toolbar-navs">
-        <button class="item" @click="changeShowCodeState" v-if="isVertical">
+        <button class="item is-button" @click="changeShowCodeState" v-if="isVertical">
           <Icon icon="ic:round-code-off" class="vcv-icon" v-if="isShowCode" />
           <Icon icon="ic:round-code" class="vcv-icon" v-if="!isShowCode" />
         </button>
@@ -132,7 +132,7 @@ export default {
 };
 </script>
 <style scoped>
-button {
+.is-button {
   border: none;
   outline: none;
   cursor: pointer;

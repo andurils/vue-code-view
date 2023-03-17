@@ -167,7 +167,7 @@ export default {
 
   background-color: var(--bg);
 
-  div {
+  & > div {
     width: 100%;
     height: 100%;
     border: none;
@@ -176,19 +176,19 @@ export default {
     -webkit-overflow-scrolling: touch;
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
-  }
 
-  div::-webkit-scrollbar {
-    width: 0.5em;
-    height: 0.5em;
-  }
+    &::-webkit-scrollbar {
+      width: 0.5em;
+      height: 0.5em;
+    }
 
-  div::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.5);
-  }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.5);
+    }
 
-  div::-webkit-scrollbar-track {
-    background: 0 0;
+    &::-webkit-scrollbar-track {
+      background: 0 0;
+    }
   }
 }
 </style>
