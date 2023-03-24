@@ -111,6 +111,9 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
+  "vueCompilerOptions": {
+    "target": 2.7
+  },
   // 需要编译的文件或目录
   "include": [
     "examples/**/*.ts",

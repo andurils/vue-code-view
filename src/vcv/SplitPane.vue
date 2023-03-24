@@ -1,3 +1,54 @@
+<script setup lang="ts">
+import { ref, reactive, computed } from "vue";
+
+const props = defineProps({
+  layout: { type: Boolean, default: true },
+});
+
+// TODO
+const isVertical = computed(() => props.layout === true);
+const container = ref();
+// TODO
+// mobile only
+// const store = inject("store") as Store;
+// const showOutput = ref(store.initialShowOutput);
+const showOutput = ref(false);
+
+const state = reactive({
+  dragging: false,
+  split: 50,
+});
+
+const boundSplit = computed(() => {
+  const { split } = state;
+  return split < 20 ? 20 : split > 80 ? 80 : split;
+});
+
+let startPosition = 0;
+let startSplit = 0;
+
+function dragStart(e: MouseEvent) {
+  state.dragging = true;
+  startPosition = isVertical.value ? e.pageY : e.pageX;
+  startSplit = boundSplit.value;
+}
+
+function dragMove(e: MouseEvent) {
+  if (state.dragging) {
+    const position = isVertical.value ? e.pageY : e.pageX;
+    const totalSize = isVertical.value
+      ? container.value.offsetHeight
+      : container.value.offsetWidth;
+    const dp = position - startPosition;
+    state.split = startSplit + ~~((dp / totalSize) * 100);
+  }
+}
+
+function dragEnd() {
+  state.dragging = false;
+}
+</script>
+
 <template>
   <div
     ref="container"
@@ -26,74 +77,10 @@
     </div>
 
     <!-- <button class="toggler" @click="showOutput = !showOutput">
-      {{ showOutput ? "< Code" : "Output >" }}
-    </button> -->
+            {{ showOutput ? "< Code" : "Output >" }}
+          </button> -->
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, ref, reactive, computed, inject } from "vue";
-
-export default defineComponent({
-  props: {
-    // TODO
-    layout: { type: Boolean, default: true },
-  },
-  setup(props, context) {
-    // TODO
-    const isVertical = computed(() => props.layout === true);
-    const container = ref();
-    // TODO
-    // mobile only
-    // const store = inject("store") as Store;
-    // const showOutput = ref(store.initialShowOutput);
-    const showOutput = ref(false);
-
-    const state = reactive({
-      dragging: false,
-      split: 50,
-    });
-
-    const boundSplit = computed(() => {
-      const { split } = state;
-      return split < 20 ? 20 : split > 80 ? 80 : split;
-    });
-
-    let startPosition = 0;
-    let startSplit = 0;
-
-    function dragStart(e: MouseEvent) {
-      state.dragging = true;
-      startPosition = isVertical.value ? e.pageY : e.pageX;
-      startSplit = boundSplit.value;
-    }
-
-    function dragMove(e: MouseEvent) {
-      if (state.dragging) {
-        const position = isVertical.value ? e.pageY : e.pageX;
-        const totalSize = isVertical.value
-          ? container.value.offsetHeight
-          : container.value.offsetWidth;
-        const dp = position - startPosition;
-        state.split = startSplit + ~~((dp / totalSize) * 100);
-      }
-    }
-
-    function dragEnd() {
-      state.dragging = false;
-    }
-    return {
-      state,
-      showOutput,
-      container,
-      isVertical,
-      boundSplit,
-      dragStart,
-      dragMove,
-      dragEnd,
-    };
-  },
-});
-</script>
 
 <style scoped>
 .split-pane {
@@ -101,21 +88,26 @@ export default defineComponent({
   height: 100%;
   position: relative;
 }
+
 .split-pane.dragging {
   cursor: ew-resize;
 }
+
 .dragging .left,
 .dragging .right {
   pointer-events: none;
 }
+
 .left,
 .right {
   position: relative;
   height: 100%;
 }
+
 .left {
   border-right: 1px solid var(--border);
 }
+
 .dragger {
   position: absolute;
   z-index: 3;
@@ -125,6 +117,7 @@ export default defineComponent({
   width: 10px;
   cursor: ew-resize;
 }
+
 .toggler {
   display: none;
   z-index: 3;
@@ -168,6 +161,7 @@ export default defineComponent({
   .vertical .right {
     width: 100%;
   }
+
   .vertical .left {
     border-right: none;
     border-bottom: 1px solid var(--border);
@@ -181,18 +175,23 @@ export default defineComponent({
     width: 100% !important;
     height: 100% !important;
   }
+
   .dragger {
     display: none;
   }
+
   .split-pane .toggler {
     display: block;
   }
+
   .split-pane .right {
     display: none;
   }
+
   .split-pane.show-output .right {
     display: block;
   }
+
   .split-pane.show-output .left {
     display: none;
   }

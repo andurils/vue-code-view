@@ -2,12 +2,8 @@
   <div class="output-wrapper">
     <div class="output-header">
       <div class="tab-buttons">
-        <button
-          v-for="(m, index) of outputModes"
-          :class="['is-button', { active: mode === m }]"
-          @click="mode = m"
-          :key="index"
-        >
+        <button v-for="(m, index) of outputModes" :class="['is-button', { active: mode === m }]" @click="mode = m"
+          :key="index">
           <span>{{ m }}</span>
         </button>
       </div>
@@ -17,19 +13,9 @@
           <Icon icon="ic:round-code" class="vcv-icon" v-if="!isShowCode" />
         </button>
         <!-- docker side -->
-        <VCVFlyout
-          class="item"
-          :button="dockSide"
-          :items="dockSides"
-          @click-item="changeDockTo"
-        />
+        <VCVFlyout class="item" :button="dockSide" :items="dockSides" @click-item="changeDockTo" />
         <!-- 设备模拟 -->
-        <VCVFlyout
-          class="item"
-          :button="deviceSizeSeleted"
-          :items="screenSizes"
-          @click-item="changeDeviceSizes"
-        />
+        <VCVFlyout class="item" :button="deviceSizeSeleted" :items="screenSizes" @click-item="changeDeviceSizes" />
       </div>
     </div>
     <div class="output-container" :class="{ 'padding-32': !enabled }">
@@ -37,11 +23,7 @@
       <!-- -->
       <!-- <OutputContainer :code="sourceCode"></OutputContainer> -->
       <!-- 设备仿真 -->
-      <DeviceEmulation
-        :width="deviceWidth"
-        :height="deviceHeight"
-        :disable-scaling="enabled"
-      >
+      <DeviceEmulation :width="deviceWidth" :height="deviceHeight" :disable-scaling="enabled">
         <OutputContainer :code="sourceCode"></OutputContainer>
       </DeviceEmulation>
     </div>
@@ -58,9 +40,9 @@ import VCVFlyout from "../components/VCVDropdown.vue";
 export default {
   name: "OutputDemo",
   inject: [
-    "vcv",
-    // "handleShowCode",
-    "handleChangeTransparent",
+    "layoutName",
+    "showCodeEditor",
+    // "handleChangeTransparent",
     // "showCode",
     "code",
   ],
@@ -84,8 +66,8 @@ export default {
       //   left: "mdi:dock-left",
       //   bottom: "mdi:dock-bottom",
       // },
-      dockSide: this.vcv.layoutName, // 默认"top",
-      isShowCode: this.vcv.showCodeEditor,
+      dockSide: this.layoutName, // 默认"top",
+      isShowCode: this.showCodeEditor,
       screenSizes: screenSizes,
       dockSides: dockSides,
       deviceSizeSeleted: "Default",
@@ -122,7 +104,7 @@ export default {
     },
   },
   watch: {
-    "vcv.layoutName": {
+    layoutName: {
       immediate: true,
       handler(val) {
         this.dockSide = val;
@@ -144,6 +126,7 @@ export default {
   height: 100%;
   position: relative;
 }
+
 .output-header {
   display: flex;
   align-items: center;
@@ -157,10 +140,12 @@ export default {
   position: relative;
   z-index: 5;
 }
+
 .tab-buttons button {
   padding: 0;
   box-sizing: border-box;
 }
+
 .tab-buttons span {
   font-size: 13px;
   font-family: var(--font-code);
@@ -170,6 +155,7 @@ export default {
   padding: 5px 16px 4px;
   line-height: 20px;
 }
+
 button.active {
   color: var(--color-branding-dark);
   border-bottom: 3px solid var(--color-branding-dark);
@@ -199,6 +185,7 @@ button.active {
   display: flex;
   align-items: center;
 }
+
 .dropdown-btn span {
   font-size: 13px;
   line-height: 20px;

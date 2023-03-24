@@ -1,3 +1,24 @@
+<script setup lang="ts">
+import { ref, computed } from "vue";
+import { useElementSize } from "@vueuse/core";
+
+const props = defineProps({
+  width: { type: Number, required: true },
+  height: { type: Number, required: true },
+  disableScaling: { type: Boolean },
+});
+
+const output = ref<HTMLElement>();
+const size = useElementSize(output);
+const scale = computed(() => {
+  if (props.disableScaling) return "scale(1)";
+  return `scale(${Math.min(
+    size.width.value / props.width,
+    size.height.value / props.height
+  )})`;
+});
+</script>
+
 <template>
   <div
     ref="output"
@@ -20,34 +41,7 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, ref, computed } from "vue";
-import { useElementSize } from "@vueuse/core";
 
-export default defineComponent({
-  props: {
-    width: { type: Number, required: true },
-    height: { type: Number, required: true },
-    disableScaling: { type: Boolean },
-  },
-  setup(props, context) {
-    const output = ref<HTMLElement>();
-    const size = useElementSize(output);
-    const scale = computed(() => {
-      if (props.disableScaling) return "scale(1)";
-      return `scale(${Math.min(
-        size.width.value / props.width,
-        size.height.value / props.height
-      )})`;
-    });
-
-    return {
-      output,
-      scale,
-    };
-  },
-});
-</script>
 <style scoped>
 .device-container {
   height: 100%;
@@ -55,7 +49,7 @@ export default defineComponent({
   position: relative;
   /* background-color: var(--bg-device); */
   /* background-color: rgba(255, 255, 255, 0); */
-  background-image: url(grid.svg);
+  background-image: url(../assets/grid.svg);
   /* mask-image: linear-gradient(180deg, white, rgba(255, 255, 255, 0)); */
 }
 </style>

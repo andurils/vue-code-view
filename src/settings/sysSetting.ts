@@ -1,4 +1,4 @@
-import type { DropdownItem, DropdownItemChild } from "types/vcv";
+import type { DropdownItem } from "types/vcv";
 
 export const screenSizes: DropdownItem[] = [
   { label: "Default", key: [0, 0] },

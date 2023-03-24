@@ -1,6 +1,4 @@
-// https://github.com/rsuite/dom-lib/blob/master/src/classNames/removeClass.ts
-
-export default function (target, className) {
+export default (target: Element, className: string): Element => {
   if (className) {
     if (target.classList) {
       target.classList.remove(className);
@@ -12,4 +10,4 @@ export default function (target, className) {
     }
   }
   return target;
-}
+};

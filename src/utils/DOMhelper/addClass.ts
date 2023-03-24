@@ -1,7 +1,6 @@
-// https://github.com/rsuite/dom-lib/blob/master/src/classNames/addClass.ts
 import hasClass from "./hasClass";
 
-export default function (target, className) {
+export default (target: Element, className: string): Element => {
   if (className) {
     if (target.classList) {
       target.classList.add(className);
@@ -10,4 +9,4 @@ export default function (target, className) {
     }
   }
   return target;
-}
+};

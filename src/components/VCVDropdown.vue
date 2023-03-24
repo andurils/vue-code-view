@@ -1,45 +1,32 @@
-<script lang="ts">
-import { ref, PropType, defineComponent } from "vue";
+<script setup lang="ts">
+import { ref, PropType } from "vue";
 import { DropdownItem, DropdownItemChild } from "types/vcv";
 import VCVIconChevronDown from "@examples/components/icons/VCVIconChevronDown.vue";
-import VCVIconMoreHorizontal from "@examples/components/icons/VCVIconMoreHorizontal.vue";
-import _VCVMenuLink from "./VCVDropdownItem.vue";
+import VCVMenuLink from "./VCVDropdownItem.vue";
 import { useFocusContainer } from "@examples/composables/focusContainer";
 
-export default defineComponent({
-  components: {
-    VCVIconChevronDown,
-    VCVMenuLink: _VCVMenuLink,
-  },
-  emits: ["click-item"],
-  props: {
-    button: String,
-    items: Array as PropType<(DropdownItem | DropdownItemChild)[]>,
-    label: String,
-  },
-  setup(_, { emit }) {
-    const open = ref(false);
-    const elRef = ref<HTMLElement>();
-
-    const onBlur = () => {
-      open.value = false;
-    };
-
-    useFocusContainer({
-      elRef,
-      onBlur,
-    });
-
-    const selectItem = (item: any) => {
-      emit("click-item", item);
-    };
-    return {
-      open,
-      elRef,
-      selectItem,
-    };
-  },
+defineProps({
+  button: String,
+  items: Array as PropType<(DropdownItem | DropdownItemChild)[]>,
+  label: String,
 });
+const emit = defineEmits(["click-item"]);
+
+const open = ref(false);
+const elRef = ref<HTMLElement>();
+
+const onBlur = () => {
+  open.value = false;
+};
+
+useFocusContainer({
+  elRef,
+  onBlur,
+});
+
+const selectItem = (item: any) => {
+  emit("click-item", item);
+};
 </script>
 
 <template>
@@ -64,8 +51,8 @@ export default defineComponent({
     </button>
 
     <div class="vcv-dropdown-menu">
-      <div class="vt-menu">
-        <div v-if="items" class="vt-menu-items">
+      <div class="vcv-menu">
+        <div v-if="items" class="vcv-menu-items">
           <template v-for="item in items">
             <VCVMenuLink
               v-if="'key' in item"
@@ -73,8 +60,8 @@ export default defineComponent({
               :key="item.label"
               @click.native="selectItem(item)"
             />
-            <div class="vt-menu-group" v-else :key="item.label + '-g'">
-              <p v-if="item.label" class="vt-menu-group-title">
+            <div class="vcv-menu-group" v-else :key="item.label + '-g'">
+              <p v-if="item.label" class="vcv-menu-group-title">
                 {{ item.label }}
               </p>
               <template v-for="subItem in item.items">
@@ -165,7 +152,7 @@ export default defineComponent({
   transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
 }
 
-.vt-menu {
+.vcv-menu {
   border-radius: 8px;
   padding: 12px 0;
   min-width: 192px;
@@ -175,40 +162,40 @@ export default defineComponent({
   transition: background-color 0.5s;
 }
 
-.dark .vt-menu {
+.dark .vcv-menu {
   background: var(--vt-c-bg);
   box-shadow: var(--vt-shadow-1);
   border: 1px solid var(--vt-c-divider-light);
 }
 
-.vt-menu-items {
+.vcv-menu-items {
   transition: border-color 0.5s;
 }
 
-.vt-menu .vt-menu-group {
+.vcv-menu .vcv-menu-group {
   padding: 0 0 12px;
 }
 
-.vt-menu .vt-menu-group + .vt-menu-group {
+.vcv-menu .vcv-menu-group + .vcv-menu-group {
   border-top: 1px solid var(--vt-c-divider-light);
   padding: 11px 0 12px;
 }
 
-.vt-menu .vt-menu-group:last-child {
+.vcv-menu .vcv-menu-group:last-child {
   padding-bottom: 0;
 }
 
-.vt-menu .vt-menu-group + .vt-menu-item-item {
+.vcv-menu .vcv-menu-group + .vcv-menu-item-item {
   border-top: 1px solid var(--vt-c-divider-light);
   padding: 11px 16px 0;
 }
 
-.vt-menu .vt-menu-item {
+.vcv-menu .vcv-menu-item {
   padding: 0 16px;
   white-space: nowrap;
 }
 
-.vt-menu-label {
+.vcv-menu-label {
   flex-grow: 1;
   line-height: 28px;
   font-size: 12px;
@@ -217,11 +204,11 @@ export default defineComponent({
   transition: color 0.5s;
 }
 
-.vt-menu-action {
+.vcv-menu-action {
   padding-left: 24px;
 }
 
-.vt-menu-group-title {
+.vcv-menu-group-title {
   padding: 0 18px;
   line-height: 28px;
   font-size: 10px;
@@ -229,20 +216,5 @@ export default defineComponent({
   color: var(--vt-c-text-3);
   text-transform: uppercase;
   transition: color 0.25s;
-}
-
-.vt-menu-link {
-  display: block;
-  padding: 0 18px;
-  line-height: 28px;
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--vt-c-text-1);
-  white-space: nowrap;
-  transition: color 0.25s;
-}
-
-.vt-menu-link:hover {
-  color: var(--vt-c-brand);
 }
 </style>

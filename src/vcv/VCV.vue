@@ -1,177 +1,139 @@
-<script>
+<template>
+  <div
+    ref="vcv"
+    :class="classNames(rootNames, themeMode, viewId)"
+    :style="calcHeight"
+  >
+    <SplitPane :layout="isVertical">
+      <!-- output render -->
+      <template :slot="outputSlot">
+        <OutputDemo
+          :sourceCode="code"
+          :style="calcHeight"
+          @dock="onDockHandler"
+          @codeshow="onCodeShowHandler"
+        >
+        </OutputDemo>
+      </template>
+
+      <!-- code editor -->
+      <template :slot="editorSlot">
+        <div v-if="!isVertical || showCodeEditor" class="editor-container">
+          <CodeEditor line-numbers :value="code" @change="onChangeHandler" />
+        </div>
+      </template>
+    </SplitPane>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed, provide, onMounted } from "vue";
 import classNames from "classnames";
 import CodeEditor from "@/codemirror/CodeMirror.vue";
 import OutputDemo from "../output/Output.vue";
-import { toggleClass } from "../utils/DOMhelper";
 import { isEmpty, generateId } from "../utils/util";
 import { useDebounceFn } from "@vueuse/core";
 import SplitPane from "./SplitPane.vue";
+// import { toggleClass } from "../utils/DOMhelper";
 
-import "@examples/styles/index.css";
+const props = defineProps({
+  source: { type: String },
+  themeMode: { type: String }, // light||dark，默认 light
+  showCode: { type: Boolean, default: false },
+  errorHandler: { type: Function },
+  needAutoResize: { type: Boolean, default: true },
+  debounceDelay: {
+    type: Number,
+    default: 300,
+  },
+  layout: {
+    type: String,
+    default: "top",
+    validator(val: string) {
+      return ["top", "right", "left"].indexOf(val) > -1;
+    },
+  },
+  height: {
+    type: Number,
+    // default: 300,
+  },
+  minHeight: {
+    type: Number,
+    default: 300,
+  },
+});
 
-export default {
-  name: "CodeViewer",
-  provide: function () {
-    return {
-      vcv: this, // 组件实例
-      viewId: this.viewId,
-      handleShowCode: this.handleShowCode,
-      handleChangeTransparent: this.handleChangeTransparent,
-      code: this.code,
-      changView: this.changView,
-      errorHandler: this.errorHandler,
-      showCode: !this.isVertical || this.showCodeEditor,
-      themeMode: this.themeMode,
-      needAutoResize: this.needAutoResize,
-    };
-  },
-  components: {
-    CodeEditor,
-    OutputDemo,
-    SplitPane,
-  },
-  props: {
-    source: { type: String },
-    themeMode: { type: String }, // light||dark，默认 light
-    // autoResize: { type: Boolean, default: true },
-    showCode: { type: Boolean, default: false },
-    // renderToolbar: { type: Function },
-    errorHandler: { type: Function },
-    needAutoResize: { type: Boolean, default: true },
-    debounceDelay: {
-      type: Number,
-      default: 300,
-    },
-    // view 布局  output所在位置
-    layout: {
-      type: String,
-      default: "top",
-      validator(val) {
-        return ["top", "right", "left"].indexOf(val) > -1;
-      },
-    },
-    height: {
-      type: Number,
-    },
-    // maxHeight: {
-    //   type: Number,
-    // },
-    minHeight: {
-      type: Number,
-      default: 300, // PX
-    },
-  },
-  data() {
-    return {
-      id: this._uid,
-      viewId: `vcv-${generateId()}`,
-      layoutName: "top",
-      code: ``,
-      rootNames: ["vue-repl"],
-      showCodeEditor: this.showCode,
-    };
-  },
+const vcv = ref(null);
+const rootNames = ["vue-repl"];
+const viewId = `vcv-${generateId()}`;
+const layoutName = ref(props.layout);
+const code = ref("");
+const showCodeEditor = ref(props.showCode);
 
-  created() {
-    this.onChangeHandler = useDebounceFn(this.handleCodeChange, 250);
-  },
-  mounted() {
-    this.init();
-  },
-  methods: {
-    init() {
-      if (!isEmpty(this.source)) {
-        // md-loader   模板字符串中 嵌套 模板字符串
-        const souceCode = this.source.replace(/<--backticks-->/g, "\u0060");
-        this.handleCodeChange(souceCode);
-      }
-      // ex 源码内容为空！！
-      this.layoutName = this.layout;
-    },
-    // 更新 code 内容
-    handleCodeChange(val) {
-      // console.log("code change!");
-      this.code = val;
-    },
+onMounted(() => {
+  if (!isEmpty(props.source)) {
+    const souceCode = props.source?.replace(/<--backticks-->/g, "\u0060");
+    onChangeHandler(souceCode);
+  }
+});
 
-    // 组件代码编辑器展示 废弃
-    handleShowCode() {
-      this.showCodeEditor = !this.showCodeEditor;
-    },
-    // 组件演示背景透明切换
-    handleChangeTransparent() {
-      toggleClass(this.$refs.vcv, "vue-code-transparent");
-    },
-    // 布局切换
-    onDockHandler(e) {
-      this.layoutName = e;
-    },
-    // 组件代码编辑器展示
-    onCodeShowHandler(showState) {
-      this.showCodeEditor = showState;
-    },
-  },
-  computed: {
-    viewLayout() {
-      return ["top", "right", "left"].indexOf(this.layoutName) > -1
-        ? this.layoutName
-        : "top";
-    },
-    isVertical() {
-      return this.viewLayout === "top";
-    },
-    editorSlot() {
-      return this.viewLayout == "right" ? "left" : "right";
-    },
-    outputSlot() {
-      return this.viewLayout == "right" ? "right" : "left";
-    },
-    calcHeight() {
-      let heightSetting = ` `;
-      if (!isEmpty(this.height) && this.height >= 0) {
-        let vcvHeight =
-          this.height <= this.minHeight ? this.minHeight : this.height;
-        heightSetting += ` height:${vcvHeight}px;`;
-      }
-      return heightSetting;
-    },
-  },
-  render() {
-    const { viewId, rootNames } = this;
-    return (
-      <div
-        ref="vcv"
-        class={classNames(rootNames, this.themeMode, `${viewId}`)}
-        style={this.calcHeight}
-      >
-        <SplitPane layout={this.isVertical}>
-          {/*-- output render  --*/}
-          <template slot={this.outputSlot}>
-            <OutputDemo
-              sourceCode={this.code}
-              style={this.calcHeight}
-              onDock={this.onDockHandler}
-              onCodeshow={this.onCodeShowHandler}
-            ></OutputDemo>
-          </template>
+const onChangeHandler = useDebounceFn((val) => {
+  code.value = val;
+}, props.debounceDelay);
 
-          {/*-- code editor   --*/}
-          <template slot={this.editorSlot}>
-            {(!this.isVertical || this.showCodeEditor) && (
-              <div class="editor-container">
-                <CodeEditor
-                  line-numbers
-                  value={this.code}
-                  onChange={this.onChangeHandler}
-                />
-              </div>
-            )}
-          </template>
-        </SplitPane>
-      </div>
-    );
-  },
+// // 组件代码编辑器展示 废弃
+// const consthandleShowCode = () => {
+//   showCodeEditor.value = !showCodeEditor.value;
+// };
+// // 组件演示背景透明切换
+// const handleChangeTransparent = () => {
+//   toggleClass(vcv as unknown as Element, "vue-code-transparent" as string);
+// };
+
+// 布局切换
+const onDockHandler = (val: string) => {
+  layoutName.value = val;
 };
+// 组件代码编辑器展示
+const onCodeShowHandler = (showState: boolean) => {
+  showCodeEditor.value = showState;
+};
+
+const viewLayout = computed(() =>
+  ["top", "right", "left"].indexOf(layoutName.value) > -1
+    ? layoutName.value
+    : "top"
+);
+const isVertical = computed(() => viewLayout.value === "top");
+const editorSlot = computed(() =>
+  viewLayout.value == "right" ? "left" : "right"
+);
+const outputSlot = computed(() =>
+  viewLayout.value == "right" ? "right" : "left"
+);
+const calcHeight = computed(() => {
+  let heightSetting = "";
+  if (props.height && props.height >= 0) {
+    let vcvHeight =
+      props.height <= props.minHeight ? props.minHeight : props.height;
+    heightSetting += ` height:${vcvHeight}px;`;
+  }
+  return heightSetting;
+});
+
+// provide(/* 注入名 */ 'message', /* 值 */ 'hello!')
+provide("vcv", this);
+provide("viewId", viewId);
+// provide("handleShowCode", handleShowCode);
+// provide("handleChangeTransparent", handleChangeTransparent);
+provide("code", code);
+// provide("changView", changView);
+provide("errorHandler", props.errorHandler);
+provide("showCode", isVertical.value || showCodeEditor);
+provide("themeMode", props.themeMode);
+provide("needAutoResize", props.needAutoResize);
+provide("showCodeEditor", showCodeEditor);
+provide("layoutName", layoutName);
 </script>
 
 <style>
