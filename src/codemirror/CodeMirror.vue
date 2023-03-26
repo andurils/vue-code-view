@@ -1,17 +1,31 @@
+<template>
+  <div class="editor" ref="el"></div>
+</template>
+
 <script setup lang="ts">
 import { ref, onMounted, watchEffect, inject } from "vue";
-import { useDebounceFn } from "@vueuse/core";
+import { debounce } from "../utils";
 import CodeMirror from "./codemirror";
 
-const props = defineProps({
-  value: { type: String, default: "" },
-  readOnly: { type: Boolean, default: false },
-  lineNumbers: { type: Boolean, default: true },
-});
-const emit = defineEmits(["change"]);
+export interface Props {
+  mode?: string;
+  value?: string;
+  readonly?: boolean;
+  lineNumbers?: boolean;
+}
 
-const el = ref<HTMLElement | null>(null);
-const needAutoResize: Boolean = inject("needAutoResize") as Boolean;
+const props = withDefaults(defineProps<Props>(), {
+  mode: "htmlmixed",
+  value: "",
+  readonly: false,
+  lineNumbers: true,
+});
+
+const emit = defineEmits<(e: "change", value: string) => void>();
+
+const el = ref();
+// const el = ref<HTMLElement | null>(null);
+const needAutoResize: Boolean = inject("autoresize") as Boolean;
 
 onMounted(() => {
   const addonOptions = {
@@ -26,8 +40,8 @@ onMounted(() => {
 
   const editor = CodeMirror(el.value!, {
     value: "",
-    mode: "htmlmixed", //"text/x-vue" 使用 MIME-TYPE   https://codemirror.net/mode/vue/index.html
-    readOnly: props.readOnly ? "nocursor" : false, //  boolean|string  “nocursor” 设置只读外，编辑区域还不能获得焦点。
+    mode: props.mode, // https://codemirror.net/5/mode/index.html
+    readOnly: props.readonly ? "nocursor" : false, //  boolean|string  “nocursor” 设置只读外，编辑区域还不能获得焦点。
     tabSize: 2, // tab 字符的宽度
     lineNumbers: props.lineNumbers, //显示行号
     lineWrapping: true,
@@ -53,18 +67,14 @@ onMounted(() => {
   if (needAutoResize) {
     window.addEventListener(
       "resize",
-      useDebounceFn(() => {
+      debounce(() => {
         console.log("code editor resize!");
         editor.refresh();
-      }, 300)
+      })
     );
   }
 });
 </script>
-
-<template>
-  <div class="editor" ref="el"></div>
-</template>
 
 <style>
 .editor {

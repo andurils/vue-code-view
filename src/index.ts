@@ -1,4 +1,4 @@
-import CodeViewer from "./vcv/VCV.vue";
+import CodeViewer from "./vcv/Repl.vue";
 
 const install = function (Vue: any) {
   // Vue.component(CodeViewer.name, CodeViewer);

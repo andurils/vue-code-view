@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div
     ref="vcv"
@@ -20,6 +21,7 @@
       <template :slot="editorSlot">
         <div v-if="!isVertical || showCodeEditor" class="editor-container">
           <CodeEditor line-numbers :value="code" @change="onChangeHandler" />
+          <!-- <Editor /> -->
         </div>
       </template>
     </SplitPane>
@@ -30,38 +32,85 @@
 import { ref, computed, provide, onMounted } from "vue";
 import classNames from "classnames";
 import CodeEditor from "@/codemirror/CodeMirror.vue";
-import OutputDemo from "../output/Output.vue";
+import OutputDemo from "../output/OutputWrapper.vue";
 import { isEmpty, generateId } from "../utils/util";
-import { useDebounceFn } from "@vueuse/core";
+import { debounce } from "../utils";
 import SplitPane from "./SplitPane.vue";
+import Editor from "../editor/Editor.vue";
+
+import { Store, ReplStore, SFCOptions } from "../store";
+
 // import { toggleClass } from "../utils/DOMhelper";
 
-const props = defineProps({
-  source: { type: String },
-  themeMode: { type: String }, // light||dark，默认 light
-  showCode: { type: Boolean, default: false },
-  errorHandler: { type: Function },
-  needAutoResize: { type: Boolean, default: true },
-  debounceDelay: {
-    type: Number,
-    default: 300,
-  },
-  layout: {
-    type: String,
-    default: "top",
-    validator(val: string) {
-      return ["top", "right", "left"].indexOf(val) > -1;
-    },
-  },
-  height: {
-    type: Number,
-    // default: 300,
-  },
-  minHeight: {
-    type: Number,
-    default: 300,
-  },
+export interface Props {
+  // store?: Store;
+  // autoResize?: boolean;
+  // showCompileOutput?: boolean;
+  // showImportMap?: boolean;
+  // clearConsole?: boolean;
+  // sfcOptions?: SFCOptions;
+  // layout?: ;
+  // ssr?: boolean;
+
+  source: string;
+  themeMode?: string; // light||dark，默认 light
+  showCode: boolean;
+  errorHandler?: Function;
+  needAutoResize?: boolean;
+  debounceDelay?: number;
+  layout: string;
+  height?: number;
+  minHeight?: number;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  // store: () => new ReplStore(),
+  // autoResize: true,
+  // showCompileOutput: true,
+  // showImportMap: true,
+  // clearConsole: true,
+  // ssr: false
+
+  showCode: false,
+  needAutoResize: true,
+  debounceDelay: 300,
+  layout: "top",
+  minHeight: 300,
 });
+
+// const props = defineProps({
+//   store: {
+//     type: Object as PropType<Store>,
+//     default: new ReplStore(),
+//   },
+//   sfcOptions: {
+//     type: Object as PropType<SFCOptions>,
+//   },
+//   source: { type: String },
+//   themeMode: { type: String }, // light||dark，默认 light
+//   showCode: { type: Boolean, default: false },
+//   errorHandler: { type: Function },
+//   needAutoResize: { type: Boolean, default: true },
+//   debounceDelay: {
+//     type: Number,
+//     default: 300,
+//   },
+//   layout: {
+//     type: String,
+//     default: "top",
+//     validator(val: string) {
+//       return ["top", "right", "left"].indexOf(val) > -1;
+//     },
+//   },
+//   height: {
+//     type: Number,
+//     // default: 300,
+//   },
+//   minHeight: {
+//     type: Number,
+//     default: 300,
+//   },
+// });
 
 const vcv = ref(null);
 const rootNames = ["vue-repl"];
@@ -77,7 +126,7 @@ onMounted(() => {
   }
 });
 
-const onChangeHandler = useDebounceFn((val) => {
+const onChangeHandler = debounce((val: string) => {
   code.value = val;
 }, props.debounceDelay);
 
@@ -131,9 +180,10 @@ provide("code", code);
 provide("errorHandler", props.errorHandler);
 provide("showCode", isVertical.value || showCodeEditor);
 provide("themeMode", props.themeMode);
-provide("needAutoResize", props.needAutoResize);
+provide("autoresize", props.needAutoResize);
 provide("showCodeEditor", showCodeEditor);
 provide("layoutName", layoutName);
+provide("store", {});
 </script>
 
 <style>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useElementSize } from "@vueuse/core";
+import { ref, computed, Ref } from "vue";
+// import { useElementSize } from "@vueuse/core";
+import { useElementSize } from "../utils/useElementSize";
 
 const props = defineProps({
   width: { type: Number, required: true },
@@ -9,7 +10,7 @@ const props = defineProps({
 });
 
 const output = ref<HTMLElement>();
-const size = useElementSize(output);
+const size = useElementSize(output as Ref<HTMLElement | null>);
 const scale = computed(() => {
   if (props.disableScaling) return "scale(1)";
   return `scale(${Math.min(

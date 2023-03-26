@@ -2,20 +2,38 @@
   <div class="output-wrapper">
     <div class="output-header">
       <div class="tab-buttons">
-        <button v-for="(m, index) of outputModes" :class="['is-button', { active: mode === m }]" @click="mode = m"
-          :key="index">
+        <button
+          v-for="(m, index) of outputModes"
+          :class="['is-button', { active: mode === m }]"
+          @click="mode = m"
+          :key="index"
+        >
           <span>{{ m }}</span>
         </button>
       </div>
       <div class="toolbar-navs">
-        <button class="item is-button" @click="changeShowCodeState" v-if="isVertical">
+        <button
+          class="item is-button"
+          @click="changeShowCodeState"
+          v-if="isVertical"
+        >
           <Icon icon="ic:round-code-off" class="vcv-icon" v-if="isShowCode" />
           <Icon icon="ic:round-code" class="vcv-icon" v-if="!isShowCode" />
         </button>
         <!-- docker side -->
-        <VCVFlyout class="item" :button="dockSide" :items="dockSides" @click-item="changeDockTo" />
+        <VCVFlyout
+          class="item"
+          :button="dockSide"
+          :items="dockSides"
+          @click-item="changeDockTo"
+        />
         <!-- 设备模拟 -->
-        <VCVFlyout class="item" :button="deviceSizeSeleted" :items="screenSizes" @click-item="changeDeviceSizes" />
+        <VCVFlyout
+          class="item"
+          :button="deviceSizeSeleted"
+          :items="screenSizes"
+          @click-item="changeDeviceSizes"
+        />
       </div>
     </div>
     <div class="output-container" :class="{ 'padding-32': !enabled }">
@@ -23,96 +41,71 @@
       <!-- -->
       <!-- <OutputContainer :code="sourceCode"></OutputContainer> -->
       <!-- 设备仿真 -->
-      <DeviceEmulation :width="deviceWidth" :height="deviceHeight" :disable-scaling="enabled">
+      <DeviceEmulation
+        :width="deviceWidth"
+        :height="deviceHeight"
+        :disable-scaling="enabled"
+      >
         <OutputContainer :code="sourceCode"></OutputContainer>
       </DeviceEmulation>
     </div>
   </div>
 </template>
-<script>
+
+<script setup lang="ts">
+import { ref, computed, inject, watchEffect } from "vue";
 import { Icon } from "@iconify/vue2";
-// import Preview from "./Preview.vue";
-import { screenSizes, dockSides } from "../settings/sysSetting";
 import OutputContainer from "./OutputContainer.vue";
 import DeviceEmulation from "../vcv/DeviceEmulation.vue";
 import VCVFlyout from "../components/VCVDropdown.vue";
+import { screenSizes, dockSides } from "../settings/sysSetting";
 
-export default {
-  name: "OutputDemo",
-  inject: [
-    "layoutName",
-    "showCodeEditor",
-    // "handleChangeTransparent",
-    // "showCode",
-    "code",
-  ],
-  components: {
-    // Preview,
-    Icon,
-    OutputContainer,
-    DeviceEmulation,
-    VCVFlyout,
-  },
-  props: {
-    sourceCode: { type: String },
-  },
-  data() {
-    return {
-      outputModes: ["preview"], //"preview", "css"
-      mode: "preview",
-      // dockSides: {
-      //   top: "mdi:dock-top",
-      //   right: "mdi:dock-right",
-      //   left: "mdi:dock-left",
-      //   bottom: "mdi:dock-bottom",
-      // },
-      dockSide: this.layoutName, // 默认"top",
-      isShowCode: this.showCodeEditor,
-      screenSizes: screenSizes,
-      dockSides: dockSides,
-      deviceSizeSeleted: "Default",
-      deviceWidth: 0,
-      deviceHeight: 0,
-    };
-  },
-  created() {
-    // console.log("output created", this.vcv.layoutName);
-  },
-  methods: {
-    changeDockTo(item) {
-      this.dockSide = item.key;
-      this.$emit("dock", this.dockSide);
-    },
+defineProps({
+  sourceCode: { type: String, required: true },
+});
 
-    changeShowCodeState() {
-      this.isShowCode = !this.isShowCode;
-      this.$emit("codeshow", this.isShowCode);
-    },
-    changeDeviceSizes(item) {
-      this.deviceSizeSeleted = item.label;
-      this.deviceWidth = item.key[0];
-      this.deviceHeight = item.key[1];
-      // console.log("changeDeviceSizes", this.deviceWidth, this.deviceHeight);
-    },
-  },
-  computed: {
-    isVertical() {
-      return this.dockSide === "top";
-    },
-    enabled() {
-      return this.deviceSizeSeleted === "Default";
-    },
-  },
-  watch: {
-    layoutName: {
-      immediate: true,
-      handler(val) {
-        this.dockSide = val;
-      },
-    },
-  },
+const emit = defineEmits<{
+  (event: "dock", dockSide: string): void;
+  (event: "codeshow", isShowCode: boolean): void;
+}>();
+//  const emit = defineEmits(["dock", "codeshow"]);
+
+// const showCodeEditor = inject("showCodeEditor")!;
+const layoutName = inject("layoutName") as string;
+
+const dockSide = ref<string>("top");
+const isShowCode = ref<boolean>(false);
+const deviceSizeSeleted = ref<string>("Default");
+const deviceWidth = ref<number>(0);
+const deviceHeight = ref<number>(0);
+const mode = ref<string>("preview");
+const outputModes = ref(["preview"]);
+
+const changeDockTo = (item: { key: string }) => {
+  dockSide.value = item.key;
+  emit("dock", dockSide.value);
 };
+
+const changeShowCodeState = () => {
+  isShowCode.value = !isShowCode.value;
+  emit("codeshow", isShowCode.value);
+};
+
+const changeDeviceSizes = (item: { label: string; key: [number, number] }) => {
+  deviceSizeSeleted.value = item.label;
+  deviceWidth.value = item.key[0];
+  deviceHeight.value = item.key[1];
+};
+
+const isVertical = computed(() => dockSide.value === "top");
+
+const enabled = computed(() => deviceSizeSeleted.value === "Default");
+
+watchEffect(() => {
+  dockSide.value = layoutName;
+});
 </script>
+
 <style scoped>
 .is-button {
   border: none;

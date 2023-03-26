@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, PropType } from "vue";
 import { DropdownItem, DropdownItemChild } from "types/vcv";
-import VCVIconChevronDown from "@examples/components/icons/VCVIconChevronDown.vue";
+import VCVIconChevronDown from "./IconChevronDown.vue";
 import VCVMenuLink from "./VCVDropdownItem.vue";
-import { useFocusContainer } from "@examples/composables/focusContainer";
+import { useFocusContainer } from "../composables/focusContainer";
 
 defineProps({
   button: String,

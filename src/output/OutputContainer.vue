@@ -1,5 +1,5 @@
 <script>
-import { useDebounceFn } from "@vueuse/core";
+import { debounce } from "../utils";
 import { genStyleInjectionCode } from "../utils/sfcParser/styleInjection";
 import { isEmpty, extend } from "../utils/util";
 import { addStylesClient } from "../utils/style-loader/addStylesClient";
@@ -29,10 +29,7 @@ export default {
     };
   },
   created() {
-    this.debounceErrorHandler = useDebounceFn(
-      this.errorHandler,
-      this.debounceDelay
-    );
+    this.debounceErrorHandler = debounce(this.errorHandler, this.debounceDelay);
 
     this.stylesUpdateHandler = addStylesClient(this.viewId, {});
   },
