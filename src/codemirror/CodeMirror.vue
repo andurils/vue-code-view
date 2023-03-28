@@ -68,7 +68,6 @@ onMounted(() => {
     window.addEventListener(
       "resize",
       debounce(() => {
-        console.log("code editor resize!");
         editor.refresh();
       })
     );

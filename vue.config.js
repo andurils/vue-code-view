@@ -70,6 +70,12 @@ module.exports = {
       // 自定义loader
       .use("markdown-loader")
       .loader("markdown-loader")
+      .end()
+
+      .rule("html")
+      .test(/\.html$/)
+      .use("html-loader")
+      .loader("html-loader")
       .end();
 
     if (IS_PROD && process.env.VUE_APP_ENV === "pub") {

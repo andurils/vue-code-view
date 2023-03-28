@@ -33,6 +33,7 @@
           :button="deviceSizeSeleted"
           :items="screenSizes"
           @click-item="changeDeviceSizes"
+          v-show="false"
         />
       </div>
     </div>
@@ -57,7 +58,7 @@ import { ref, computed, inject, watchEffect } from "vue";
 import { Icon } from "@iconify/vue2";
 import OutputContainer from "./OutputContainer.vue";
 import DeviceEmulation from "../vcv/DeviceEmulation.vue";
-import VCVFlyout from "../components/VCVDropdown.vue";
+import VCVFlyout from "../components/Dropdown.vue";
 import { screenSizes, dockSides } from "../settings/sysSetting";
 
 defineProps({

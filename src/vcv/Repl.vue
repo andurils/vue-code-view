@@ -1,27 +1,20 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div
-    ref="vcv"
-    :class="classNames(rootNames, themeMode, viewId)"
-    :style="calcHeight"
-  >
-    <SplitPane :layout="isVertical">
+  <div ref="vcv" :class="classNames(rootNames, themeMode, viewId)" :style="calcHeight">
+    <SplitPane :layout="flexDirection">
       <!-- output render -->
       <template :slot="outputSlot">
-        <OutputDemo
-          :sourceCode="code"
-          :style="calcHeight"
-          @dock="onDockHandler"
-          @codeshow="onCodeShowHandler"
-        >
-        </OutputDemo>
+      <!-- <OutputDemo :sourceCode="code" :style="calcHeight" @dock="onDockHandler" @codeshow="onCodeShowHandler">
+            </OutputDemo> -->
+        <Output :showCompileOutput="props.showCompileOutput" :ssr="!!props.ssr" />
       </template>
 
       <!-- code editor -->
       <template :slot="editorSlot">
-        <div v-if="!isVertical || showCodeEditor" class="editor-container">
-          <CodeEditor line-numbers :value="code" @change="onChangeHandler" />
-          <!-- <Editor /> -->
+        <!-- <div v-if="!isVertical || showCodeEditor" class="editor-container"> -->
+        <div v-if="showCodeEditor" class="editor-container">
+          <!-- <CodeEditor line-numbers :value="code" @change="onChangeHandler" /> -->
+          <Editor />
         </div>
       </template>
     </SplitPane>
@@ -29,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, provide, onMounted } from "vue";
+import { ref, computed, provide, onMounted, toRef, reactive } from "vue";
 import classNames from "classnames";
 import CodeEditor from "@/codemirror/CodeMirror.vue";
 import OutputDemo from "../output/OutputWrapper.vue";
@@ -37,80 +30,46 @@ import { isEmpty, generateId } from "../utils/util";
 import { debounce } from "../utils";
 import SplitPane from "./SplitPane.vue";
 import Editor from "../editor/Editor.vue";
+import Output from "../output/Output.vue";
 
 import { Store, ReplStore, SFCOptions } from "../store";
 
 // import { toggleClass } from "../utils/DOMhelper";
 
 export interface Props {
-  // store?: Store;
-  // autoResize?: boolean;
-  // showCompileOutput?: boolean;
-  // showImportMap?: boolean;
-  // clearConsole?: boolean;
-  // sfcOptions?: SFCOptions;
-  // layout?: ;
-  // ssr?: boolean;
+  store?: Store;
+  autoResize?: boolean;
+  showCompileOutput?: boolean;
+  showImportMap?: boolean;
+  clearConsole?: boolean;
+  sfcOptions?: SFCOptions;
+  layout?: string;
+  ssr?: boolean;
 
   source: string;
   themeMode?: string; // light||dark，默认 light
   showCode: boolean;
   errorHandler?: Function;
-  needAutoResize?: boolean;
+  // needAutoResize?: boolean;
   debounceDelay?: number;
-  layout: string;
+  // layout: string;
   height?: number;
   minHeight?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  // store: () => new ReplStore(),
-  // autoResize: true,
-  // showCompileOutput: true,
-  // showImportMap: true,
-  // clearConsole: true,
-  // ssr: false
+  store: () => new ReplStore(),
+  autoResize: true,
+  showCompileOutput: true,
+  showImportMap: true,
+  clearConsole: true,
+  ssr: false,
 
   showCode: false,
-  needAutoResize: true,
   debounceDelay: 300,
   layout: "top",
   minHeight: 300,
 });
-
-// const props = defineProps({
-//   store: {
-//     type: Object as PropType<Store>,
-//     default: new ReplStore(),
-//   },
-//   sfcOptions: {
-//     type: Object as PropType<SFCOptions>,
-//   },
-//   source: { type: String },
-//   themeMode: { type: String }, // light||dark，默认 light
-//   showCode: { type: Boolean, default: false },
-//   errorHandler: { type: Function },
-//   needAutoResize: { type: Boolean, default: true },
-//   debounceDelay: {
-//     type: Number,
-//     default: 300,
-//   },
-//   layout: {
-//     type: String,
-//     default: "top",
-//     validator(val: string) {
-//       return ["top", "right", "left"].indexOf(val) > -1;
-//     },
-//   },
-//   height: {
-//     type: Number,
-//     // default: 300,
-//   },
-//   minHeight: {
-//     type: Number,
-//     default: 300,
-//   },
-// });
 
 const vcv = ref(null);
 const rootNames = ["vue-repl"];
@@ -153,7 +112,10 @@ const viewLayout = computed(() =>
     ? layoutName.value
     : "top"
 );
-const isVertical = computed(() => viewLayout.value === "top");
+
+const flexDirection = computed(() =>
+  viewLayout.value === "top" ? "vertical" : "horizontal"
+);
 const editorSlot = computed(() =>
   viewLayout.value == "right" ? "left" : "right"
 );
@@ -170,6 +132,10 @@ const calcHeight = computed(() => {
   return heightSetting;
 });
 
+// eslint-disable-next-line vue/no-mutating-props, vue/no-setup-props-destructure
+props.store.options = props.sfcOptions;
+props.store.init();
+
 // provide(/* 注入名 */ 'message', /* 值 */ 'hello!')
 provide("vcv", this);
 provide("viewId", viewId);
@@ -178,15 +144,19 @@ provide("viewId", viewId);
 provide("code", code);
 // provide("changView", changView);
 provide("errorHandler", props.errorHandler);
-provide("showCode", isVertical.value || showCodeEditor);
+// provide("showCode", isVertical.value || showCodeEditor);
 provide("themeMode", props.themeMode);
-provide("autoresize", props.needAutoResize);
+
 provide("showCodeEditor", showCodeEditor);
 provide("layoutName", layoutName);
-provide("store", {});
+provide("store", props.store);
+// provide("store", reactive(props.store));
+provide("autoresize", props.autoResize);
+provide("import-map", toRef(props, "showImportMap"));
+provide("clear-console", toRef(props, "clearConsole"));
 </script>
 
-<style>
+<style scoped>
 .vue-repl {
   --bg: #fff;
   --bg-soft: #f8f8f8;
@@ -227,6 +197,14 @@ provide("store", {});
   --color-branding-dark: #89ddff;
   --border-hover: rgb(9, 96, 189);
   --border-hover-shadow: rgb(9, 96, 189, 0.2);
+}
+
+:deep(button) {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0;
+  background-color: transparent;
 }
 
 .vue-repl:hover {

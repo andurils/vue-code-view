@@ -1,23 +1,35 @@
 <script setup lang="ts">
 import { Store } from "../store";
-import { computed, inject, ref, VNode, Ref } from "vue";
+import { inject, ref, VNode, Ref, watch, onMounted, computed } from "vue";
 
 const store = inject("store") as Store;
 
 const pending = ref(false);
+
 const pendingFilename = ref("Comp.vue");
 const importMapFile = "import-map.json";
-// const showImportMap = inject("import-map") as Ref<boolean>;
-const showImportMap = ref(false);
+const showImportMap = inject("import-map") as Ref<boolean>;
+
 // const files = computed(() =>
 //   Object.entries(store.state.files)
 //     .filter(([name, file]) => name !== importMapFile && !file.hidden)
 //     .map(([name]) => name)
-// );
-
-const files = computed(() => ["App.vue"]);
-// const files = computed(() => ["App.vue", "Comp.vue"]);
-
+// )
+const files = ref<string[]>();
+function getFiles() {
+  return Object.entries(store.state.files)
+    .filter(([name, file]) => name !== importMapFile && !file.hidden)
+    .map(([name]) => name);
+}
+onMounted(() => {
+  files.value = getFiles();
+});
+watch(store, () => {
+  /* 深层级变更状态所触发的回调 */
+  files.value = Object.entries(store.state.files)
+    .filter(([name, file]) => name !== importMapFile && !file.hidden)
+    .map(([name]) => name);
+});
 function startAddFile() {
   let i = 0;
   let name = `Comp.vue`;
@@ -50,21 +62,24 @@ function focus({ elm }: VNode) {
 }
 
 function doneAddFile() {
-  // if (!pending.value) return;
-  // const filename = pendingFilename.value;
-  // if (!/\.(vue|js|ts|css)$/.test(filename)) {
-  //   store.state.errors = [
-  //     `Playground only supports *.vue, *.js, *.ts, *.css files.`,
-  //   ];
-  //   return;
-  // }
-  // if (filename in store.state.files) {
-  //   store.state.errors = [`File "${filename}" already exists.`];
-  //   return;
-  // }
-  // store.state.errors = [];
-  // cancelAddFile();
-  // store.addFile(filename);
+  if (!pending.value) return;
+  const filename = pendingFilename.value;
+
+  if (!/\.(vue|js|ts|css)$/.test(filename)) {
+    store.state.errors = [
+      `Playground only supports *.vue, *.js, *.ts, *.css files.`,
+    ];
+
+    return;
+  }
+  if (filename in store.state.files) {
+    store.state.errors = [`File "${filename}" already exists.`];
+    return;
+  }
+
+  store.state.errors = [];
+  cancelAddFile();
+  store.addFile(filename);
 }
 
 const fileSel = ref(null);
@@ -87,12 +102,11 @@ function horizontalScroll(e: WheelEvent) {
     @wheel="horizontalScroll"
     ref="fileSel"
   >
-    <!-- :class="{ active: store.state.activeFile.filename === file }"
-            @click="store.setActive(file)" -->
     <div
       v-for="(file, i) in files"
       class="file"
-      :class="{ active: 'App.vue' === file }"
+      :class="{ active: store.state.activeFile.filename === file }"
+      @click="store.setActive(file)"
       v-bind:key="i"
     >
       <span class="label">{{

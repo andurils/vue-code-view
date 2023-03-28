@@ -8,9 +8,9 @@ import { parse } from "@vue/compiler-sfc";
 
 export default {
   name: "OutputContainer",
-  inject: ["viewId", "errorHandler"],
+  inject: ["viewId", "errorHandler", "store"],
   props: {
-    code: { type: String },
+    // code: { type: String },
     layout: { type: String },
   },
   data() {
@@ -25,6 +25,10 @@ export default {
       debounceDelay: {
         type: Number,
         default: 300,
+      },
+      code: {
+        type: String,
+        default: "",
       },
     };
   },
@@ -49,6 +53,7 @@ export default {
       if (!this.hasError) this.genComponent();
     },
     async genComponent() {
+      console.log("genComponent", this.newcode);
       let demoComponent = {};
       const { template, script, styles, customBlocks, errors } =
         this.sfcDescriptor;
@@ -127,11 +132,22 @@ export default {
     isCodeEmpty: function () {
       return !(this.code && !isEmpty(this.code.trim()));
     },
+    newcode: function () {
+      console.log("newcode", this.store.state.activeFile.code);
+      return this.store.state.activeFile.code;
+    },
   },
   watch: {
     // eslint-disable-next-line no-unused-vars
     code(newSource, oldSource) {
       this.cprocess();
+    },
+    "store.state.activeFile.code": {
+      handler(val, oldVal) {
+        console.log("e changed", val, oldVal);
+        this.code = val;
+      },
+      immediate: true,
     },
   },
 
@@ -160,7 +176,10 @@ export default {
 <style lang="scss" scoped>
 .output-container-preview {
   padding: 8px;
+  width: 100%;
   height: 100%;
+  border: none;
+  // background-color: #fff;
 
   background-color: var(--bg);
 

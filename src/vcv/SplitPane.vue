@@ -1,18 +1,14 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, inject } from "vue";
+import { Store } from "../store";
 
-const props = defineProps({
-  layout: { type: Boolean, default: true },
-});
-
-// TODO
-const isVertical = computed(() => props.layout === true);
+const props = defineProps<{ layout?: string }>();
+const isVertical = computed(() => props.layout === "vertical");
 const container = ref();
-// TODO
+
 // mobile only
-// const store = inject("store") as Store;
-// const showOutput = ref(store.initialShowOutput);
-const showOutput = ref(false);
+const store = inject("store") as Store;
+const showOutput = ref(store.initialShowOutput);
 
 const state = reactive({
   dragging: false,
@@ -66,19 +62,19 @@ function dragEnd() {
       class="left"
       :style="{ [isVertical ? 'height' : 'width']: boundSplit + '%' }"
     >
-      <slot name="left"></slot>
-      <div class="dragger" @mousedown.prevent="dragStart"></div>
+      <slot name="left" />
+      <div class="dragger" @mousedown.prevent="dragStart" />
     </div>
     <div
       class="right"
       :style="{ [isVertical ? 'height' : 'width']: 100 - boundSplit + '%' }"
     >
-      <slot name="right"></slot>
+      <slot name="right" />
     </div>
 
-    <!-- <button class="toggler" @click="showOutput = !showOutput">
-            {{ showOutput ? "< Code" : "Output >" }}
-          </button> -->
+    <button class="toggler" @click="showOutput = !showOutput">
+      {{ showOutput ? "< Code" : "Output >" }}
+    </button>
   </div>
 </template>
 

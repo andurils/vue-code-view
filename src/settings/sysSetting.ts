@@ -43,7 +43,7 @@ export const screenSizes: DropdownItem[] = [
 // }
 
 export const dockSides: DropdownItem[] = [
-  { label: "top", key: "top", icon: "mdi:dock-top" },
+  // { label: "top", key: "top", icon: "mdi:dock-top" },
   { label: "right", key: "right", icon: "mdi:dock-right" },
   { label: "left", key: "left", icon: "mdi:dock-left" },
 ];

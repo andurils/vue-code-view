@@ -1,8 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
-<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { WarningMessage } from "vue/compiler-sfc";
+import { CompilerError } from "@vue/compiler-sfc";
 
 const props = defineProps(["err", "warn"]);
 
@@ -15,18 +14,17 @@ watch(
   }
 );
 
-function formatMessage(err: Array<string | WarningMessage>): string {
-  return "Array<string | WarningMessage>";
-  // if (typeof err === "string") {
-  //   return err;
-  // } else {
-  //   let msg = err.message;
-  //   const loc = (err as CompilerError).loc;
-  //   if (loc && loc.start) {
-  //     msg = `(${loc.start.line}:${loc.start.column}) ` + msg;
-  //   }
-  //   return msg;
-  // }
+function formatMessage(err: string | Error): string {
+  if (typeof err === "string") {
+    return err;
+  } else {
+    let msg = err.message;
+    const loc = (err as CompilerError).loc;
+    if (loc && loc.start) {
+      msg = `(${loc.start.line}:${loc.start.column}) ` + msg;
+    }
+    return msg;
+  }
 }
 </script>
 
