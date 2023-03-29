@@ -1,6 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
-<!-- eslint-disable @typescript-eslint/no-unused-vars -->
-<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import Message from "../Message.vue";
 import {
@@ -174,7 +171,7 @@ async function updatePreview() {
     if (parseInt(minor, 10) < 2 || parseInt(patch, 10) < 27) {
       alert(
         `The selected version of Vue (${store.vueVersion}) does not support in-browser SSR.` +
-          ` Rendering in client mode instead.`
+        ` Rendering in client mode instead.`
       );
       isSSR = false;
     }
@@ -211,15 +208,14 @@ async function updatePreview() {
     // compile code to simulated module system
     const modules = compileModulesForPreview(store);
     console.log(
-      `[@vue/repl] successfully compiled ${modules.length} module${
-        modules.length > 1 ? `s` : ``
+      `[@vue/repl] successfully compiled ${modules.length} module${modules.length > 1 ? `s` : ``
       }.`
     );
 
     const codeToEval = [
       `window.__modules__ = {}\nwindow.__css__ = ''\n` +
-        `if (window.__app__) window.__app__.unmount()\n` +
-        (isSSR ? `` : `document.body.innerHTML = '<div id="app"></div>'`),
+      `if (window.__app__) window.__app__.unmount()\n` +
+      (isSSR ? `` : `document.body.innerHTML = '<div id="app"></div>'`),
       ...modules,
       `document.getElementById('__sfc-styles').innerHTML = window.__css__`,
     ];
@@ -227,8 +223,7 @@ async function updatePreview() {
     // if main file is a vue file, mount it.
     if (mainFile.endsWith(".vue")) {
       codeToEval.push(
-        `import { ${
-          isSSR ? `createSSRApp` : `createApp`
+        `import { ${isSSR ? `createSSRApp` : `createApp`
         } as _createApp } from "vue"
         const _mount = () => {
           const AppComponent = __modules__["${mainFile}"].default

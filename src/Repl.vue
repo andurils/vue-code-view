@@ -1,48 +1,25 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div
-    ref="vcv"
-    :class="classNames(rootNames, themeMode, viewId)"
-    :style="calcHeight"
-  >
+  <div ref="vcv" class="vue-repl" :style="calcHeight">
     <SplitPane :layout="flexDirection">
       <!-- output render -->
       <template :slot="outputSlot">
-        <!-- <OutputDemo :sourceCode="code" :style="calcHeight" @dock="onDockHandler" @codeshow="onCodeShowHandler">
-                    </OutputDemo> -->
-        <Output
-          :showCompileOutput="props.showCompileOutput"
-          :ssr="!!props.ssr"
-        />
+        <Output :showCompileOutput="props.showCompileOutput" :ssr="!!props.ssr" />
       </template>
 
       <!-- code editor -->
       <template :slot="editorSlot">
         <Editor />
-        <!-- <div v-if="!isVertical || showCodeEditor" class="editor-container"> -->
-        <!-- <div v-if="showCodeEditor" class="editor-container">
-          <CodeEditor line-numbers :value="code" @change="onChangeHandler" />
-
-          </div> -->
       </template>
     </SplitPane>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, provide, onMounted, toRef, reactive } from "vue";
-import classNames from "classnames";
-import CodeEditor from "@/codemirror/CodeMirror.vue";
-import OutputDemo from "../output/OutputWrapper.vue";
-import { isEmpty, generateId } from "../utils/util";
-import { debounce } from "../utils";
+import { computed, provide, toRef } from "vue";
 import SplitPane from "./SplitPane.vue";
-import Editor from "../editor/Editor.vue";
-import Output from "../output/Output.vue";
-
-import { Store, ReplStore, SFCOptions } from "../store";
-
-// import { toggleClass } from "../utils/DOMhelper";
+import Editor from "./editor/Editor.vue";
+import Output from "./output/Output.vue";
+import { Store, ReplStore, SFCOptions } from "./store";
 
 export interface Props {
   store?: Store;
@@ -54,12 +31,12 @@ export interface Props {
   layout?: string;
   ssr?: boolean;
 
-  source: string;
-  themeMode?: string; // light||dark，默认 light
-  showCode: boolean;
-  errorHandler?: Function;
+  // source: string;
+  // themeMode?: string; // light||dark，默认 light
+  // showCode: boolean;
+  // errorHandler?: Function;
   // needAutoResize?: boolean;
-  debounceDelay?: number;
+  // debounceDelay?: number;
   // layout: string;
   height?: number;
   minHeight?: number;
@@ -73,51 +50,15 @@ const props = withDefaults(defineProps<Props>(), {
   clearConsole: true,
   ssr: false,
 
-  showCode: false,
-  debounceDelay: 300,
-  layout: "top",
+  // showCode: false,
+  // debounceDelay: 300,
+  layout: "left",
   minHeight: 300,
 });
 
-const vcv = ref(null);
-const rootNames = ["vue-repl"];
-const viewId = `vcv-${generateId()}`;
-const layoutName = ref(props.layout);
-const code = ref("");
-const showCodeEditor = ref(props.showCode);
-
-onMounted(() => {
-  if (!isEmpty(props.source)) {
-    const souceCode = props.source?.replace(/<--backticks-->/g, "\u0060");
-    onChangeHandler(souceCode);
-  }
-});
-
-const onChangeHandler = debounce((val: string) => {
-  code.value = val;
-}, props.debounceDelay);
-
-// // 组件代码编辑器展示 废弃
-// const consthandleShowCode = () => {
-//   showCodeEditor.value = !showCodeEditor.value;
-// };
-// // 组件演示背景透明切换
-// const handleChangeTransparent = () => {
-//   toggleClass(vcv as unknown as Element, "vue-code-transparent" as string);
-// };
-
-// 布局切换
-const onDockHandler = (val: string) => {
-  layoutName.value = val;
-};
-// 组件代码编辑器展示
-const onCodeShowHandler = (showState: boolean) => {
-  showCodeEditor.value = showState;
-};
-
 const viewLayout = computed(() =>
-  ["top", "right", "left"].indexOf(layoutName.value) > -1
-    ? layoutName.value
+  ["top", "right", "left"].indexOf(props.layout) > -1
+    ? props.layout
     : "top"
 );
 
@@ -140,25 +81,12 @@ const calcHeight = computed(() => {
   return heightSetting;
 });
 
-// eslint-disable-next-line vue/no-mutating-props, vue/no-setup-props-destructure
+
 props.store.options = props.sfcOptions;
 props.store.init();
 
 // provide(/* 注入名 */ 'message', /* 值 */ 'hello!')
-provide("vcv", this);
-provide("viewId", viewId);
-// provide("handleShowCode", handleShowCode);
-// provide("handleChangeTransparent", handleChangeTransparent);
-provide("code", code);
-// provide("changView", changView);
-provide("errorHandler", props.errorHandler);
-// provide("showCode", isVertical.value || showCodeEditor);
-provide("themeMode", props.themeMode);
-
-provide("showCodeEditor", showCodeEditor);
-provide("layoutName", layoutName);
 provide("store", props.store);
-// provide("store", reactive(props.store));
 provide("autoresize", props.autoResize);
 provide("import-map", toRef(props, "showImportMap"));
 provide("clear-console", toRef(props, "clearConsole"));

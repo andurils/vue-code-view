@@ -2,7 +2,6 @@
 <script setup lang="ts">
 import Preview from "./Preview.vue";
 import CodeMirror from "../codemirror/CodeMirror.vue";
-import OutputContainer from "./OutputContainer.vue";
 import { Store } from "../store";
 import { inject, ref, computed } from "vue";
 import type { OutputModes } from "./types";
@@ -29,24 +28,15 @@ const mode = ref<OutputModes>(
 <template>
   <div class="output-wrapper">
     <div class="tab-buttons">
-      <button
-        v-for="(m, i) of modes"
-        :class="{ active: mode === m }"
-        @click="mode = m"
-        v-bind:key="i"
-      >
+      <button v-for="(m, i) of modes" :class="{ active: mode === m }" @click="mode = m" v-bind:key="i">
         <span>{{ m }}</span>
       </button>
     </div>
 
     <div class="output-container">
       <Preview :show="mode === 'preview'" :ssr="ssr" />
-      <CodeMirror
-        v-if="mode !== 'preview'"
-        readonly
-        :mode="mode === 'css' ? 'css' : 'javascript'"
-        :value="store.state.activeFile.compiled[mode]"
-      />
+      <CodeMirror v-if="mode !== 'preview'" readonly :mode="mode === 'css' ? 'css' : 'javascript'"
+        :value="store.state.activeFile.compiled[mode]" />
     </div>
   </div>
 </template>
