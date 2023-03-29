@@ -60,6 +60,7 @@ function processFile(
     return processHtmlFile(store, file.code, file.filename, processed, seen);
   }
 
+  // eslint-disable-next-line prefer-const
   let [js, importedFiles] = processModule(
     store,
     isSSR ? file.compiled.ssr : file.compiled.js,

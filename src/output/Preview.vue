@@ -1,4 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+<!-- eslint-disable @typescript-eslint/no-unused-vars -->
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import Message from "../Message.vue";
 import {
@@ -12,11 +14,15 @@ import {
   Ref,
 } from "vue";
 // import srcdoc from './srcdoc.html?raw'
-import srcdoc from "./srcdoc.html";
+import { srcdoc } from "./srcdocBase64";
 import { PreviewProxy } from "./PreviewProxy";
 import { compileModulesForPreview } from "./moduleCompiler";
 import { Store } from "../store";
 
+// onMounted(() => {
+//   console.log("srcdoc srcdoc srcdoc", srcdoc);
+// });
+// console.log('srcdoc srcdoc srcdoc', srcdoc)
 const props = defineProps<{ show: boolean; ssr: boolean }>();
 
 const store = inject("store") as Store;
@@ -249,14 +255,21 @@ async function updatePreview() {
 </script>
 
 <template>
-  <div>
-    <div class="iframe-container" v-show="show" ref="container"></div>
+  <div class="iframe-wrapper" v-show="show">
+    <div class="iframe-container" ref="container"></div>
     <Message :err="runtimeError" />
     <Message v-if="!runtimeError" :warn="runtimeWarning" />
   </div>
 </template>
 
 <style scoped>
+.iframe-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .iframe-container,
 .iframe-container :deep(iframe) {
   width: 100%;

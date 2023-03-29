@@ -132,10 +132,11 @@ export class ReplStore implements Store {
   private defaultVueServerRendererURL: string;
   private pendingCompiler: Promise<any> | null = null;
 
+  // `https://unpkg.com/browse/vue@${version}/dist/vue.esm.browser.js`,
   constructor({
     serializedState = "",
-    defaultVueRuntimeURL = `https://unpkg.com/@vue/runtime-dom@${version}/dist/runtime-dom.esm-browser.js`,
-    defaultVueServerRendererURL = `https://unpkg.com/@vue/server-renderer@${version}/dist/server-renderer.esm-browser.js`,
+    defaultVueRuntimeURL = `https://unpkg.com/@vue/runtime-dom@3.2.47/dist/runtime-dom.esm-browser.js`,
+    defaultVueServerRendererURL = `https://unpkg.com/@vue/server-renderer@3.2.47/dist/server-renderer.esm-browser.js`,
     showOutput = false,
     outputMode = "preview",
   }: StoreOptions = {}) {
@@ -151,7 +152,7 @@ export class ReplStore implements Store {
         [defaultMainFile]: new File(defaultMainFile, welcomeCode),
       };
     }
-    console.log("constructor", files);
+    // console.log("constructor", files);
     this.defaultVueRuntimeURL = defaultVueRuntimeURL;
     this.defaultVueServerRendererURL = defaultVueServerRendererURL;
     this.initialShowOutput = showOutput;
@@ -268,7 +269,7 @@ export class ReplStore implements Store {
           map.code = JSON.stringify(json, null, 2);
         }
         // eslint-disable-next-line no-empty
-      } catch (e) {}
+      } catch (e) { }
     }
   }
 

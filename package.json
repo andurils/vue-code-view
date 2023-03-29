@@ -59,7 +59,6 @@
     "eslint-plugin-vue": "^9.2.0",
     "fflate": "^0.7.4",
     "hash-sum": "^2.0.0",
-    "html-loader": "^4.2.0",
     "jquery": "^3.6.1",
     "js-base64": "^3.7.3",
     "less": "^4.1.2",

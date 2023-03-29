@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-// import Preview from './Preview.vue'
+import Preview from "./Preview.vue";
 import CodeMirror from "../codemirror/CodeMirror.vue";
 import OutputContainer from "./OutputContainer.vue";
 import { Store } from "../store";
@@ -40,8 +40,7 @@ const mode = ref<OutputModes>(
     </div>
 
     <div class="output-container">
-      <!-- <Preview :show="mode === 'preview'" :ssr="ssr" /> -->
-      <OutputContainer v-if="mode === 'preview'"></OutputContainer>
+      <Preview :show="mode === 'preview'" :ssr="ssr" />
       <CodeMirror
         v-if="mode !== 'preview'"
         readonly
@@ -53,6 +52,11 @@ const mode = ref<OutputModes>(
 </template>
 
 <style scoped>
+.output-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
 .output-container {
   height: calc(100% - var(--header-height));
   overflow: hidden;

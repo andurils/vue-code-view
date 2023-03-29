@@ -1,21 +1,29 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div ref="vcv" :class="classNames(rootNames, themeMode, viewId)" :style="calcHeight">
+  <div
+    ref="vcv"
+    :class="classNames(rootNames, themeMode, viewId)"
+    :style="calcHeight"
+  >
     <SplitPane :layout="flexDirection">
       <!-- output render -->
       <template :slot="outputSlot">
-      <!-- <OutputDemo :sourceCode="code" :style="calcHeight" @dock="onDockHandler" @codeshow="onCodeShowHandler">
-            </OutputDemo> -->
-        <Output :showCompileOutput="props.showCompileOutput" :ssr="!!props.ssr" />
+        <!-- <OutputDemo :sourceCode="code" :style="calcHeight" @dock="onDockHandler" @codeshow="onCodeShowHandler">
+                    </OutputDemo> -->
+        <Output
+          :showCompileOutput="props.showCompileOutput"
+          :ssr="!!props.ssr"
+        />
       </template>
 
       <!-- code editor -->
       <template :slot="editorSlot">
+        <Editor />
         <!-- <div v-if="!isVertical || showCodeEditor" class="editor-container"> -->
-        <div v-if="showCodeEditor" class="editor-container">
-          <!-- <CodeEditor line-numbers :value="code" @change="onChangeHandler" /> -->
-          <Editor />
-        </div>
+        <!-- <div v-if="showCodeEditor" class="editor-container">
+          <CodeEditor line-numbers :value="code" @change="onChangeHandler" />
+
+          </div> -->
       </template>
     </SplitPane>
   </div>
@@ -163,12 +171,11 @@ provide("clear-console", toRef(props, "clearConsole"));
   --bg-device: rgb(233, 236, 239);
 
   --border: #ddd;
-  /* --text-light: #888; */
-  --text-light: rgba(60, 60, 60, 1);
+  --text-light: #888;
   --font-code: Menlo, Monaco, Consolas, "Courier New", monospace;
   --color-branding: #42b883;
   --color-branding-dark: #416f9c;
-  --header-height: 32px;
+  --header-height: 38px;
   --border-hover: rgb(180, 180, 180);
   --border-hover-shadow: rgba(180, 180, 180, 0.2);
 
@@ -179,7 +186,6 @@ provide("clear-console", toRef(props, "clearConsole"));
   overflow: hidden;
   background-color: var(--bg-soft);
 
-  height: 100%;
   border: 1px solid var(--border);
   border-radius: 4px;
   /* transition: 0.3s linear border-color; */
@@ -191,8 +197,7 @@ provide("clear-console", toRef(props, "clearConsole"));
   --bg-soft: #242424;
   --bg-device: rgb(45, 45, 45);
   --border: #383838;
-  /* --text-light: #aaa; */
-  --text-light: rgba(252, 252, 252, 1);
+  --text-light: #aaa;
   --color-branding: #42d392;
   --color-branding-dark: #89ddff;
   --border-hover: rgb(9, 96, 189);

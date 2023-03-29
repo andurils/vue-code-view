@@ -45,7 +45,7 @@ onMounted(() => {
     tabSize: 2, // tab 字符的宽度
     lineNumbers: props.lineNumbers, //显示行号
     lineWrapping: true,
-    scrollbarStyle: "overlay", // 默认 "null" 不显示  'simple'  内侧 "overlay"外侧
+    scrollbarStyle: "simple", // 默认 "null" 不显示  'simple'  内侧 "overlay"外侧
     ...addonOptions,
   });
 

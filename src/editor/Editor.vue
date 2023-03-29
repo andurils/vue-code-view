@@ -10,7 +10,7 @@ import { Store } from "../store";
 const store = inject("store") as Store;
 const onChange = debounce((code: string) => {
   store.state.activeFile.code = code;
-  console.log("editor change", store.state.activeFile.code);
+  // console.log("editor change", store.state.activeFile.code);
 }, 250);
 
 const activeMode = computed(() => {

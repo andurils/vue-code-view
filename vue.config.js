@@ -15,7 +15,7 @@ module.exports = {
   outputDir: process.env.VUE_APP_ENV === "deploy" ? "deploy" : "dist",
   css: {
     // 是否将组件中的 CSS 提取至一个独立的 CSS 文件中
-    extract: process.env.VUE_APP_ENV === "deploy" ? true : false,
+    extract: true,
   },
   configureWebpack: (config) => {
     config.entry.app =
@@ -70,12 +70,6 @@ module.exports = {
       // 自定义loader
       .use("markdown-loader")
       .loader("markdown-loader")
-      .end()
-
-      .rule("html")
-      .test(/\.html$/)
-      .use("html-loader")
-      .loader("html-loader")
       .end();
 
     if (IS_PROD && process.env.VUE_APP_ENV === "pub") {
