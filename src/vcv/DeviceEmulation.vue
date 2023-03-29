@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed, Ref } from "vue";
-// import { useElementSize } from "@vueuse/core";
 import { useElementSize } from "../utils/useElementSize";
 
 const props = defineProps({
