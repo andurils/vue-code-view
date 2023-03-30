@@ -1,200 +1,271 @@
-<script>
-import { debounce } from "throttle-debounce";
-const compiler = require("@vue/compiler-sfc");
-import { genStyleInjectionCode } from "@/utils/sfcParser/styleInjection";
-import { isEmpty, extend } from "@/utils/util";
-import { addStylesClient } from "@/utils/style-loader/addStylesClient";
-import Locale from "@/mixins/locale";
+<script setup lang="ts">
+import Message from "../Message.vue";
+import {
+  ref,
+  onMounted,
+  onUnmounted,
+  watchEffect,
+  watch,
+  WatchStopHandle,
+  inject,
+  Ref,
+} from "vue";
+// import srcdoc from './srcdoc.html?raw'
+import { srcdoc } from "./srcdocBase64";
+import { PreviewProxy } from "./PreviewProxy";
+import { compileModulesForPreview } from "./moduleCompiler";
+import { Store } from "../store";
 
-export default {
-  name: "PreviewDemo",
-  mixins: [Locale],
-  inject: ["viewId", "errorHandler", "code"],
-  props: {
-    // code: { type: String },
-    // layout: { type: String },
-  },
-  data() {
-    return {
-      dynamicComponent: {
-        component: {
-          template: "<div>Hello Vue.js!</div>",
-        },
-      },
-      hasError: false,
-      errorMessage: null,
-      debounceDelay: {
-        type: Number,
-        default: 300,
-      },
-    };
-  },
-  created() {
-    // console.log("op created");
-    // console.log("op code", this.code);
-    this.debounceErrorHandler = debounce(this.debounceDelay, this.errorHandler);
-    this.stylesUpdateHandler = addStylesClient(this.viewId, {});
-  },
-  mounted() {
-    if (!this.isCodeEmpty) {
-      this.cprocess();
-    }
-    // console.log("op code", this.code);
-  },
-  methods: {
-    cprocess() {
-      this.codeLint();
-      // 错误事件处理
-      this.hasError &&
-        this.errorHandler &&
-        this.debounceErrorHandler(this.errorMessage);
+const props = defineProps<{ show: boolean; ssr: boolean }>();
 
-      if (!this.hasError) this.genComponent();
-    },
-    async genComponent() {
-      let demoComponent = {};
-      const { template, script, styles, customBlocks, errors } =
-        this.sfcDescriptor;
+const store = inject("store") as Store;
+const clearConsole = inject("clear-console") as Ref<boolean>;
+const container = ref();
+const runtimeError = ref();
+const runtimeWarning = ref();
 
-      const templateCode = template ? template.content.trim() : ``;
-      let scriptCode = script ? script.content.trim() : ``;
-      const styleCodes = await genStyleInjectionCode(styles, this.viewId);
+let sandbox: HTMLIFrameElement;
+let proxy: PreviewProxy;
+let stopUpdateWatcher: WatchStopHandle | undefined;
 
-      // script
-      if (!isEmpty(scriptCode)) {
-        const componentScript = {};
-        scriptCode = scriptCode.replace(
-          /export\s+default/,
-          "componentScript ="
-        );
-        eval(scriptCode);
-        // update component's content
-        extend(demoComponent, componentScript);
+// create sandbox on mount
+onMounted(createSandbox);
+
+// reset sandbox when import map changes
+watch(
+  () => store.state.files["import-map.json"].code,
+  (raw) => {
+    try {
+      const map = JSON.parse(raw);
+      if (!map.imports) {
+        store.state.errors = [`import-map.json is missing "imports" field.`];
+        return;
       }
+      createSandbox();
+    } catch (e: any) {
+      store.state.errors = [e as Error];
+      return;
+    }
+  }
+);
 
-      // template
-      demoComponent.template = `<section id="${this.viewId}" class="result-box" >
-        ${templateCode}
-      </section>`;
+// reset sandbox when version changes
+watch(() => store.state.resetFlip, createSandbox);
 
-      // style
-      this.stylesUpdateHandler(styleCodes);
+onUnmounted(() => {
+  proxy.destroy();
+  stopUpdateWatcher && stopUpdateWatcher();
+});
 
-      // update dynamicComponent
-      extend(this.dynamicComponent, {
-        name: this.viewId,
-        component: demoComponent,
-      });
+function createSandbox() {
+  if (sandbox) {
+    // clear prev sandbox
+    proxy.destroy();
+    stopUpdateWatcher && stopUpdateWatcher();
+    container.value.removeChild(sandbox);
+  }
+
+  sandbox = document.createElement("iframe");
+  sandbox.setAttribute(
+    "sandbox",
+    [
+      "allow-forms",
+      "allow-modals",
+      "allow-pointer-lock",
+      "allow-popups",
+      "allow-same-origin",
+      "allow-scripts",
+      "allow-top-navigation-by-user-activation",
+    ].join(" ")
+  );
+
+  const importMap = store.getImportMap();
+  if (!importMap.imports) {
+    importMap.imports = {};
+  }
+  if (!importMap.imports.vue) {
+    importMap.imports.vue = store.state.vueRuntimeURL;
+  }
+  const sandboxSrc = srcdoc.replace(
+    /<!--IMPORT_MAP-->/,
+    JSON.stringify(importMap)
+  );
+  sandbox.srcdoc = sandboxSrc;
+  container.value.appendChild(sandbox);
+
+  proxy = new PreviewProxy(sandbox, {
+    on_fetch_progress: (progress: any) => {
+      // pending_imports = progress;
     },
-    // 代码检查
-    codeLint() {
-      // 校验代码是否为空
-      this.hasError = this.isCodeEmpty;
-      this.errorMessage = this.isCodeEmpty
-        ? this.t("el.error.emptyCode")
-        : null;
-      // 代码为空 跳出检查
-      if (this.isCodeEmpty) return;
-
-      // 校验代码是否存在<template>
-      const { template } = this.sfcDescriptor;
-      const templateCode =
-        template && template.content ? template.content.trim() : ``;
-      const isTemplateEmpty = isEmpty(templateCode);
-
-      this.hasError = isTemplateEmpty;
-      this.errorMessage = isTemplateEmpty
-        ? this.t("el.error.noTemplate")
-        : null;
-      // 代码为空 跳出检查
-      if (this.isTemplateEmpty) return;
+    on_error: (event: any) => {
+      const msg =
+        event.value instanceof Error ? event.value.message : event.value;
+      if (
+        msg.includes("Failed to resolve module specifier") ||
+        msg.includes("Error resolving module specifier")
+      ) {
+        runtimeError.value =
+          msg.replace(/\. Relative references must.*$/, "") +
+          `.\nTip: edit the "Import Map" tab to specify import paths for dependencies.`;
+      } else {
+        runtimeError.value = event.value;
+      }
     },
-  },
-  computed: {
-    // SFC Descriptor Object
-    sfcDescriptor: function () {
-      return compiler.parseComponent(this.code);
+    on_unhandled_rejection: (event: any) => {
+      let error = event.value;
+      if (typeof error === "string") {
+        error = { message: error };
+      }
+      runtimeError.value = "Uncaught (in promise): " + error.message;
     },
-    // 代码是否为空
-    isCodeEmpty: function () {
-      return !(this.code && !isEmpty(this.code.trim()));
+    on_console: (log: any) => {
+      if (log.duplicate) {
+        return;
+      }
+      if (log.level === "error") {
+        if (log.args[0] instanceof Error) {
+          runtimeError.value = log.args[0].message;
+        } else {
+          runtimeError.value = log.args[0];
+        }
+      } else if (log.level === "warn") {
+        if (log.args[0].toString().includes("[Vue warn]")) {
+          runtimeWarning.value = log.args
+            .join("")
+            .replace(/\[Vue warn\]:/, "")
+            .trim();
+        }
+      }
     },
-  },
-  watch: {
-    // eslint-disable-next-line no-unused-vars
-    code(newSource, oldSource) {
-      this.cprocess();
+    on_console_group: (action: any) => {
+      // group_logs(action.label, false);
     },
-  },
+    on_console_group_end: () => {
+      // ungroup_logs();
+    },
+    on_console_group_collapsed: (action: any) => {
+      // group_logs(action.label, true);
+    },
+  });
 
-  render() {
-    const { hasError, errorMessage } = this;
+  sandbox.addEventListener("load", () => {
+    proxy.handle_links();
+    stopUpdateWatcher = watchEffect(updatePreview);
+  });
+}
 
-    // console.log(hasError, errorMessage);
-    // <div>{this.initialExample ? this.initialExample : <div>Loading...</div>}</div>
-    if (hasError) {
-      return <pre class="code-view-error">{errorMessage}</pre>;
+async function updatePreview() {
+  if (import.meta.env.PROD && clearConsole.value) {
+    console.clear()
+  }
+  runtimeError.value = null;
+  runtimeWarning.value = null;
+
+  let isSSR = props.ssr;
+  if (store.vueVersion) {
+    const [_, minor, patch] = store.vueVersion.split(".");
+    if (parseInt(minor, 10) < 2 || parseInt(patch, 10) < 27) {
+      alert(
+        `The selected version of Vue (${store.vueVersion}) does not support in-browser SSR.` +
+        ` Rendering in client mode instead.`
+      );
+      isSSR = false;
+    }
+  }
+
+  try {
+    const mainFile = store.state.mainFile;
+
+    // if SSR, generate the SSR bundle and eval it to render the HTML
+    if (isSSR && mainFile.endsWith(".vue")) {
+      const ssrModules = compileModulesForPreview(store, true);
+      console.log(
+        `[@vue/repl] successfully compiled ${ssrModules.length} modules for SSR.`
+      );
+      await proxy.eval([
+        `const __modules__ = {};`,
+        ...ssrModules,
+        `import { renderToString as _renderToString } from 'vue/server-renderer'
+         import { createSSRApp as _createApp } from 'vue'
+         const AppComponent = __modules__["${mainFile}"].default
+         AppComponent.name = 'Repl'
+         const app = _createApp(AppComponent)
+         app.config.unwrapInjectedRef = true
+         app.config.warnHandler = () => {}
+         window.__ssr_promise__ = _renderToString(app).then(html => {
+           document.body.innerHTML = '<div id="app">' + html + '</div>'
+         }).catch(err => {
+           console.error("SSR Error", err)
+         })
+        `,
+      ]);
     }
 
-    const renderComponent = this.dynamicComponent.component;
-
-    return (
-      <div class="output-container zoom-1">
-        <div>
-          <renderComponent></renderComponent>
-        </div>
-      </div>
+    // compile code to simulated module system
+    const modules = compileModulesForPreview(store);
+    console.log(
+      `[@vue/repl] successfully compiled ${modules.length} module${modules.length > 1 ? `s` : ``
+      }.`
     );
-  },
-};
+
+    const codeToEval = [
+      `window.__modules__ = {}\nwindow.__css__ = ''\n` +
+      `if (window.__app__) window.__app__.unmount()\n` +
+      (isSSR ? `` : `document.body.innerHTML = '<div id="app"></div>'`),
+      ...modules,
+      `document.getElementById('__sfc-styles').innerHTML = window.__css__`,
+    ];
+
+    // if main file is a vue file, mount it.
+    if (mainFile.endsWith(".vue")) {
+      codeToEval.push(
+        `import { ${isSSR ? `createSSRApp` : `createApp`
+        } as _createApp } from "vue"
+        const _mount = () => {
+          const AppComponent = __modules__["${mainFile}"].default
+          AppComponent.name = 'Repl'
+          const app = window.__app__ = _createApp(AppComponent)
+          app.config.unwrapInjectedRef = true
+          app.config.errorHandler = e => console.error(e)
+          app.mount('#app')
+        }
+        if (window.__ssr_promise__) {
+          window.__ssr_promise__.then(_mount)
+        } else {
+          _mount()
+        }`
+      );
+    }
+
+    // eval code in sandbox
+    await proxy.eval(codeToEval);
+  } catch (e: any) {
+    runtimeError.value = (e as Error).message;
+  }
+}
 </script>
 
-<style lang="scss" scoped>
-.output-container {
-  padding: 8px;
+<template>
+  <div class="iframe-wrapper" v-show="show">
+    <div class="iframe-container" ref="container"></div>
+    <Message :err="runtimeError" />
+    <Message v-if="!runtimeError" :warn="runtimeWarning" />
+  </div>
+</template>
+
+<style scoped>
+.iframe-wrapper {
+  position: relative;
+  width: 100%;
   height: 100%;
-
-  div {
-    width: 100%;
-    height: 100%;
-    border: none;
-    background: var(--cp-color-1);
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
-  }
-
-  div::-webkit-scrollbar {
-    width: 0.5em;
-    height: 0.5em;
-  }
-
-  div::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.5);
-  }
-
-  div::-webkit-scrollbar-track {
-    background: 0 0;
-  }
-}
-// codepen zoom
-.zoom-1 div {
-  width: 100% !important;
-  height: 100% !important;
+  overflow: hidden;
 }
 
-.zoom-05 div {
-  width: 200% !important;
-  height: 200% !important;
-  -webkit-transform: scale(0.5);
-  transform: scale(0.5);
-}
-
-.zoom-025 div {
-  width: 400% !important;
-  height: 400% !important;
-  -webkit-transform: scale(0.25);
-  transform: scale(0.25);
+.iframe-container,
+.iframe-container :deep(iframe) {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #fff;
 }
 </style>

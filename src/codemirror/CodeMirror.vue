@@ -2,74 +2,76 @@
   <div class="editor" ref="el"></div>
 </template>
 
-<script lang="ts">
-import { ref, onMounted, watchEffect, inject, defineComponent } from "vue";
-import { useDebounceFn } from "@vueuse/core";
+<script setup lang="ts">
+import { ref, onMounted, watchEffect, inject } from "vue";
+import { debounce } from "../utils";
 import CodeMirror from "./codemirror";
 
-export default defineComponent({
-  props: {
-    value: { type: String, default: "" },
-    readOnly: { type: Boolean, default: false },
-    lineNumbers: { type: Boolean, default: true },
-  },
-  setup(props, context) {
-    const el = ref<HTMLElement | null>(null);
-    const needAutoResize: Boolean = inject("needAutoResize") as Boolean;
+export interface Props {
+  mode?: string;
+  value?: string;
+  readonly?: boolean;
+  lineNumbers?: boolean;
+}
 
-    onMounted(() => {
-      const addonOptions = {
-        autoCloseBrackets: true, // 括号自动关闭
-        autoCloseTags: true, // 标签自动关闭
-        matchTags: true, // 标签匹配
-        matchBrackets: true, // 括号匹配
-        foldGutter: true, // 代码折叠
-        styleActiveLine: true, // 高亮选中行
-        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-      };
+const props = withDefaults(defineProps<Props>(), {
+  mode: "htmlmixed",
+  value: "",
+  readonly: false,
+  lineNumbers: true,
+});
 
-      const editor = CodeMirror(el.value!, {
-        value: "",
-        mode: "htmlmixed", //"text/x-vue" 使用 MIME-TYPE   https://codemirror.net/mode/vue/index.html
-        readOnly: props.readOnly ? "nocursor" : false, //  boolean|string  “nocursor” 设置只读外，编辑区域还不能获得焦点。
-        tabSize: 2, // tab 字符的宽度
-        lineNumbers: props.lineNumbers, //显示行号
-        lineWrapping: true,
-        scrollbarStyle: "overlay", // 默认 "null" 不显示  'simple'  内侧 "overlay"外侧
-        ...addonOptions,
-      });
+const emit = defineEmits<(e: "change", value: string) => void>();
 
-      editor.on("change", () => {
-        context.emit("change", editor.getValue());
-      });
+const el = ref();
+// const el = ref<HTMLElement | null>(null);
+const needAutoResize: Boolean = inject("autoresize") as Boolean;
 
-      watchEffect(() => {
-        const cur = editor.getValue();
-        if (props.value !== cur) {
-          editor.setValue(props.value);
-        }
-      });
+onMounted(() => {
+  const addonOptions = {
+    autoCloseBrackets: true, // 括号自动关闭
+    autoCloseTags: true, // 标签自动关闭
+    matchTags: true, // 标签匹配
+    matchBrackets: true, // 括号匹配
+    foldGutter: true, // 代码折叠
+    styleActiveLine: true, // 高亮选中行
+    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+  };
 
-      setTimeout(() => {
+  const editor = CodeMirror(el.value!, {
+    value: "",
+    mode: props.mode, // https://codemirror.net/5/mode/index.html
+    readOnly: props.readonly ? "nocursor" : false, //  boolean|string  “nocursor” 设置只读外，编辑区域还不能获得焦点。
+    tabSize: 2, // tab 字符的宽度
+    lineNumbers: props.lineNumbers, //显示行号
+    lineWrapping: true,
+    scrollbarStyle: "simple", // 默认 "null" 不显示  'simple'  内侧 "overlay"外侧
+    ...addonOptions,
+  });
+
+  editor.on("change", () => {
+    emit("change", editor.getValue());
+  });
+
+  watchEffect(() => {
+    const cur = editor.getValue();
+    if (props.value !== cur) {
+      editor.setValue(props.value);
+    }
+  });
+
+  setTimeout(() => {
+    editor.refresh();
+  }, 50);
+
+  if (needAutoResize) {
+    window.addEventListener(
+      "resize",
+      debounce(() => {
         editor.refresh();
-      }, 50);
-
-      if (needAutoResize) {
-        window.addEventListener(
-          "resize",
-          useDebounceFn(() => {
-            console.log("code editor resize!");
-            editor.refresh();
-          }, 300)
-        );
-      }
-    });
-
-    return {
-      props,
-      el,
-    };
-  },
+      })
+    );
+  }
 });
 </script>
 
