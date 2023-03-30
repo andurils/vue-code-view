@@ -96,40 +96,33 @@ provide("clear-console", toRef(props, "clearConsole"));
 .vue-repl {
   --bg: #fff;
   --bg-soft: #f8f8f8;
-  --bg-device: rgb(233, 236, 239);
-
   --border: #ddd;
   --text-light: #888;
-  --font-code: Menlo, Monaco, Consolas, "Courier New", monospace;
+  --font-code: Menlo, Monaco, Consolas, 'Courier New', monospace;
   --color-branding: #42b883;
   --color-branding-dark: #416f9c;
   --header-height: 38px;
-  --border-hover: rgb(180, 180, 180);
-  --border-hover-shadow: rgba(180, 180, 180, 0.2);
 
   font-size: 13px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
   overflow: hidden;
   background-color: var(--bg-soft);
 
-  border: 1px solid var(--border);
-  border-radius: 4px;
+  /* border: 1px solid var(--border);
+  border-radius: 4px;*/
   /* transition: 0.3s linear border-color; */
-  transition: box-shadow 0.2s ease-out;
+  /* transition: box-shadow 0.2s ease-out;  */
 }
 
 .dark .vue-repl {
   --bg: #1a1a1a;
   --bg-soft: #242424;
-  --bg-device: rgb(45, 45, 45);
   --border: #383838;
   --text-light: #aaa;
   --color-branding: #42d392;
   --color-branding-dark: #89ddff;
-  --border-hover: rgb(9, 96, 189);
-  --border-hover-shadow: rgb(9, 96, 189, 0.2);
 }
 
 :deep(button) {
@@ -140,10 +133,10 @@ provide("clear-console", toRef(props, "clearConsole"));
   background-color: transparent;
 }
 
-.vue-repl:hover {
+/* .vue-repl:hover {
   border: 1px solid var(--border-hover);
   box-shadow: 0 0 0 2px var(--border-hover-shadow);
-}
+} */
 
 .editor-container {
   height: 100%;

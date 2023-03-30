@@ -12,7 +12,6 @@
   "exports": {
     ".": {
       "import": "./dist/vue-repl.js",
-      "require": "./dist/ssr-stub.js",
       "types": "./dist/repl.d.ts"
     },
     "./style.css": "./dist/style.css",
@@ -21,6 +20,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "build1": "vite build",
     "build-types": "vue-tsc -p tsconfig.build.json &&  rimraf dist/src",
     "prepublishOnly": "npm run build && npm run build-types",
     "preview": "vite preview",
