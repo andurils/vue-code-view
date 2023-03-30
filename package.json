@@ -8,24 +8,22 @@
   "files": [
     "dist"
   ],
-  "types": "dist/repl.d.ts",
+  "types": "dist/vue-code-view.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue-repl.js",
-      "types": "./dist/repl.d.ts"
+      "import": "./dist/vue-code-view.js",
+      "types": "./dist/vue-code-view.d.ts"
     },
     "./style.css": "./dist/style.css",
     "./dist/style.css": "./dist/style.css"
   },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
-    "build1": "vite build",
-    "build-types": "vue-tsc -p tsconfig.build.json &&  rimraf dist/src",
+    "build": "vite build",
+    "build-types": "vue-tsc -p tsconfig.build.json && api-extractor run -c api-extractor.json && rimraf dist/src",
     "prepublishOnly": "npm run build && npm run build-types",
-    "preview": "vite preview",
-    "clean": "rimraf dist  && rimraf node_modules",
-    "bootstrap": "pnpm install"
+    "bootstrap": "pnpm install",
+    "clean": "rimraf dist  && rimraf node_modules"
   },
   "devDependencies": {
     "@babel/types": "^7.21.3",

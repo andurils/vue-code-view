@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Store } from "../store";
-import { inject, ref, VNode, Ref, watch, onMounted, computed } from "vue";
+import { inject, ref, VNode, Ref, watch, onMounted } from "vue";
 
 const store = inject("store") as Store;
 
@@ -10,11 +10,6 @@ const pendingFilename = ref("Comp.vue");
 const importMapFile = "import-map.json";
 const showImportMap = inject("import-map") as Ref<boolean>;
 
-// const files = computed(() =>
-//   Object.entries(store.state.files)
-//     .filter(([name, file]) => name !== importMapFile && !file.hidden)
-//     .map(([name]) => name)
-// )
 const files = ref<string[]>();
 function getFiles() {
   return Object.entries(store.state.files)
@@ -96,19 +91,9 @@ function horizontalScroll(e: WheelEvent) {
 </script>
 
 <template>
-  <div
-    class="file-selector"
-    :class="{ 'has-import-map': showImportMap }"
-    @wheel="horizontalScroll"
-    ref="fileSel"
-  >
-    <div
-      v-for="(file, i) in files"
-      class="file"
-      :class="{ active: store.state.activeFile.filename === file }"
-      @click="store.setActive(file)"
-      v-bind:key="i"
-    >
+  <div class="file-selector" :class="{ 'has-import-map': showImportMap }" @wheel="horizontalScroll" ref="fileSel">
+    <div v-for="(file, i) in files" class="file" :class="{ active: store.state.activeFile.filename === file }"
+      @click="store.setActive(file)" v-bind:key="i">
       <span class="label">{{
         file === importMapFile ? "Import Map" : file
       }}</span>
@@ -120,23 +105,14 @@ function horizontalScroll(e: WheelEvent) {
       </span>
     </div>
     <div v-if="pending" class="file pending">
-      <input
-        v-model="pendingFilename"
-        spellcheck="false"
-        @blur="doneAddFile"
-        @keyup.enter="doneAddFile"
-        @keyup.esc="cancelAddFile"
-        @vnodeMounted="focus"
-      />
+      <input v-model="pendingFilename" spellcheck="false" @blur="doneAddFile" @keyup.enter="doneAddFile"
+        @keyup.esc="cancelAddFile" @vnodeMounted="focus" />
     </div>
     <button class="add" @click="startAddFile">+</button>
 
     <div v-if="showImportMap" class="import-map-wrapper">
-      <div
-        class="file import-map"
-        :class="{ active: store.state.activeFile.filename === importMapFile }"
-        @click="store.setActive(importMapFile)"
-      >
+      <div class="file import-map" :class="{ active: store.state.activeFile.filename === importMapFile }"
+        @click="store.setActive(importMapFile)">
         <span class="label">Import Map</span>
       </div>
     </div>
@@ -240,18 +216,14 @@ function horizontalScroll(e: WheelEvent) {
   right: 0;
   padding-left: 30px;
   background-color: var(--bg);
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 1) 25%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 25%);
 }
 
 .dark .import-map-wrapper {
-  background: linear-gradient(
-    90deg,
-    rgba(26, 26, 26, 0) 0%,
-    rgba(26, 26, 26, 1) 25%
-  );
+  background: linear-gradient(90deg,
+      rgba(26, 26, 26, 0) 0%,
+      rgba(26, 26, 26, 1) 25%);
 }
 </style>

@@ -140,6 +140,7 @@ export class ReplStore implements Store {
     showOutput = false,
     outputMode = "preview",
   }: StoreOptions = {}) {
+    console.log(`vue@${version}`);
     let files: StoreState["files"] = {};
 
     if (serializedState) {

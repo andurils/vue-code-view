@@ -10,7 +10,7 @@ export default defineConfig({
     lib: {
       entry: './src/index.ts',
       formats: ['es'],
-      fileName: () => 'vcv-repl.js'
+      fileName: () => 'vue-code-view.js'
     },
     rollupOptions: {
       external: ['vue', '@vue/compiler-sfc']

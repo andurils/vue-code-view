@@ -16,10 +16,6 @@ import { PreviewProxy } from "./PreviewProxy";
 import { compileModulesForPreview } from "./moduleCompiler";
 import { Store } from "../store";
 
-// onMounted(() => {
-//   console.log("srcdoc srcdoc srcdoc", srcdoc);
-// });
-// console.log('srcdoc srcdoc srcdoc', srcdoc)
 const props = defineProps<{ show: boolean; ssr: boolean }>();
 
 const store = inject("store") as Store;
@@ -159,9 +155,9 @@ function createSandbox() {
 }
 
 async function updatePreview() {
-  // if (import.meta.env.PROD && clearConsole.value) {
-  //   console.clear()
-  // }
+  if (import.meta.env.PROD && clearConsole.value) {
+    console.clear()
+  }
   runtimeError.value = null;
   runtimeWarning.value = null;
 

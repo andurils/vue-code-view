@@ -4,13 +4,12 @@ import FileSelector from "./FileSelector.vue";
 import CodeMirror from "../codemirror/CodeMirror.vue";
 import Message from "../Message.vue";
 import { debounce } from "../utils";
-import { computed, inject, isReactive, ref } from "vue";
+import { computed, inject } from "vue";
 import { Store } from "../store";
 
 const store = inject("store") as Store;
 const onChange = debounce((code: string) => {
   store.state.activeFile.code = code;
-  // console.log("editor change", store.state.activeFile.code);
 }, 250);
 
 const activeMode = computed(() => {
@@ -18,8 +17,8 @@ const activeMode = computed(() => {
   return filename.endsWith(".vue") || filename.endsWith(".html")
     ? "htmlmixed"
     : filename.endsWith(".css")
-    ? "css"
-    : "javascript";
+      ? "css"
+      : "javascript";
 });
 </script>
 
@@ -27,11 +26,7 @@ const activeMode = computed(() => {
   <div class="editor">
     <FileSelector />
     <div class="editor-container">
-      <CodeMirror
-        @change="onChange"
-        :value="store.state.activeFile.code"
-        :mode="activeMode"
-      />
+      <CodeMirror @change="onChange" :value="store.state.activeFile.code" :mode="activeMode" />
       <Message :err="store.state.errors[0]" />
     </div>
   </div>
