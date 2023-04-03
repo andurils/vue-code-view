@@ -1,29 +1,13 @@
 import { zlibSync, unzlibSync, strToU8, strFromU8 } from "fflate";
 
-// export function debounce(fn: Function, n = 100) {
-//   let handle: any;
-//   return (...args: any[]) => {
-//     if (handle) clearTimeout(handle);
-//     handle = setTimeout(() => {
-//       fn(...args);
-//     }, n);
-//   };
-// }
-
-export function debounce<T extends (...args: any[]) => any>(
-  fn: T,
-  delay: number = 300
-): T {
-  let prevTimer: number | null = null
-  return ((...args: any[]) => {
-    if (prevTimer) {
-      clearTimeout(prevTimer)
-    }
-    prevTimer = window.setTimeout(() => {
-      fn(...args)
-      prevTimer = null
-    }, delay)
-  }) as T
+export function debounce(fn: Function, n = 100) {
+  let handle: any;
+  return (...args: any[]) => {
+    if (handle) clearTimeout(handle);
+    handle = setTimeout(() => {
+      fn(...args);
+    }, n);
+  };
 }
 
 export function utoa(data: string): string {
