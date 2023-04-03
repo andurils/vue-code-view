@@ -35,7 +35,6 @@
     "codemirror": "^5.62.3",
     "fflate": "^0.7.4",
     "hash-sum": "^2.0.0",
-    "monaco-editor": "^0.36.1",
     "rimraf": "^4.4.0",
     "sucrase": "^3.29.0",
     "typescript": "^4.9.3",
