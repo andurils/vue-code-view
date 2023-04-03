@@ -2,6 +2,7 @@
 <script setup lang="ts">
 import FileSelector from "./FileSelector.vue";
 import CodeMirror from "../codemirror/CodeMirror.vue";
+import Monaco from "../monaco-editor/MonacoEditor.vue";
 import Message from "../Message.vue";
 import { debounce } from "../utils";
 import { computed, inject } from "vue";
@@ -27,6 +28,7 @@ const activeMode = computed(() => {
     <FileSelector />
     <div class="editor-container">
       <CodeMirror @change="onChange" :value="store.state.activeFile.code" :mode="activeMode" />
+      <!-- <Monaco /> -->
       <Message :err="store.state.errors[0]" />
     </div>
   </div>
