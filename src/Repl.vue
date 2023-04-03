@@ -1,11 +1,10 @@
 <template>
-  <div ref="vcv" class="vue-repl" :style="calcHeight">
+  <div ref="vcv" class="vue-repl">
     <SplitPane :layout="flexDirection">
       <!-- output render -->
       <template :slot="outputSlot">
         <Output :showCompileOutput="props.showCompileOutput" :ssr="!!props.ssr" />
       </template>
-
       <!-- code editor -->
       <template :slot="editorSlot">
         <Editor />
@@ -23,6 +22,7 @@ import { Store, ReplStore, SFCOptions } from "./store";
 
 export interface Props {
   store?: Store;
+  editor?: string;
   autoResize?: boolean;
   showCompileOutput?: boolean;
   showImportMap?: boolean;
@@ -31,29 +31,21 @@ export interface Props {
   layout?: string;
   ssr?: boolean;
 
-  // source: string;
-  // themeMode?: string; // light||dark，默认 light
-  // showCode: boolean;
-  // errorHandler?: Function;
-  // needAutoResize?: boolean;
-  // debounceDelay?: number;
-  // layout: string;
-  height?: number;
-  minHeight?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   store: () => new ReplStore(),
+  editor: "monaco", // monaco || codemirror
   autoResize: true,
   showCompileOutput: true,
   showImportMap: true,
   clearConsole: true,
+  layout: "left",
   ssr: false,
 
   // showCode: false,
   // debounceDelay: 300,
-  layout: "left",
-  minHeight: 300,
+  // minHeight: 300,
 });
 
 const viewLayout = computed(() =>
@@ -71,15 +63,15 @@ const editorSlot = computed(() =>
 const outputSlot = computed(() =>
   viewLayout.value == "right" ? "right" : "left"
 );
-const calcHeight = computed(() => {
-  let heightSetting = "";
-  if (props.height && props.height >= 0) {
-    let vcvHeight =
-      props.height <= props.minHeight ? props.minHeight : props.height;
-    heightSetting += ` height:${vcvHeight}px;`;
-  }
-  return heightSetting;
-});
+// const calcHeight = computed(() => {
+//   let heightSetting = "";
+//   if (props.height && props.height >= 0) {
+//     let vcvHeight =
+//       props.height <= props.minHeight ? props.minHeight : props.height;
+//     heightSetting += ` height:${vcvHeight}px;`;
+//   }
+//   return heightSetting;
+// });
 
 
 props.store.options = props.sfcOptions;
@@ -87,6 +79,7 @@ props.store.init();
 
 // provide(/* 注入名 */ 'message', /* 值 */ 'hello!')
 provide("store", props.store);
+provide("editor", props.editor);
 provide("autoresize", props.autoResize);
 provide("import-map", toRef(props, "showImportMap"));
 provide("clear-console", toRef(props, "clearConsole"));

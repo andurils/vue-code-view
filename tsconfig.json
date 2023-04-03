@@ -16,7 +16,9 @@
     "esModuleInterop": true,
     "removeComments": false,
     "lib": ["ESNext", "DOM"],
-    "rootDir": "."
+    "rootDir": ".",
+    "composite": true,
+    "allowSyntheticDefaultImports": true
     // "isolatedModules": true,
     // "skipLibCheck": true,
     // "noEmit": true
