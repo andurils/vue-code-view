@@ -14,14 +14,14 @@
 
 English | [简体中文](./README.zh-CN.md)
 
-Vue SFC REPL as a Vue 2.7 component.
+Vue SFC REPL as a Vue 2.7+ component.
 
 ## 💻 Simple Usage
 
 ```vue
 <script setup>
-import { Repl } from 'vue-code-view'
-import 'vue-code-view/style.css'
+import { Repl } from "vue-code-view";
+import "vue-code-view/style.css";
 </script>
 
 <template>
@@ -43,4 +43,4 @@ VCV is licensed under the terms of the [MIT License](./LICENSE).
 
 Copyright (c) 2021-present Anduril
 
-[preview-ol-v03]:https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/987ab9814e314f92a244fdf6510e6224~tplv-k3u1fbpfcp-watermark.image?
+[preview-ol-v03]: https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/987ab9814e314f92a244fdf6510e6224~tplv-k3u1fbpfcp-watermark.image?

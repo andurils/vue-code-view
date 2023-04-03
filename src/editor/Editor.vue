@@ -2,13 +2,14 @@
 <script setup lang="ts">
 import FileSelector from "./FileSelector.vue";
 import CodeMirror from "../codemirror/CodeMirror.vue";
-import Monaco from "../monaco-editor/MonacoEditor.vue";
+import MonacoEditor from "../monaco/MonacoEditor.vue";
 import Message from "../Message.vue";
 import { debounce } from "../utils";
 import { computed, inject } from "vue";
 import { Store } from "../store";
 
 const store = inject("store") as Store;
+const editor = inject("editor") as String;
 const onChange = debounce((code: string) => {
   store.state.activeFile.code = code;
 }, 250);
@@ -21,14 +22,37 @@ const activeMode = computed(() => {
       ? "css"
       : "javascript";
 });
+
+const activeMonacoMode = computed(() => {
+  const { filename } = store.state.activeFile;
+
+  if (filename.endsWith(".json")) {
+    return 'json';
+  }
+  if (filename.endsWith(".css") || filename.endsWith(".scss") || filename.endsWith(".less")) {
+    return 'css';
+  }
+  if (filename.endsWith(".html") || filename.endsWith(".htm") || filename.endsWith(".vue")) {
+    return 'html';
+  }
+  if (filename.endsWith(".ts") || filename.endsWith(".tsx")) {
+    return 'typescript';
+  }
+  if (filename.endsWith(".js") || filename.endsWith(".jsx")) {
+    return 'javascript';
+  }
+  return 'html';
+});
+
 </script>
 
 <template>
   <div class="editor">
     <FileSelector />
     <div class="editor-container">
-      <CodeMirror @change="onChange" :value="store.state.activeFile.code" :mode="activeMode" />
-      <!-- <Monaco /> -->
+      <MonacoEditor @change="onChange" :value="store.state.activeFile.code" :mode="activeMonacoMode"
+        v-if="editor == 'monaco'" />
+      <CodeMirror @change="onChange" :value="store.state.activeFile.code" :mode="activeMode" v-else />
       <Message :err="store.state.errors[0]" />
     </div>
   </div>
