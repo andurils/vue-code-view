@@ -1,10 +1,10 @@
 {
   "name": "vue-code-view",
-  "version": "0.6.1",
+  "version": "0.6.0",
   "type": "module",
-  "description": "Vue SFC REPL as a Vue 2.7+ component.",
+  "description": "A Vue 2 component like Vue SFC REPL `@vue/repl` : u can edit, run and preview the code effect display in real time on the web page.",
   "main": "dist/ssr-stub.js",
-  "module": "dist/vue-code-view.js",
+  "module": "dist/vue-repl.js",
   "files": [
     "dist"
   ],
