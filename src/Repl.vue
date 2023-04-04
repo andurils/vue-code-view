@@ -22,7 +22,6 @@ import { Store, ReplStore, SFCOptions } from "./store";
 
 export interface Props {
   store?: Store;
-  editor?: string;
   autoResize?: boolean;
   showCompileOutput?: boolean;
   showImportMap?: boolean;
@@ -35,7 +34,6 @@ export interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   store: () => new ReplStore(),
-  editor: "monaco", // monaco || codemirror
   autoResize: true,
   showCompileOutput: true,
   showImportMap: true,
@@ -79,7 +77,6 @@ props.store.init();
 
 // provide(/* 注入名 */ 'message', /* 值 */ 'hello!')
 provide("store", props.store);
-provide("editor", props.editor);
 provide("autoresize", props.autoResize);
 provide("import-map", toRef(props, "showImportMap"));
 provide("clear-console", toRef(props, "clearConsole"));

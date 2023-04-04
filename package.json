@@ -28,11 +28,9 @@
   "devDependencies": {
     "@babel/types": "^7.21.3",
     "@microsoft/api-extractor": "^7.34.4",
-    "@types/codemirror": "^5.60.7",
     "@types/node": "^18.15.3",
     "@vitejs/plugin-vue2": "^2.2.0",
     "@vue/compiler-sfc": "^3.2.47",
-    "codemirror": "^5.62.3",
     "fflate": "^0.7.4",
     "hash-sum": "^2.0.0",
     "monaco-editor": "^0.36.1",

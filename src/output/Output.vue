@@ -1,7 +1,6 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import Preview from "./Preview.vue";
-import CodeMirror from "../codemirror/CodeMirror.vue";
+import MonacoEditor from "../monaco/MonacoEditor.vue";
 import { Store } from "../store";
 import { inject, ref, computed } from "vue";
 import type { OutputModes } from "./types";
@@ -35,7 +34,7 @@ const mode = ref<OutputModes>(
 
     <div class="output-container">
       <Preview :show="mode === 'preview'" :ssr="ssr" />
-      <CodeMirror v-if="mode !== 'preview'" readonly :mode="mode === 'css' ? 'css' : 'javascript'"
+      <MonacoEditor v-if="mode !== 'preview'" readonly :mode="mode === 'css' ? 'css' : 'javascript'"
         :value="store.state.activeFile.compiled[mode]" />
     </div>
   </div>

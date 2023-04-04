@@ -11,6 +11,7 @@ export interface Props {
     mode?: string;
     value?: string;
     readonly?: boolean;
+    theme?: string;
     // lineNumbers?: boolean;
 }
 
@@ -18,6 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
     mode: "html",  // html css  json  typescript  or  [basic-languages]
     value: "",
     readonly: false,
+    theme: "dark",
     // lineNumbers: true,
 });
 
@@ -35,21 +37,17 @@ onMounted(() => {
         codeLens: true,
         wordWrap: 'bounded',
         showFoldingControls: 'mouseover',
-        // cursorStyle: 'line',
         minimap: {
             enabled: true,
         },
     }
 
-    // monaco.editor.defineTheme('my-theme', theme)
-    // monaco.editor.setTheme('my-theme')
-
     editor = monaco.editor.create(el.value, {
-        value: '',                                      // 内容
-        language: 'html',                               // 语言
-        readOnly: props.readonly,                       // 只读
-        automaticLayout: needAutoResize.valueOf(),      // 自动调整大小
-        theme: 'vs-dark',                               // 主题
+        value: '',                                                          // 内容
+        language: 'html',                                                   // 语言
+        readOnly: props.readonly,                                           // 只读
+        automaticLayout: needAutoResize.valueOf(),                          // 自动调整大小
+        theme: props.theme === 'dark' ? 'monokai' : 'chrome-devtools',      // 主题
         ...defaultEditorOptions
     });
 
@@ -64,27 +62,12 @@ onMounted(() => {
         }
     });
 
-    // setTimeout(() => {
-    //     editor?.layout();
-    // }, 50);
-
-    // if (needAutoResize) {
-    //     window.addEventListener(
-    //         "resize",
-    //         debounce(() => {
-    //             editor?.layout();
-    //         })
-    //     );
-    // }
 });
 
 onBeforeUnmount(() => {
     editor?.dispose();
 });
 </script>
-
-
- 
 
 <style scoped>
 .editor {

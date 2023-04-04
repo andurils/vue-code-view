@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { CompilerError } from "@vue/compiler-sfc";
