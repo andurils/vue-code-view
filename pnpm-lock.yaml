@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 devDependencies:
   '@babel/types':
     specifier: ^7.21.3
@@ -15,7 +19,7 @@ devDependencies:
     version: 18.15.11
   '@vitejs/plugin-vue2':
     specifier: ^2.2.0
-    version: 2.2.0(vite@4.2.1)(vue@2.7.5)
+    version: 2.2.0(vite@4.2.3)(vue@2.7.5)
   '@vue/compiler-sfc':
     specifier: ^3.2.47
     version: 3.2.47
@@ -28,6 +32,9 @@ devDependencies:
   hash-sum:
     specifier: ^2.0.0
     version: 2.0.0
+  monaco-editor:
+    specifier: ^0.36.1
+    version: 0.36.1
   rimraf:
     specifier: ^4.4.0
     version: 4.4.1
@@ -39,7 +46,7 @@ devDependencies:
     version: 4.9.5
   vite:
     specifier: ^4.2.0
-    version: 4.2.1(@types/node@18.15.11)
+    version: 4.2.3(@types/node@18.15.11)
   vue:
     specifier: ^2.7.0
     version: 2.7.5
@@ -375,14 +382,14 @@ packages:
       '@types/estree': 1.0.0
     dev: true
 
-  /@vitejs/plugin-vue2@2.2.0(vite@4.2.1)(vue@2.7.5):
+  /@vitejs/plugin-vue2@2.2.0(vite@4.2.3)(vue@2.7.5):
     resolution: {integrity: sha512-1km7zEuZ/9QRPvzXSjikbTYGQPG86Mq1baktpC4sXqsXlb02HQKfi+fl8qVS703JM7cgm24Ga9j+RwKmvFn90A==}
     engines: {node: ^14.18.0 || >= 16.0.0}
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0
       vue: ^2.7.0-0
     dependencies:
-      vite: 4.2.1(@types/node@18.15.11)
+      vite: 4.2.3(@types/node@18.15.11)
       vue: 2.7.5
     dev: true
 
@@ -767,6 +774,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /monaco-editor@0.36.1:
+    resolution: {integrity: sha512-/CaclMHKQ3A6rnzBzOADfwdSJ25BFoFT0Emxsc4zYVyav5SkK9iA6lEtIeuN/oRYbwPgviJT+t3l+sjFa28jYg==}
+    dev: true
+
   /muggle-string@0.2.2:
     resolution: {integrity: sha512-YVE1mIJ4VpUMqZObFndk9CJu6DBJR/GB13p3tXuNbwD4XExaI5EOuRl6BHeIDxIqXZVxSfAC+y6U1Z/IxCfKUg==}
     dev: true
@@ -982,8 +993,8 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /vite@4.2.1(@types/node@18.15.11):
-    resolution: {integrity: sha512-7MKhqdy0ISo4wnvwtqZkjke6XN4taqQ2TBaTccLIpOKv7Vp2h4Y+NpmWCnGDeSvvn45KxvWgGyb0MkHvY1vgbg==}
+  /vite@4.2.3(@types/node@18.15.11):
+    resolution: {integrity: sha512-kLU+m2q0Y434Y1kCy3TchefAdtFso0ILi0dLyFV8Us3InXTU11H/B5ZTqCKIQHzSKNxVG/yEx813EA9f1imQ9A==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
