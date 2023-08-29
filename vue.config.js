@@ -12,16 +12,13 @@ module.exports = {
   // runtimeCompiler: true, // 是否使用包含运行时编译器的 Vue 构建版本
   publicPath: process.env.VUE_APP_PUBLIC_PATH || "/",
   productionSourceMap: false,
-  outputDir: process.env.VUE_APP_ENV === "deploy" ? "deploy" : "dist",
+  outputDir: "dist",
   css: {
     // 是否将组件中的 CSS 提取至一个独立的 CSS 文件中
     extract: process.env.VUE_APP_ENV === "deploy" ? true : false,
   },
   configureWebpack: (config) => {
-    config.entry.app =
-      process.env.VUE_APP_ENV === "play"
-        ? "./examples/play.ts"
-        : "./examples/main.ts";
+    config.entry.app = "./test/main.ts";
     config.resolveLoader.modules = ["node_modules", "./build/"]; // 自定义loader
 
     const plugins = [];
@@ -46,15 +43,7 @@ module.exports = {
       .set("vue$", "vue/dist/vue.esm.js")
       .set("@", resolve("src"))
       .set("@examples", resolve("examples"))
-      .set("@assets", resolve("examples/assets"))
-      .set("@views", resolve("examples/views"))
-      .set("@router", resolve("examples/router"))
-      .set("@store", resolve("examples/store"));
-    // .set("@scss", resolve("src/assets/scss"))
-    // .set("@components", resolve("examples/components"))
-    // .set("@plugins", resolve("examples/plugins"))
-    // .set("@layouts", resolve("examples/layouts"))
-    // .set("@static", resolve("examples/static"));
+      .set("@test", resolve("test"));
 
     config
       .plugin("ignore")
@@ -66,10 +55,6 @@ module.exports = {
       .test(/\.md/)
       .use("vue-loader")
       .loader("vue-loader")
-      .end()
-      // 自定义loader
-      .use("markdown-loader")
-      .loader("markdown-loader")
       .end();
 
     if (IS_PROD && process.env.VUE_APP_ENV === "pub") {
