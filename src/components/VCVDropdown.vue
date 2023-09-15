@@ -1,10 +1,10 @@
 <script lang="ts">
 import { ref, PropType, defineComponent } from "vue";
 import { DropdownItem, DropdownItemChild } from "types/vcv";
-import VCVIconChevronDown from "@examples/components/icons/VCVIconChevronDown.vue";
-import VCVIconMoreHorizontal from "@examples/components/icons/VCVIconMoreHorizontal.vue";
+import VCVIconChevronDown from "@/components/icons/VCVIconChevronDown.vue";
+import VCVIconMoreHorizontal from "@/components/icons/VCVIconMoreHorizontal.vue";
 import _VCVMenuLink from "./VCVDropdownItem.vue";
-import { useFocusContainer } from "@examples/composables/focusContainer";
+import { useFocusContainer } from "@/composables/focusContainer";
 
 export default defineComponent({
   components: {

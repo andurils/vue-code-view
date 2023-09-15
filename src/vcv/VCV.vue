@@ -1,14 +1,15 @@
 <script>
 import classNames from "classnames";
-import CodeEditor from "@/codemirror/CodeMirror.vue";
+// import CodeEditor from "@/codemirror/CodeMirror.vue";
 import OutputDemo from "../output/Output.vue";
 import { toggleClass } from "../utils/DOMhelper";
 import { isEmpty, generateId } from "../utils/util";
 import { useDebounceFn } from "@vueuse/core";
 import SplitPane from "./SplitPane.vue";
+import MonacoEditor from "@/monaco/MonacoEditor.vue";
 
 // import "normalize.css";
-import "@examples/styles/index.css";
+import "@/styles/index.css";
 
 export default {
   name: "CodeViewer",
@@ -24,10 +25,11 @@ export default {
       showCode: !this.isVertical || this.showCodeEditor,
       themeMode: this.themeMode,
       needAutoResize: this.needAutoResize,
+      autoresize: true,
     };
   },
   components: {
-    CodeEditor,
+    // CodeEditor,
     OutputDemo,
     SplitPane,
   },
@@ -160,9 +162,14 @@ export default {
           <template slot={this.editorSlot}>
             {(!this.isVertical || this.showCodeEditor) && (
               <div class="editor-container">
-                <CodeEditor
+                {/*-- <CodeEditor
                   line-numbers
                   value={this.code}
+                  onChange={this.onChangeHandler}
+                />--*/}
+                <MonacoEditor
+                  value={this.code}
+                  theme={"dark"}
                   onChange={this.onChangeHandler}
                 />
               </div>

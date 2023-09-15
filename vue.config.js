@@ -8,6 +8,9 @@ const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 
+// monaco-editor highlight
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
+
 module.exports = {
   // runtimeCompiler: true, // 是否使用包含运行时编译器的 Vue 构建版本
   publicPath: process.env.VUE_APP_PUBLIC_PATH || "/",
@@ -18,7 +21,7 @@ module.exports = {
     extract: process.env.VUE_APP_ENV === "deploy" ? true : false,
   },
   configureWebpack: (config) => {
-    config.entry.app = "./test/main.ts";
+    config.entry.app = "./playground/main.ts";
     config.resolveLoader.modules = ["node_modules", "./build/"]; // 自定义loader
 
     const plugins = [];
@@ -35,6 +38,8 @@ module.exports = {
         })
       );
     }
+
+    plugins.push(new MonacoWebpackPlugin());
     config.plugins = [...config.plugins, ...plugins];
   },
   chainWebpack: (config) => {

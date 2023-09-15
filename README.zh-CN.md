@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://andurils.github.io/vue-code-view/">
-    <img width="200" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/adee625fddf74e8db0225890aee88059~tplv-k3u1fbpfcp-watermark.image"> 
+    <img width="200" src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/adee625fddf74e8db0225890aee88059~tplv-k3u1fbpfcp-watermark.image">
   </a>
 </p>
 
@@ -105,7 +105,4 @@ new Vue({
 
 Copyright (c) 2021-present Anduril
 
-[preview-ol]: https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/912bf867ef4c44d3a716e4bf723573ac~tplv-k3u1fbpfcp-watermark.image?
-[preview-ol-v01]:https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e056aef106b04752bde86e5bc48434c9~tplv-k3u1fbpfcp-watermark.image?
-[preview-ol-v02]:https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4550d42d98084cf99fe333fadb3f5983~tplv-k3u1fbpfcp-watermark.image?
 [preview-ol-v03]:https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/987ab9814e314f92a244fdf6510e6224~tplv-k3u1fbpfcp-watermark.image?
